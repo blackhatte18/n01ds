@@ -3,9 +3,9 @@ html, body {
     padding: 0;
     height: 100%;
     overflow: hidden;
-    font-family: monospace;
+    font-family: 'Courier New', Courier, monospace;
+    background: black;
     color: #00ff00;
-    background-color: black;
 }
 
 #matrixCanvas {
@@ -20,20 +20,23 @@ html, body {
 .content {
     position: relative;
     z-index: 1;
-    padding: 20px;
-    text-align: center;
+    height: 100%;
+    padding: 50px 20px;
+    background: rgba(0, 0, 0, 0.5); /* dark transparent */
+    text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
 }
 
 header h1 {
-    font-size: 3em;
-    margin-bottom: 10px;
+    font-size: 3.5em;
+    margin-bottom: 20px;
 }
 
 nav a {
-    margin: 0 10px;
+    margin: 0 15px;
     color: #00ff00;
     text-decoration: none;
     font-weight: bold;
+    font-size: 1.2em;
     transition: color 0.3s ease;
 }
 
@@ -42,19 +45,34 @@ nav a:hover {
 }
 
 section {
-    margin-top: 30px;
-    background-color: rgba(0, 0, 0, 0.6);
+    margin-top: 40px;
+    background: rgba(0, 0, 0, 0.7);
     padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #00ff00;
+    border: 2px solid #00ff00;
+    border-radius: 10px;
+}
+
+section h2 {
+    font-size: 2em;
+    margin-bottom: 15px;
+}
+
+ul {
+    list-style: square;
+}
+
+ul li a {
+    color: #00ff00;
+    text-decoration: underline;
 }
 
 button {
-    background-color: transparent;
+    background: transparent;
     color: #00ff00;
     border: 2px solid #00ff00;
-    padding: 10px 20px;
+    padding: 12px 25px;
     font-size: 1em;
+    margin-top: 15px;
     cursor: pointer;
     transition: background 0.3s ease, color 0.3s ease;
 }
@@ -62,9 +80,11 @@ button {
 button:hover {
     background-color: #00ff00;
     color: black;
+    box-shadow: 0 0 10px #00ff00;
 }
 
 footer {
-    margin-top: 40px;
-    font-size: 0.9em;
+    margin-top: 50px;
+    font-size: 1em;
+    opacity: 0.8;
 }
