@@ -1,49 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Welcome to the n01ds</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Welcome to the Matrix</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      color: #00ff00;
+      font-family: monospace;
+    }
+    canvas {
+      display: block;
+    }
+    .center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2em;
+      color: #00ff00;
+      text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
+      opacity: 0;
+      animation: fadeIn 5s forwards;
+      animation-delay: 5s;
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
 <body>
-<canvas id="matrixCanvas"></canvas>
+  <canvas id="matrix"></canvas>
+  <div class="center-text">WELCOME TO THE MATRIX</div>
 
-<div class="content">
-    <header>
-        <h1>WELCOME TO THE MATRIX</h1>
-        <nav>
-            <a href="#">Tools</a>
-            <a href="#">Resources</a>
-            <a href="#">Community</a>
-        </nav>
-    </header>
+  <script>
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
 
-    <section>
-        <h2>Hacker Tools</h2>
-        <ul>
-            <li><a href="#">Tool 1</a></li>
-            <li><a href="#">Tool 2</a></li>
-        </ul>
-    </section>
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
 
-    <section>
-        <h2>Learning Resources</h2>
-        <ul>
-            <li><a href="#">Guide 1</a></li>
-            <li><a href="#">CTF Practice</a></li>
-        </ul>
-    </section>
+    const letters = 'アァイィウヴエカガキギクケゲコゴサザシジスセゼソゾタチッツテトナニヌネノハバパヒビピフブプヘベペホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%';
+    const fontSize = 14;
+    const columns = Math.floor(width / fontSize);
+    const drops = Array(columns).fill(1);
 
-    <section>
-        <h2>Join Us</h2>
-        <button>Join Now</button>
-    </section>
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, width, height);
 
-    <footer>
-        CREATED BY 4levi & 4blvck — 2025
-    </footer>
-</div>
+      ctx.fillStyle = '#0F0';
+      ctx.font = fontSize + 'px monospace';
 
-<script src="matrix.js"></script>
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    });
+  </script>
 </body>
 </html>
