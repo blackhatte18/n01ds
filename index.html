@@ -35,6 +35,10 @@
       0%, 50%, 100% { opacity: 1; }
       25%, 75% { opacity: 0; }
     }
+    a {
+      color: #00FFFF;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body onload="startTerminal(); fetchNews();">
@@ -49,7 +53,7 @@
 </div>
 
 <script>
-// Matrix background effect
+// Matrix rain effect
 const canvas = document.getElementById("matrixCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -75,7 +79,7 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 33);
 
-// Terminal typing simulation
+// Terminal simulation
 const terminal = document.getElementById('terminal');
 const commands = [
   "Initializing LEVI.EXE...",
@@ -101,19 +105,18 @@ function startTerminal() {
 }
 
 // Fetch latest hacker news
+const apiKey = "f080820976234fff8a68579ae6c741f1"; // 🛑 Replace with your real API key!
+
 function fetchNews() {
-  fetch('https://hn.algolia.com/api/v1/search_by_date?query=hacker&tags=story')
+  fetch(`https://newsapi.org/v2/everything?q=hacking&language=en&sortBy=publishedAt&apiKey=${apiKey}`)
     .then(response => response.json())
     .then(data => {
       const newsSection = document.getElementById('newsSection');
-      const newsTitle = document.createElement('p');
-      newsTitle.textContent = "--- Latest Hacker News ---";
-      newsTitle.style.color = "#FF0000";
-      newsSection.appendChild(newsTitle);
+      newsSection.innerHTML = "<p style='color:#FF0000'>--- Latest Hacker News ---</p>";
 
-      data.hits.slice(0, 5).forEach(article => {
+      data.articles.slice(0, 5).forEach(article => {
         const p = document.createElement('p');
-        p.innerHTML = `• <a href="${article.url}" target="_blank" style="color:#00FFFF;">${article.title}</a>`;
+        p.innerHTML = `• <a href="${article.url}" target="_blank">${article.title}</a>`;
         newsSection.appendChild(p);
       });
     })
@@ -121,6 +124,9 @@ function fetchNews() {
       console.error('Error fetching news:', error);
     });
 }
+
+// Refresh news every 60 seconds
+setInterval(fetchNews, 60000);
 </script>
 
 </body>
