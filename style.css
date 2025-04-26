@@ -1,80 +1,57 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body, html {
-    height: 100%;
-    overflow: hidden;
-    background-color: black;
-    color: #0f0; /* Green color for Matrix rain */
-    font-family: monospace;
-    font-size: 18px;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: black;
+  font-family: 'Courier New', monospace;
+  color: #0f0;
 }
 
 #matrix {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Prevent interaction */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
-.column {
-    position: absolute;
-    width: 20px;
-    text-align: center;
-    animation: fall 1s linear infinite;
+.intro {
+  text-align: center;
+  font-size: 2em;
+  margin-top: 10vh;
+  color: #0f0;
+  text-shadow: 0 0 10px #0f0;
+  white-space: nowrap;
 }
 
-@keyframes fall {
-    0% { top: -100px; }
-    100% { top: 100%; }
+.terminal {
+  position: absolute;
+  bottom: 5%;
+  width: 100%;
+  padding: 0 2rem;
 }
 
-#intro-text {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2em;
-    color: #0f0;
-    white-space: nowrap;
+.input-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-#glitch-button {
-    position: absolute;
-    top: 70%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px;
-    background-color: #333;
-    color: #0f0;
-    border: none;
-    font-size: 1em;
-    cursor: pointer;
+.prompt {
+  color: #0f0;
 }
 
-#console {
-    position: absolute;
-    bottom: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    color: #0f0;
-    font-size: 1.2em;
-    border-radius: 5px;
+#terminal-input {
+  background: black;
+  border: none;
+  outline: none;
+  color: #0f0;
+  width: 80%;
+  font-size: 1em;
 }
 
-#command-input {
-    width: 100%;
-    padding: 10px;
-    background-color: #111;
-    color: #0f0;
-    border: 1px solid #0f0;
-    font-size: 1em;
+#terminal-output {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
 }
