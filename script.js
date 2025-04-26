@@ -1,55 +1,66 @@
-// Matrix Rain Effect
-const matrix = document.getElementById('matrix');
-const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
-const numberOfColumns = Math.floor(window.innerWidth / 20); // Adjust the width to fit screen size
-const columnHeight = window.innerHeight;
+// MATRIX RAIN
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
-for (let i = 0; i < numberOfColumns; i++) {
-    const column = document.createElement('div');
-    column.classList.add('column');
-    column.style.left = `${i * 20}px`;
-    matrix.appendChild(column);
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
 
-    // Create the falling text inside each column
-    let text = '';
-    setInterval(() => {
-        const randomChar = characters[Math.floor(Math.random() * characters.length)];
-        text += randomChar;
-        if (text.length > columnHeight / 20) {
-            text = text.slice(1); // Keep the text length manageable
-        }
-        column.textContent = text;
-    }, 50);
+const letters = "01";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
+
+function draw() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#0f0";
+  ctx.font = fontSize + "px monospace";
+
+  for (let i = 0; i < drops.length; i++) {
+    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
 }
+setInterval(draw, 33);
 
-// Typewriter Intro Effect
-const introText = "Welcome to NO1DS, the underground hub for hackers.";
+// TYPEWRITER INTRO
+const introText = "NO1DS - C0NTR0L TH3 GR1D_";
 let index = 0;
-
-function typewriterEffect() {
-    if (index < introText.length) {
-        document.getElementById("intro-text").innerHTML += introText.charAt(index);
-        index++;
-        setTimeout(typewriterEffect, 100); // Speed of typing
-    }
+function typeIntro() {
+  if (index < introText.length) {
+    document.getElementById("intro").innerHTML += introText.charAt(index);
+    index++;
+    setTimeout(typeIntro, 100);
+  }
 }
+window.onload = typeIntro;
 
-window.onload = typewriterEffect;
+// TERMINAL COMMANDS
+const input = document.getElementById("terminal-input");
+const output = document.getElementById("terminal-output");
 
-// Glitch Sound Effect
-const glitchSound = new Howl({
-    src: ['glitch-sound.mp3'] // Path to your glitch sound file
-});
+input.focus();
 
-document.getElementById("glitch-button").addEventListener("click", () => {
-    glitchSound.play();
-});
+const commands = {
+  help: `Available commands: <br> - help<br> - access tools<br> - access community<br> - access downloads`,
+  "access tools": "🔧 Tools: [coming soon]",
+  "access community": "🌐 Community: [coming soon]",
+  "access downloads": "⬇️ Downloads: [coming soon]",
+  clear: () => { output.innerHTML = ''; return ''; },
+};
 
-// Command Input Area
-document.getElementById('command-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-        const command = this.value;
-        document.getElementById('console-output').innerHTML += `<p>Command: ${command}</p>`;
-        this.value = ''; // Clear input after command
-    }
+input.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    const command = input.value.trim().toLowerCase();
+    output.innerHTML += `<div><span class="prompt">no1ds&gt;</span> ${command}</div>`;
+    const result = typeof commands[command] === "function" ? commands[command]() : commands[command] || "Unknown command. Type 'help'";
+    if (result) output.innerHTML += `<div>${result}</div>`;
+    input.value = "";
+    output.scrollTop = output.scrollHeight;
+  }
 });
