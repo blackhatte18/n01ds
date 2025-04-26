@@ -38,7 +38,7 @@ const newsList = document.getElementById("news-list");
 
 // Fetch latest tech news from an API (example from NewsAPI)
 async function fetchTechNews() {
-    const response = await fetch("https://newsapi.org/v2/top-headlines?category=technology&apiKey=YOUR_API_KEY");
+    const response = await fetch("https://newsapi.org/v2/top-headlines?category=technology&apiKey=f080820976234fff8a68579ae6c741f1");
     const data = await response.json();
     
     // Display news items
