@@ -38,17 +38,34 @@ const newsList = document.getElementById("news-list");
 
 // Fetch latest tech news from an API (example from NewsAPI)
 async function fetchTechNews() {
-    const response = await fetch("https://newsapi.org/v2/top-headlines?category=technology&apiKey=f080820976234fff8a68579ae6c741f1");
-    const data = await response.json();
+    const apiKey = 'f080820976234fff8a68579ae6c741f1';  // Ensure your API key is correct
+    const url = `https://newsapi.org/v2/top-headlines?category=technology&apiKey=${apiKey}`;
     
-    // Display news items
-    const articles = data.articles;
-    newsList.innerHTML = ''; // Clear previous news
-    articles.forEach(article => {
-        const li = document.createElement("li");
-        li.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
-        newsList.appendChild(li);
-    });
+    try {
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error("Failed to fetch news");
+        }
+        
+        const data = await response.json();
+        
+        // Check if articles are available
+        if (data.articles && data.articles.length > 0) {
+            const articles = data.articles;
+            newsList.innerHTML = ''; // Clear previous news
+            articles.forEach(article => {
+                const li = document.createElement("li");
+                li.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
+                newsList.appendChild(li);
+            });
+        } else {
+            newsList.innerHTML = '<li>No news available at the moment.</li>';
+        }
+    } catch (error) {
+        console.error(error);
+        newsList.innerHTML = '<li>Error fetching news. Please try again later.</li>';
+    }
 }
 
 // Call the function to load news
