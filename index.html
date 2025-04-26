@@ -1,23 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>NO1DS - Control The Grid</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NO1DS - Hacker Terminal</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.1/dist/howler.min.js"></script>
 </head>
 <body>
-  <canvas id="matrix"></canvas>
-  <div class="intro" id="intro"></div>
+    <!-- Matrix Rain Background -->
+    <div id="matrix"></div>
 
-  <div class="terminal" id="terminal">
-    <div id="terminal-output"></div>
-    <div class="input-line">
-      <span class="prompt">no1ds&gt;</span>
-      <input type="text" id="terminal-input" autocomplete="off" />
+    <!-- Typewriter Intro Text -->
+    <div id="intro-text"></div>
+
+    <!-- Glitch Sound Button -->
+    <button id="glitch-button">Click me to glitch!</button>
+
+    <!-- Command Input Area -->
+    <div id="console">
+        <p>Type a command: <input type="text" id="command-input" /></p>
+        <div id="console-output"></div>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <!-- Tech News Section -->
+    <div id="tech-news">
+        <h2>Latest Tech News</h2>
+        <ul id="news-list"></ul>
+    </div>
+
+    <script src="matrix.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-
