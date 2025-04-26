@@ -2,132 +2,115 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>LEVI.EXE - Hacker Portal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LEVI.EXE | Cyber Division</title>
   <style>
     body {
-      background-color: black;
-      color: #00FF00;
+      background: #0d0d0d;
+      color: #00ff00;
       font-family: "Courier New", Courier, monospace;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #000;
       padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #00ff00;
     }
-    .terminal {
-      background-color: #000000;
-      border: 1px solid #00FF00;
-      padding: 20px;
-      margin: auto;
-      width: 90%;
-      max-width: 800px;
-      height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 0 10px #00FF00;
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+      letter-spacing: 3px;
     }
-    #matrixCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #0d0d0d;
+      border-bottom: 1px solid #00ff00;
     }
-    .blinking {
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0%, 50%, 100% { opacity: 1; }
-      25%, 75% { opacity: 0; }
-    }
-    a {
-      color: #00FFFF;
+    nav a {
+      color: #00ff00;
+      padding: 15px 25px;
       text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      background: #00ff00;
+      color: #000;
+    }
+    .content {
+      padding: 40px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 10px;
+      border-top: 1px solid #00ff00;
+      font-size: 14px;
+      margin-top: 30px;
+    }
+    h2 {
+      border-bottom: 1px solid #00ff00;
+      padding-bottom: 10px;
+    }
+    .glow {
+      text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
     }
   </style>
 </head>
-<body onload="startTerminal(); fetchNews();">
+<body>
 
-<canvas id="matrixCanvas"></canvas>
+<header>
+  <h1 class="glow">LEVI.EXE // Cyber Operations Unit</h1>
+</header>
 
-<div class="terminal" id="terminal">
-  <h1>LEVI.EXE SYSTEM // ACTIVE</h1>
-  <p>Booting up...</p>
-  <p id="newsSection"></p>
-  <p class="blinking">|</p>
+<nav>
+  <a href="#home">Home</a>
+  <a href="#services">Services</a>
+  <a href="#news">Latest</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<div class="content">
+  <div id="home" class="section">
+    <h2 class="glow">Welcome to LEVI.EXE</h2>
+    <p>Operating in the shadows, mastering the unseen. We are a network of ethical specialists dedicated to exposing vulnerabilities and strengthening digital frontiers.</p>
+  </div>
+
+  <div id="services" class="section">
+    <h2 class="glow">Our Services</h2>
+    <ul>
+      <li>➤ Penetration Testing & Vulnerability Assessment</li>
+      <li>➤ OSINT Reconnaissance and Threat Intelligence</li>
+      <li>➤ Network & Infrastructure Hardening</li>
+      <li>➤ Cyber Defense and Incident Response</li>
+    </ul>
+  </div>
+
+  <div id="news" class="section">
+    <h2 class="glow">Latest Updates</h2>
+    <p>🚨 Our new private VPN service is now live.</p>
+    <p>🚨 Partnership announcement: DarkNodeSec.</p>
+    <p>🚨 1200+ new threat indicators added to our threat feed.</p>
+  </div>
+
+  <div id="contact" class="section">
+    <h2 class="glow">Contact</h2>
+    <p>Email: contact@levi-exe.com</p>
+    <p>Encrypted Chat: <i>Session ID, XMPP coming soon</i></p>
+  </div>
 </div>
 
-<script>
-// Matrix rain effect
-const canvas = document.getElementById("matrixCanvas");
-const ctx = canvas.getContext("2d");
-
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-
-const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%";
-const fontSize = 12;
-const columns = canvas.width / fontSize;
-const drops = Array(Math.floor(columns)).fill(1);
-
-function drawMatrix() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#0F0";
-  ctx.font = fontSize + "px monospace";
-
-  drops.forEach((y, x) => {
-    const text = chars[Math.floor(Math.random() * chars.length)];
-    ctx.fillText(text, x * fontSize, y * fontSize);
-    drops[x] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
-  });
-}
-setInterval(drawMatrix, 33);
-
-// Terminal simulation
-const terminal = document.getElementById('terminal');
-const commands = [
-  "Initializing LEVI.EXE...",
-  "Bypassing firewalls...",
-  "Accessing secure servers...",
-  "Extracting data...",
-  "Building connection tunnels...",
-  "Systems online. Awaiting commands..."
-];
-
-function startTerminal() {
-  let i = 0;
-  const interval = setInterval(() => {
-    if (i < commands.length) {
-      const p = document.createElement('p');
-      p.textContent = commands[i];
-      terminal.insertBefore(p, terminal.querySelector(".blinking"));
-      i++;
-    } else {
-      clearInterval(interval);
-    }
-  }, 1500);
-}
-
-// Fetch latest hacker news
-const apiKey = "f080820976234fff8a68579ae6c741f1"; // 🛑 Replace with your real API key!
-
-function fetchNews() {
-  fetch(`https://newsapi.org/v2/everything?q=hacking&language=en&sortBy=publishedAt&apiKey=${apiKey}`)
-    .then(response => response.json())
-    .then(data => {
-      const newsSection = document.getElementById('newsSection');
-      newsSection.innerHTML = "<p style='color:#FF0000'>--- Latest Hacker News ---</p>";
-
-      data.articles.slice(0, 5).forEach(article => {
-        const p = document.createElement('p');
-        p.innerHTML = `• <a href="${article.url}" target="_blank">${article.title}</a>`;
-        newsSection.appendChild(p);
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching news:', error);
-    });
-}
-
-// Refresh news every 60 seconds
-setInterval(fetchNews, 60000);
-</script>
+<footer>
+  <p>© 2025 LEVI.EXE | All Rights Reserved.</p>
+</footer>
 
 </body>
 </html>
