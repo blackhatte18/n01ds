@@ -1,189 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>NO1DS</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: monospace;
-      background: black;
-      overflow-x: hidden;
-      color: #00ff00;
-    }
-
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      display: block;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 48px;
-      color: #00ff00;
-      text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
-      margin-top: 40px;
-      letter-spacing: 5px;
-    }
-
-    nav {
-      background: rgba(0, 0, 0, 0.5);
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    nav a {
-      color: #00ff00;
-      text-decoration: none;
-      font-size: 18px;
-      transition: 0.3s;
-    }
-
-    nav a:hover {
-      color: #fff;
-      text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
-    }
-
-    .container {
-      margin-top: 60px;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .section {
-      background: rgba(0, 0, 0, 0.7);
-      margin: 20px auto;
-      padding: 30px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 800px;
-      box-shadow: 0 0 15px #00ff00;
-    }
-
-    .section h2 {
-      margin-bottom: 20px;
-      font-size: 28px;
-    }
-
-    .button {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 10px 20px;
-      background: black;
-      color: #00ff00;
-      border: 1px solid #00ff00;
-      border-radius: 5px;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-
-    .button:hover {
-      background: #00ff00;
-      color: black;
-      box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
-    }
-
-    footer {
-      margin-top: 50px;
-      padding: 20px;
-      text-align: center;
-      font-size: 14px;
-      background: rgba(0, 0, 0, 0.5);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NO1DS</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.1/dist/howler.min.js"></script>
 </head>
-
 <body>
-  <canvas id="matrix"></canvas>
+    <!-- Matrix Rain Background -->
+    <div id="matrix"></div>
 
-  <h1>NO1DS</h1>
+    <!-- Typewriter Intro Text -->
+    <div id="intro-text"></div>
 
-  <nav>
-    <a href="#tools">Tools</a>
-    <a href="#resources">Resources</a>
-    <a href="#community">Community</a>
-  </nav>
+    <!-- Glitch Sound Button -->
+    <button id="glitch-button">Click me to glitch!</button>
 
-  <div class="container">
-    <div class="section" id="tools">
-      <h2>Hacker Tools</h2>
-      <p>Here are some tools you might need to take over the world 😈:</p>
-      <a href="#" class="button">Download Tool 1</a>
-      <a href="#" class="button">Download Tool 2</a>
+    <!-- Command Input Area -->
+    <div id="console">
+        <p>Type a command: <input type="text" id="command-input" /></p>
+        <div id="console-output"></div>
     </div>
 
-    <div class="section" id="resources">
-      <h2>Learning Resources</h2>
-      <p>Boost your hacking skills 💻:</p>
-      <a href="#" class="button">Guide 1</a>
-      <a href="#" class="button">CTF Practice</a>
-    </div>
-
-    <div class="section" id="community">
-      <h2>Join the Community</h2>
-      <p>Join us on Discord and Telegram 🔥:</p>
-      <a href="#" class="button">Join Discord</a>
-      <a href="#" class="button">Join Telegram</a>
-    </div>
-  </div>
-
-  <footer>
-    CREATED BY 4levi & 4blvck — 2025
-  </footer>
-
-  <script>
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-
-    const letters = 'アァイィウヴエカガキギクケゲコゴサザシジスセゼソゾABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%';
-    const fontSize = 14;
-    const columns = Math.floor(width / fontSize);
-    const drops = Array(columns).fill(1);
-
-    function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, width, height);
-
-      ctx.fillStyle = '#0F0';
-      ctx.font = fontSize + 'px monospace';
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
-
-    setInterval(draw, 33);
-
-    window.addEventListener('resize', () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
-    });
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
