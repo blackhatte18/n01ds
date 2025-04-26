@@ -1,50 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>LEVI.EXE - Hacker Portal</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            background-color: black;
-            color: #00FF00;
-            font-family: "Courier New", Courier, monospace;
-            padding: 20px;
-        }
-        .terminal {
-            background-color: #000000;
-            border: 1px solid #00FF00;
-            padding: 20px;
-            margin: auto;
-            width: 90%;
-            max-width: 800px;
-            height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 0 10px #00FF00;
-        }
-        #matrixCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-        .blinking {
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0%, 50%, 100% { opacity: 1; }
-            25%, 75% { opacity: 0; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>LEVI.EXE - Hacker Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: black;
+      color: #00FF00;
+      font-family: "Courier New", Courier, monospace;
+      padding: 20px;
+    }
+    .terminal {
+      background-color: #000000;
+      border: 1px solid #00FF00;
+      padding: 20px;
+      margin: auto;
+      width: 90%;
+      max-width: 800px;
+      height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 0 10px #00FF00;
+    }
+    #matrixCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    .blinking {
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+  </style>
 </head>
-<body onload="startTerminal()">
+<body onload="startTerminal(); fetchNews();">
 
 <canvas id="matrixCanvas"></canvas>
 
 <div class="terminal" id="terminal">
-    <h1>LEVI.EXE SYSTEM // ACTIVE</h1>
-    <p>Booting up...</p>
-    <p class="blinking">|</p>
+  <h1>LEVI.EXE SYSTEM // ACTIVE</h1>
+  <p>Booting up...</p>
+  <p id="newsSection"></p>
+  <p class="blinking">|</p>
 </div>
 
 <script>
@@ -61,42 +62,64 @@ const columns = canvas.width / fontSize;
 const drops = Array(Math.floor(columns)).fill(1);
 
 function drawMatrix() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#0F0";
-    ctx.font = fontSize + "px monospace";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#0F0";
+  ctx.font = fontSize + "px monospace";
 
-    drops.forEach((y, x) => {
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, x * fontSize, y * fontSize);
-        drops[x] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
-    });
+  drops.forEach((y, x) => {
+    const text = chars[Math.floor(Math.random() * chars.length)];
+    ctx.fillText(text, x * fontSize, y * fontSize);
+    drops[x] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
+  });
 }
 setInterval(drawMatrix, 33);
 
 // Terminal typing simulation
 const terminal = document.getElementById('terminal');
 const commands = [
-    "Initializing LEVI.EXE...",
-    "Bypassing firewalls...",
-    "Accessing secure servers...",
-    "Extracting data...",
-    "Building connection tunnels...",
-    "Systems online. Awaiting commands..."
+  "Initializing LEVI.EXE...",
+  "Bypassing firewalls...",
+  "Accessing secure servers...",
+  "Extracting data...",
+  "Building connection tunnels...",
+  "Systems online. Awaiting commands..."
 ];
 
 function startTerminal() {
-    let i = 0;
-    const interval = setInterval(() => {
-        if (i < commands.length) {
-            const p = document.createElement('p');
-            p.textContent = commands[i];
-            terminal.insertBefore(p, terminal.querySelector(".blinking"));
-            i++;
-        } else {
-            clearInterval(interval);
-        }
-    }, 1500);
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < commands.length) {
+      const p = document.createElement('p');
+      p.textContent = commands[i];
+      terminal.insertBefore(p, terminal.querySelector(".blinking"));
+      i++;
+    } else {
+      clearInterval(interval);
+    }
+  }, 1500);
+}
+
+// Fetch latest hacker news
+function fetchNews() {
+  fetch('https://hn.algolia.com/api/v1/search_by_date?query=hacker&tags=story')
+    .then(response => response.json())
+    .then(data => {
+      const newsSection = document.getElementById('newsSection');
+      const newsTitle = document.createElement('p');
+      newsTitle.textContent = "--- Latest Hacker News ---";
+      newsTitle.style.color = "#FF0000";
+      newsSection.appendChild(newsTitle);
+
+      data.hits.slice(0, 5).forEach(article => {
+        const p = document.createElement('p');
+        p.innerHTML = `• <a href="${article.url}" target="_blank" style="color:#00FFFF;">${article.title}</a>`;
+        newsSection.appendChild(p);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching news:', error);
+    });
 }
 </script>
 
