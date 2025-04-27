@@ -3,95 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NO1DS HUB</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <title>NEON//GRID</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/images/logo.svg">
 </head>
 <body>
-    <audio id="hackerSound" loop>
-        <source src="sounds/hacker-sound.mp3" type="audio/mpeg">
-    </audio>
-    
-    <div class="matrix-rain"></div>
-    
-    <div class="container">
-        <header>
-            <div class="profile-header">
-                <img src="https://imgur.com/a/pf4xKDR" alt="Anonymous" class="profile-pic">
-                <div class="logo">NO1DS</div>
+    <div class="cyber-grid">
+        <!-- Header Section -->
+        <header class="cyber-header">
+            <div class="profile-card">
+                <img src="assets/images/anonymous-mask.png" alt="Anonymous" class="profile-img">
+                <div class="profile-info">
+                    <h2 class="cybertext" id="username">USER_0x7F3E</h2>
+                    <p class="status online">STATUS: <span>SECURE_CONNECTION</span></p>
+                </div>
             </div>
-            <div class="visitor-counter">
-                <span id="visitorCount">0000</span> ACTIVE CONNECTIONS
+            <div class="header-controls">
+                <div class="session-timer cybertext" id="sessionTimer">00:00:00</div>
+                <button class="cyber-btn" id="newIdentityBtn">NEW ID</button>
             </div>
-            <button id="soundToggle" class="sound-btn">SOUND: ON</button>
         </header>
-        
-        <div class="main-content">
-            <div class="left-panel">
-                <div class="terminal">
-                    <div class="terminal-header">
-                        <div class="buttons">
-                            <span class="red"></span>
-                            <span class="yellow"></span>
-                            <span class="green"></span>
-                        </div>
-                        <div class="title">user@no1ds:~</div>
-                    </div>
-                    <div class="terminal-body">
-                        <iframe 
-                            src="https://tlk.io/no1ds-hub" 
-                            style="width:100%; height:400px; border:none; background:#111;"
-                            id="tlkio-frame"
-                            allow="microphone"
-                        ></iframe>
+
+        <!-- Main Dashboard -->
+        <main class="dashboard">
+            <!-- Network Monitor -->
+            <section class="card network-monitor">
+                <div class="card-header">
+                    <h3>NETWORK_ACTIVITY</h3>
+                    <div class="traffic-counter">
+                        <span class="cybertext" id="connectionCount">0</span> ACTIVE_NODES
                     </div>
                 </div>
-                
-                <div class="attack-map">
-                    <h3>GLOBAL CYBER ACTIVITY</h3>
-                    <div class="map-container">
-                        <div class="globe" id="globe">
-                            <div class="attack" style="top:20%; left:30%"></div>
-                            <div class="attack" style="top:40%; left:70%"></div>
-                            <div class="attack" style="top:60%; left:50%"></div>
-                        </div>
+                <div class="globe-container" id="attackGlobe"></div>
+            </section>
+
+            <!-- Secure Chat -->
+            <section class="card secure-chat">
+                <div class="card-header">
+                    <h3>SECURE_CHANNEL</h3>
+                    <div class="chat-controls">
+                        <button class="cyber-btn small">ENCRYPT</button>
                     </div>
                 </div>
+                <iframe src="https://tlk.io/neongrid" class="chat-iframe"></iframe>
+            </section>
+
+            <!-- Threat Feed -->
+            <section class="card threat-feed">
+                <div class="card-header">
+                    <h3>THREAT_FEED</h3>
+                    <div class="refresh-controls">
+                        <button class="cyber-btn small" id="refreshFeed">REFRESH</button>
+                    </div>
+                </div>
+                <div class="feed-container" id="threatFeed">
+                    <!-- News items will be added dynamically -->
+                </div>
+            </section>
+
+            <!-- System Controls -->
+            <section class="card system-controls">
+                <div class="card-header">
+                    <h3>SYSTEM_CONTROL</h3>
+                </div>
+                <div class="control-panel">
+                    <button class="cyber-btn wide" id="soundToggle">
+                        <span class="icon">🔊</span> AUDIO_ENGAGE
+                    </button>
+                    <button class="cyber-btn wide">
+                        <span class="icon">🛡️</span> FIREWALL_ACTIVE
+                    </button>
+                    <button class="cyber-btn wide">
+                        <span class="icon">🌐</span> PROXY_CHAIN
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="cyber-footer">
+            <div class="system-status">
+                <span class="cybertext">SYSTEM_READY</span>
+                <div class="status-indicator active"></div>
             </div>
-            
-            <div class="right-panel">
-                <div class="news-feed">
-                    <h3>SECURITY ALERTS</h3>
-                    <div class="news-items" id="newsItems">
-                        <div class="news-item">
-                            <div class="news-time">[10:42:33]</div>
-                            <div class="news-text">Initializing news feed...</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="user-panel">
-                    <h3>YOUR PROFILE</h3>
-                    <div class="user-info">
-                        <div class="info-item">
-                            <span class="info-label">ID:</span>
-                            <span id="displayUserID" class="info-value">loading...</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">SESSION:</span>
-                            <span id="sessionTime" class="info-value">00:00:00</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">STATUS:</span>
-                            <span class="info-value secure">SECURE</span>
-                        </div>
-                        <button id="newIdBtn" class="action-btn">GENERATE NEW ID</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <div class="timestamp cybertext" id="systemTimestamp">[00:00:00]</div>
+        </footer>
     </div>
 
+    <audio loop id="ambientSound" src="assets/sounds/ambient.mp3"></audio>
     <script src="script.js"></script>
 </body>
 </html>
