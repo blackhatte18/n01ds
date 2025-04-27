@@ -36,7 +36,7 @@
 
         <!-- Main Dashboard -->
         <main class="dashboard-grid">
-            <!-- Cyber Terminal -->
+            <!-- Terminal Card -->
             <section class="cyber-card terminal-card">
                 <div class="card-header">
                     <h3>TERMINAL_ACCESS</h3>
@@ -53,18 +53,23 @@
                 </div>
             </section>
 
-            <!-- Global Activity Map -->
+            <!-- Global Activity Map Card -->
             <section class="cyber-card map-card">
                 <div class="card-header">
                     <h3>GLOBAL_ACTIVITY</h3>
                     <div class="card-controls">
-                        <span class="cybertext" id="attackCount">0</span> ATTACKS
+                        <button class="cyber-btn small" id="mapToggle">MAP: SIMULATED</button>
+                        <span class="cybertext" id="attackCount">0</span> EVENTS
                     </div>
                 </div>
-                <div class="globe-container" id="attackGlobe"></div>
+                <div class="globe-container" id="attackGlobe">
+                    <!-- Initial simulated attacks -->
+                    <div class="attack-node" style="top:20%;left:30%"></div>
+                    <div class="attack-node" style="top:40%;left:70%"></div>
+                </div>
             </section>
 
-            <!-- Security Feed -->
+            <!-- Security Feed Card -->
             <section class="cyber-card feed-card">
                 <div class="card-header">
                     <h3>SECURITY_FEED</h3>
@@ -73,11 +78,13 @@
                     </div>
                 </div>
                 <div class="feed-container" id="threatFeed">
-                    <!-- Feed items will be added dynamically -->
+                    <div class="feed-item">
+                        <span class="timestamp">[00:00:00]</span> SYSTEM_INITIALIZED
+                    </div>
                 </div>
             </section>
 
-            <!-- System Status -->
+            <!-- System Status Card -->
             <section class="cyber-card status-card">
                 <div class="card-header">
                     <h3>SYSTEM_STATUS</h3>
