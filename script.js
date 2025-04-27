@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const hackerSound = document.getElementById('hackerSound');
     let soundOn = true;
     
-    // Try to play sound (many browsers block autoplay)
+    // Try to play sound
     hackerSound.volume = 0.3;
     const playPromise = hackerSound.play();
     
@@ -40,13 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
     updateVisitorCount();
     
     // User ID generation
-    let userId = generateRandomId();
-    const userIDElement = document.getElementById('userID');
-    const displayUserIDElement = document.getElementById('displayUserID');
-    
     function generateRandomId() {
-        const adjectives = ['Stealth', 'Phantom', 'Shadow', 'Crypto', 'Byte', 'Null', 'Zero', 'Ghost', 'Cyber', 'Dark'];
-        const nouns = ['Hunter', 'Walker', 'Byte', 'Hacker', 'Overlord', 'Agent', 'Protocol', 'Vector', 'Node', 'Root'];
+        const adjectives = ['Stealth', 'Phantom', 'Shadow', 'Crypto', 'Byte', 'Null'];
+        const nouns = ['Hunter', 'Walker', 'Hacker', 'Agent', 'Node', 'Root'];
         const num = Math.floor(Math.random() * 1000);
         const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
         const noun = nouns[Math.floor(Math.random() * nouns.length)];
@@ -54,9 +50,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function updateUserId() {
-        userId = generateRandomId();
-        userIDElement.textContent = userId;
-        displayUserIDElement.textContent = userId;
+        const newId = generateRandomId();
+        document.getElementById('displayUserID').textContent = newId;
+        
+        // Try to set the tlk.io nickname
+        const tlkFrame = document.getElementById('tlkio-frame');
+        if (tlkFrame && tlkFrame.contentWindow) {
+            tlkFrame.contentWindow.postMessage({
+                type: 'setnick',
+                nick: newId
+            }, 'https://tlk.io');
+        }
     }
     
     document.getElementById('newIdBtn').addEventListener('click', updateUserId);
@@ -76,55 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     setInterval(updateSessionTime, 1000);
     
-    // Chat functionality
-    const chatInput = document.getElementById('chatInput');
-    const chatMessages = document.querySelector('.chat-messages');
-    
-    function addMessage(message, type = 'user') {
-        const msgElement = document.createElement('p');
-        msgElement.classList.add(`${type}-msg`);
-        
-        if (type === 'user') {
-            msgElement.textContent = `YOU: ${message}`;
-        } else if (type === 'system') {
-            msgElement.textContent = `SYSTEM: ${message}`;
-        } else {
-            msgElement.textContent = `ANON_${Math.floor(Math.random() * 1000)}: ${message}`;
-        }
-        
-        chatMessages.appendChild(msgElement);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-    
-    chatInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && chatInput.value.trim() !== '') {
-            addMessage(chatInput.value.trim());
-            
-            // Simulate response
-            setTimeout(() => {
-                const responses = [
-                    "Interesting point. Have you considered the security implications?",
-                    "That's against our ethical guidelines. Please refrain from discussing illegal activities.",
-                    "I've analyzed your input. No vulnerabilities detected.",
-                    "Be careful with that approach. It might trigger security systems.",
-                    "Have you tried the legal alternatives?"
-                ];
-                addMessage(responses[Math.floor(Math.random() * responses.length)], 'other');
-            }, 1000);
-            
-            chatInput.value = '';
-        }
-    });
-    
-    // Simulate initial chat messages
-    setTimeout(() => {
-        addMessage("Type 'help' for available commands", 'system');
-    }, 500);
-    
-    setTimeout(() => {
-        addMessage("Remember: All activities are logged for security purposes", 'system');
-    }, 1500);
-    
     // Attack map simulation
     const globe = document.getElementById('globe');
     
@@ -143,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(simulateAttack, 1000);
     
     // News feed updates
-    const newsItems = document.querySelector('.news-items');
+    const newsItems = document.getElementById('newsItems');
     const newsTemplates = [
         "New security patch released for {system}",
         "Increased {type} activity detected in {region}",
@@ -159,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         company: ['Google', 'Microsoft', 'Facebook', 'Twitter', 'Amazon'],
         number: ['thousands', 'millions', 'hundreds', 'tens of thousands'],
         software: ['web browsers', 'email clients', 'VPN software', 'password managers'],
-        country: ['USA', 'UK', 'Germany', 'China', 'Russia', 'Japan']
+        country: ['USA', 'UK', 'Germany', 'China', 'Russia', 'Nigeria']
     };
     
     function generateNewsItem() {
