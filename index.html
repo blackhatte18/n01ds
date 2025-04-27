@@ -1,129 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>N01DS.EXE | Cyber Division</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      background: #0d0d0d;
-      color: #00ff00;
-      font-family: "Courier New", Courier, monospace;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #000;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 1px solid #00ff00;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2em;
-      letter-spacing: 3px;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      background: #0d0d0d;
-      border-bottom: 1px solid #00ff00;
-    }
-    nav a {
-      color: #00ff00;
-      padding: 15px 25px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    nav a:hover {
-      background: #00ff00;
-      color: #000;
-    }
-    .content {
-      padding: 40px;
-      max-width: 1000px;
-      margin: auto;
-    }
-    .section {
-      margin-bottom: 40px;
-    }
-    footer {
-      background: #000;
-      text-align: center;
-      padding: 10px;
-      border-top: 1px solid #00ff00;
-      font-size: 14px;
-      margin-top: 30px;
-    }
-    h2 {
-      border-bottom: 1px solid #00ff00;
-      padding-bottom: 10px;
-    }
-    .glow {
-      text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
-    }
-    iframe {
-      border: 2px solid #00ff00;
-      border-radius: 10px;
-      margin-top: 10px;
-      box-shadow: 0 0 10px #00ff00;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NO1DS HUB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body>
+    <audio id="hackerSound" loop>
+        <source src="sounds/hacker-sound.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="matrix-rain"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">NO1DS</div>
+            <div class="visitor-counter">
+                <span id="visitorCount">0000</span> ACTIVE CONNECTIONS
+            </div>
+            <button id="soundToggle" class="sound-btn">SOUND: ON</button>
+        </header>
+        
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="buttons">
+                            <span class="red"></span>
+                            <span class="yellow"></span>
+                            <span class="green"></span>
+                        </div>
+                        <div class="title">user@no1ds:~</div>
+                    </div>
+                    <div class="terminal-body" id="terminal">
+                        <div class="chat-messages">
+                            <p class="system-msg">SYSTEM: Welcome to NO1DS secure chat</p>
+                            <p class="system-msg">SYSTEM: Your anonymous ID: <span id="userID"></span></p>
+                        </div>
+                        <div class="chat-input">
+                            <span class="prompt">></span>
+                            <input type="text" id="chatInput" autocomplete="off" autofocus>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="attack-map">
+                    <h3>GLOBAL CYBER ACTIVITY</h3>
+                    <div class="map-container">
+                        <div class="globe" id="globe">
+                            <div class="attack" style="top:20%; left:30%"></div>
+                            <div class="attack" style="top:40%; left:70%"></div>
+                            <div class="attack" style="top:60%; left:50%"></div>
+                            <!-- More attacks will be added dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <div class="news-feed">
+                    <h3>SECURITY ALERTS</h3>
+                    <div class="news-items">
+                        <div class="news-item">
+                            <div class="news-time">[10:42:33]</div>
+                            <div class="news-text">Zero-day vulnerability detected in common router firmware</div>
+                        </div>
+                        <div class="news-item">
+                            <div class="news-time">[09:15:07]</div>
+                            <div class="news-text">Major cloud provider experiencing DDoS attacks</div>
+                        </div>
+                        <div class="news-item">
+                            <div class="news-time">[08:03:51]</div>
+                            <div class="news-text">New encryption standard approved by NIST</div>
+                        </div>
+                        <!-- More news items will be added dynamically -->
+                    </div>
+                </div>
+                
+                <div class="user-panel">
+                    <h3>YOUR PROFILE</h3>
+                    <div class="user-info">
+                        <div class="info-item">
+                            <span class="info-label">ID:</span>
+                            <span id="displayUserID" class="info-value">loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">SESSION:</span>
+                            <span id="sessionTime" class="info-value">00:00:00</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">STATUS:</span>
+                            <span class="info-value secure">SECURE</span>
+                        </div>
+                        <button id="newIdBtn" class="action-btn">GENERATE NEW ID</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<header>
-  <h1 class="glow">LEVI.EXE // Cyber Operations Unit</h1>
-</header>
-
-<nav>
-  <a href="#home">Home</a>
-  <a href="#services">Services</a>
-  <a href="#news">Latest</a>
-  <a href="#chat">Chat</a>
-  <a href="#contact">Contact</a>
-</nav>
-
-<div class="content">
-  <div id="home" class="section">
-    <h2 class="glow">Welcome to LEVI.EXE</h2>
-    <p>Operating in the shadows, mastering the unseen. We are a network of ethical specialists dedicated to exposing vulnerabilities and strengthening digital frontiers.</p>
-  </div>
-
-  <div id="services" class="section">
-    <h2 class="glow">Our Services</h2>
-    <ul>
-      <li>➤ Penetration Testing & Vulnerability Assessment</li>
-      <li>➤ OSINT Reconnaissance and Threat Intelligence</li>
-      <li>➤ Network & Infrastructure Hardening</li>
-      <li>➤ Cyber Defense and Incident Response</li>
-    </ul>
-  </div>
-
-  <div id="news" class="section">
-    <h2 class="glow">Latest Updates</h2>
-    <p>🚨 Our new private VPN service is now live.</p>
-    <p>🚨 Partnership announcement: DarkNodeSec.</p>
-    <p>🚨 1200+ new threat indicators added to our threat feed.</p>
-  </div>
-
-  <div id="chat" class="section">
-    <h2 class="glow">Global Hacker Chat</h2>
-    <iframe src="https://tlk.io/levihackers" width="100%" height="500px"></iframe>
-    <p style="color: #888; font-size: 12px;">Chat anonymously. Respect others. Stay sharp.</p>
-  </div>
-
-  <div id="contact" class="section">
-    <h2 class="glow">Contact</h2>
-    <p>Email: blackhatte18@gmail.com</p>
-    <p>Encrypted Chat: <i>Session ID, XMPP coming soon</i></p>
-  </div>
-</div>
-
-<footer>
-  <p>© 2025 LEVI.EXE | All Rights Reserved.</p>
-</footer>
-
+    <script src="script.js"></script>
 </body>
 </html>
