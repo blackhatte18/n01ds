@@ -3,83 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MATRIX//SYSTEM</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="assets/images/matrix-favicon.ico">
+    <title>NO1DS - Hacker Terminal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <div class="matrix-rain-container" id="matrixRain"></div>
-    
-    <div class="cyber-container">
-        <!-- Header -->
-        <header class="matrix-header">
-            <div class="profile-section">
-                <img src="assets/images/matrix-avatar.png" alt="Operator" class="matrix-avatar">
-                <div class="matrix-title">
-                    <h1>MATRIX//ACCESS</h1>
-                    <div class="session-timer" id="sessionTimer">00:00:00</div>
-                </div>
-            </div>
-            <div class="header-controls">
-                <div class="visitor-counter">
-                    <span id="visitorCount">0</span> ACTIVE_AGENTS
-                </div>
-                <button id="newIdentityBtn" class="matrix-btn">NEW_IDENTITY</button>
-            </div>
-        </header>
+    <audio autoplay loop hidden>
+        <source src="hacker_background.mp3" type="audio/mpeg">
+    </audio>
 
-        <!-- Main Dashboard -->
-        <main class="dashboard-grid">
-            <!-- Terminal -->
-            <section class="matrix-card terminal-card">
-                <div class="card-header">
-                    <h2>>_SYSTEM_TERMINAL</h2>
-                    <div class="traffic-lights">
-                        <span class="red"></span>
-                        <span class="yellow"></span>
-                        <span class="green"></span>
-                    </div>
-                </div>
-                <div class="terminal-content">
-                    <div id="terminal-text" class="matrix-text"></div>
-                    <div class="chat-container">
-                        <iframe src="https://tlk.io/matrix-chat" class="matrix-chat"></iframe>
-                    </div>
-                </div>
-            </section>
+    <div class="container">
+        <h1 class="glitch" data-text="NO1DS">NO1DS</h1>
+        <p class="subtitle">"In a world of locked doors, the hacker holds the master key."</p>
+        
+        <div id="typing"></div>
 
-            <!-- Attack Map -->
-            <section class="matrix-card map-card">
-                <div class="card-header">
-                    <h2>>_GLOBAL_ACTIVITY</h2>
-                    <button id="mapToggle" class="matrix-btn">TOGGLE_VIEW</button>
-                </div>
-                <div class="map-visualization" id="attackGlobe"></div>
-            </section>
+        <div class="visitor-counter">
+            <img src="https://api.countapi.xyz/hit/no1ds-site/visits?style=plastic" alt="visitor counter">
+        </div>
 
-            <!-- Crypto Tracker -->
-            <section class="matrix-card crypto-card">
-                <div class="card-header">
-                    <h2>>_CRYPTO_TRACKER</h2>
-                </div>
-                <div class="crypto-prices matrix-text">
-                    <div>BTC: <span id="btc-price">LOADING...</span></div>
-                    <div>ETH: <span id="eth-price">LOADING...</span></div>
-                </div>
-            </section>
-        </main>
+        <div class="chatroom">
+            <h2>Anonymous Hacker Chat</h2>
+            <iframe src="https://tlk.io/no1dschat" width="100%" height="400" frameborder="0"></iframe>
+        </div>
 
-        <!-- Footer -->
-        <footer class="matrix-footer">
-            <div class="system-status">
-                <span class="matrix-text">SYSTEM_STATUS:</span>
-                <span class="status-indicator active"></span>
-            </div>
-            <div id="systemTimestamp" class="matrix-timestamp">[00:00:00]</div>
-        </footer>
+        <div class="attack-map">
+            <h2>Global Cyber Attack Map</h2>
+            <iframe src="https://cybermap.kaspersky.com/" width="100%" height="500" frameborder="0"></iframe>
+        </div>
+
+        <div class="news-section">
+            <h2>Latest Hacker News</h2>
+            <ul id="news"></ul>
+        </div>
+
+        <div class="about">
+            <h2>About NO1DS</h2>
+            <p>Welcome to the underground. Speak freely. Think dangerously. Knowledge is power.</p>
+        </div>
     </div>
 
-    <audio loop id="matrixSound" src="assets/sounds/matrix-ambient.mp3"></audio>
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script>
+        var typed = new Typed('#typing', {
+            strings: ["> Connecting to NO1DS Terminal...", "> Access Granted."],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: false
+        });
+
+        async function fetchNews() {
+            const apiKey = ' f080820976234fff8a68579ae6c741f1';
+            const url = `https://newsapi.org/v2/top-headlines?category=technology&q=hacker&apiKey=${apiKey}`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const newsList = document.getElementById('news');
+                data.articles.slice(0, 5).forEach(article => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
+                    newsList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Error fetching news:', error);
+            }
+        }
+        fetchNews();
+    </script>
 </body>
 </html>
