@@ -5,45 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NO1DS - Hacker Terminal</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <audio autoplay loop hidden>
-        <source src="hacker_background.mp3" type="audio/mpeg">
-    </audio>
-
     <div class="container">
-        <h1 class="glitch" data-text="NO1DS">NO1DS</h1>
-        <p class="subtitle">"In a world of locked doors, the hacker holds the master key."</p>
+        <header>
+            <h1>NO1DS</h1>
+            <p class="subtitle">"In a world of locked doors, the hacker holds the master key."</p>
+            <p class="access">> Access Granted</p>
+            <img src="https://hitwebcounter.com/counter/counter.php?page=1234567&style=0006&nbdigits=5&type=page&initCount=0" alt="visitor counter" class="counter">
+        </header>
 
-        <div id="typing"></div>
-
-        <div class="visitor-counter">
-            <img src="https://api.countapi.xyz/hit/no1ds-site/visits?style=plastic" alt="visitor counter">
-        </div>
-
-        <div class="chatroom">
+        <section class="chat-section">
             <h2>Anonymous Hacker Chat</h2>
-            <iframe src="https://tlk.io/no1dschat" width="100%" height="400" frameborder="0"></iframe>
-        </div>
+            <iframe src="https://tlk.io/no1dschat" frameborder="0" class="chat-frame"></iframe>
+            <p class="note">Chat anonymously. Respect others. Stay sharp.</p>
+        </section>
 
-        <div class="attack-map">
-            <h2>Global Cyber Attack Map</h2>
-            <iframe src="https://cybermap.kaspersky.com/" width="100%" height="500" frameborder="0"></iframe>
-        </div>
-
-        <div class="news-section">
+        <section class="news-section">
             <h2>Latest Hacker News</h2>
-            <ul id="news"></ul>
-        </div>
+            <ul id="news-list">
+                <!-- Latest news will auto-load here -->
+            </ul>
+        </section>
 
-        <div class="about">
-            <h2>About NO1DS</h2>
-            <p>Welcome to the underground. Speak freely. Think dangerously. Knowledge is power.</p>
-        </div>
+        <footer>
+            <p>Contact: admin@no1ds.com</p>
+        </footer>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="script.js"></script>
 </body>
 </html>
