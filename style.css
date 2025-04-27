@@ -1,129 +1,105 @@
+/* MATRIX THEME */
 :root {
-    --neon-green: #00ff00;
-    --neon-blue: #00ffff;
-    --neon-purple: #ff00ff;
-    --dark-bg: #111;
-    --card-bg: rgba(0, 20, 0, 0.5);
-    --text-color: #ccc;
+    --matrix-green: #00ff41;
+    --matrix-dark: #0d0208;
+    --matrix-bg: rgba(13, 2, 8, 0.85);
+    --matrix-glow: 0 0 10px var(--matrix-green);
 }
 
 body {
-    background-color: var(--dark-bg);
-    color: var(--neon-green);
+    background-color: var(--matrix-dark);
+    color: var(--matrix-green);
     font-family: 'Courier New', monospace;
     margin: 0;
+    overflow-x: hidden;
+}
+
+/* Matrix Rain Background */
+.matrix-rain-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.15;
+}
+
+/* Header */
+.matrix-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
+    border-bottom: 1px solid var(--matrix-green);
+    margin-bottom: 30px;
+    background: var(--matrix-bg);
+    box-shadow: var(--matrix-glow);
 }
 
-/* Layout */
-.cyber-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    gap: 20px;
-}
-
-.dashboard {
-    display: flex;
-    gap: 20px;
-}
-
-.left-column {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.right-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.matrix-avatar {
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--matrix-green);
+    filter: hue-rotate(90deg) contrast(150%);
 }
 
 /* Cards */
-.cyber-card {
-    background: var(--card-bg);
-    border: 1px solid var(--neon-green);
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 0 0 10px var(--neon-green);
+.matrix-card {
+    background: var(--matrix-bg);
+    border: 1px solid var(--matrix-green);
+    border-radius: 0;
+    margin-bottom: 20px;
+    box-shadow: var(--matrix-glow);
 }
 
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--neon-green);
+    padding: 15px;
+    border-bottom: 1px solid var(--matrix-green);
 }
 
 /* Terminal */
 .terminal-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    padding: 20px;
 }
 
-#terminal-text {
-    color: var(--neon-green);
+.matrix-text {
     font-family: 'Courier New', monospace;
+    color: var(--matrix-green);
+    text-shadow: 0 0 5px var(--matrix-green);
+    line-height: 1.6;
 }
 
-.chat-iframe {
-    height: 300px;
-    border: none;
-    background: #000;
+/* Animations */
+@keyframes matrixPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
-/* Map */
-.globe-container {
-    height: 300px;
-    background: #000;
-    position: relative;
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    background: var(--matrix-green);
+    border-radius: 50%;
+    display: inline-block;
+    animation: matrixPulse 2s infinite;
 }
 
-/* Crypto */
-.crypto-prices {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Network Status */
-.network-status {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Dark Web */
-.darkweb-output {
-    background: #000;
-    padding: 10px;
-    min-height: 100px;
+/* Buttons */
+.matrix-btn {
+    background: transparent;
+    border: 1px solid var(--matrix-green);
+    color: var(--matrix-green);
+    padding: 8px 15px;
     font-family: 'Courier New', monospace;
-    color: var(--neon-green);
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
-/* Footer */
-.cyber-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    background: var(--card-bg);
-    border: 1px solid var(--neon-green);
-    border-radius: 5px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .dashboard {
-        flex-direction: column;
-    }
+.matrix-btn:hover {
+    background: rgba(0, 255, 65, 0.1);
+    box-shadow: var(--matrix-glow);
 }
