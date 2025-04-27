@@ -61,359 +61,68 @@ body {
     gap: 15px;
 }
 
-.identity-panel {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+/* ... (Previous CSS rules remain the same) ... */
+
+/* ===== New Components ===== */
+.crypto-card {
+    grid-column: span 1;
 }
 
-.profile-img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 2px solid var(--neon-green);
-    object-fit: cover;
-    filter: grayscale(100%) contrast(120%);
-    transition: all 0.3s;
-}
-
-.profile-img:hover {
-    filter: grayscale(50%) contrast(120%);
-    transform: scale(1.05);
-}
-
-.identity-info {
+.crypto-ticker {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-}
-
-.identity-info h2 {
-    font-size: 1.2rem;
-    text-shadow: var(--text-glow);
-    letter-spacing: 1px;
-}
-
-.status-indicators {
-    display: flex;
     gap: 10px;
-    align-items: center;
-}
-
-.status {
-    font-size: 0.8rem;
-    color: var(--neon-blue);
-}
-
-.status span {
-    color: var(--neon-green);
-}
-
-.session-timer {
-    font-size: 0.8rem;
-    color: var(--neon-purple);
-}
-
-.header-controls {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.visitor-counter {
-    font-size: 0.9rem;
-    color: var(--neon-blue);
-}
-
-#visitorCount {
-    color: var(--neon-green);
-    font-weight: bold;
-}
-
-/* Dashboard Grid */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.cyber-card {
-    background: var(--card-bg);
-    border: 1px solid var(--neon-green);
-    box-shadow: var(--glow);
-    border-radius: 5px;
     padding: 15px;
+    font-size: 0.9rem;
+}
+
+.network-card {
+    grid-column: span 1;
+}
+
+.network-status {
     display: flex;
     flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    font-size: 0.9rem;
 }
 
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--neon-green);
-}
-
-.card-header h3 {
-    text-shadow: var(--text-glow);
-    letter-spacing: 1px;
-    font-size: 1rem;
-}
-
-.traffic-light {
-    display: flex;
-    gap: 5px;
-}
-
-.light {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-}
-
-.red { background-color: #ff5f56; }
-.yellow { background-color: #ffbd2e; }
-.green { background-color: #27c93f; }
-
-/* Terminal Card */
-.terminal-card {
+.darkweb-card {
     grid-column: span 2;
 }
 
-.terminal-container {
-    flex: 1;
+.darkweb-output {
     background: #000;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-.chat-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-/* Map Card */
-.map-card {
-    min-height: 300px;
-}
-
-.globe-container {
-    flex: 1;
-    background: #001100;
-    border-radius: 5px;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Attack Node Styling (Simulated Mode) */
-.attack-node {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background-color: #ff5555;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-}
-
-/* Real Attack Map Styling */
-.globe-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    filter: 
-        hue-rotate(90deg) 
-        contrast(120%) 
-        brightness(0.8);
-    border-radius: 5px;
-    transition: all 0.3s;
-}
-
-.globe-container:hover iframe {
-    filter: 
-        hue-rotate(90deg) 
-        contrast(120%) 
-        brightness(1.1);
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.7; }
-}
-
-/* Feed Card */
-.feed-card {
+    padding: 15px;
+    min-height: 100px;
+    font-family: 'Courier New', monospace;
+    color: #0f0;
     overflow-y: auto;
+    white-space: pre-wrap;
 }
 
-.feed-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.glow-red {
+    color: #f00;
+    text-shadow: 0 0 5px #f00;
 }
 
-.feed-item {
-    background: rgba(0, 30, 0, 0.3);
+.terminal-text {
     padding: 10px;
-    border-left: 3px solid var(--neon-green);
-    font-size: 0.9rem;
-    transition: all 0.3s;
+    font-family: 'Courier New', monospace;
+    color: #0f0;
+    min-height: 60px;
+    border-bottom: 1px solid var(--neon-green);
 }
 
-.feed-item:hover {
-    background: rgba(0, 50, 0, 0.5);
-    transform: translateX(5px);
-}
-
-/* Status Card */
-.status-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 15px;
-    margin-top: 10px;
-}
-
-.status-item {
-    background: rgba(0, 20, 0, 0.3);
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.status-label {
-    font-size: 0.8rem;
-    color: var(--neon-blue);
-    margin-bottom: 5px;
-}
-
-.status-value {
-    font-size: 0.9rem;
-    color: var(--neon-green);
-    text-shadow: var(--text-glow);
-}
-
-.pulse-indicator {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--neon-green);
-    box-shadow: 0 0 5px var(--neon-green);
-}
-
-.pulse-indicator.active {
-    animation: pulse 1.5s infinite;
-}
-
-/* Footer */
-.cyber-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    background: var(--card-bg);
-    border: 1px solid var(--neon-green);
-    box-shadow: var(--glow);
-    border-radius: 5px;
-}
-
-.system-message {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.timestamp {
-    font-size: 0.9rem;
-    color: var(--neon-blue);
-}
-
-/* Button Styles */
-.cyber-btn {
-    background: transparent;
-    border: 1px solid var(--neon-green);
-    color: var(--neon-green);
-    padding: 8px 15px;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
-    font-size: 0.8rem;
-}
-
-.cyber-btn:hover {
-    background: rgba(0, 255, 0, 0.1);
-    text-shadow: var(--text-glow);
-    box-shadow: var(--glow);
-}
-
-.cyber-btn::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        to bottom right,
-        transparent,
-        transparent,
-        transparent,
-        var(--neon-green),
-        transparent
-    );
-    transform: rotate(30deg);
-    transition: all 0.5s;
-}
-
-.cyber-btn:hover::before {
-    left: 100%;
-}
-
-.cyber-btn.small {
-    padding: 5px 10px;
-    font-size: 0.7rem;
-}
-
-/* Responsive Design */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
     
-    .terminal-card {
+    .terminal-card,
+    .darkweb-card {
         grid-column: span 1;
-    }
-    
-    .cyber-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .header-controls {
-        width: 100%;
-        justify-content: space-between;
-    }
-}
-
-@media (max-width: 480px) {
-    .cyber-container {
-        padding: 10px;
-    }
-    
-    .identity-panel {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .status-indicators {
-        flex-direction: column;
-        align-items: flex-start;
     }
 }
