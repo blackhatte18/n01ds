@@ -5,33 +5,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const newIdentityBtn = document.getElementById('newIdentityBtn');
     const usernameDisplay = document.getElementById('username');
     const sessionTimer = document.getElementById('sessionTimer');
-    const connectionCount = document.getElementById('connectionCount');
+    const visitorCount = document.getElementById('visitorCount');
+    const attackCount = document.getElementById('attackCount');
     const threatFeed = document.getElementById('threatFeed');
     const refreshFeed = document.getElementById('refreshFeed');
     const systemTimestamp = document.getElementById('systemTimestamp');
     const attackGlobe = document.getElementById('attackGlobe');
 
     // Sound System
-    let soundEnabled = false;
+    let soundEnabled = true;
     
     function toggleSound() {
         soundEnabled = !soundEnabled;
         if (soundEnabled) {
-            ambientSound.volume = 0.3;
+            ambientSound.volume = 0.2;
             ambientSound.play();
-            soundToggle.innerHTML = '<span class="icon">🔊</span> AUDIO_ACTIVE';
+            soundToggle.textContent = 'AUDIO: ON';
         } else {
             ambientSound.pause();
-            soundToggle.innerHTML = '<span class="icon">🔇</span> AUDIO_MUTED';
+            soundToggle.textContent = 'AUDIO: OFF';
         }
     }
     
     soundToggle.addEventListener('click', toggleSound);
+    
+    // Try to autoplay sound (may be blocked by browser)
+    ambientSound.volume = 0.2;
+    const playPromise = ambientSound.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            soundEnabled = false;
+            soundToggle.textContent = 'AUDIO: OFF';
+        });
+    }
 
     // Identity System
     function generateUsername() {
-        const prefixes = ['CYPHER', 'NEO', 'TRINITY', 'MORPHEUS', 'ZION', 'ORACLE'];
-        const suffixes = ['KILLER', 'HACK', 'BYTE', 'CRASH', 'OVERLORD', 'GHOST'];
+        const prefixes = ['CYBER', 'DARK', 'SHADOW', 'STEALTH', 'GHOST', 'ZERO'];
+        const suffixes = ['HACK', 'CRASH', 'BYTE', 'OVERLORD', 'PROTOCOL', 'ROOT'];
         const hex = Math.floor(Math.random() * 0xFFFF).toString(16).toUpperCase();
         return `${prefixes[Math.floor(Math.random() * prefixes.length)]}_${suffixes[Math.floor(Math.random() * suffixes.length)]}_0x${hex}`;
     }
@@ -50,16 +62,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const hours = Math.floor(seconds / 3600);
         const minutes = Math.floor((seconds % 3600) / 60);
         const secs = seconds % 60;
-        sessionTimer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        sessionTimer.textContent = `[${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}]`;
     }, 1000);
 
-    // Connection Counter
+    // Visitor Counter
     let connections = Math.floor(Math.random() * 500) + 250;
     setInterval(function() {
         connections += Math.floor(Math.random() * 5) - 2;
         connections = Math.max(100, connections);
-        connectionCount.textContent = connections;
+        visitorCount.textContent = connections.toString().padStart(4, '0');
     }, 3000);
+
+    // Attack Counter
+    let attacks = 0;
+    setInterval(function() {
+        attacks += Math.floor(Math.random() * 3);
+        attackCount.textContent = attacks;
+    }, 5000);
 
     // Threat Feed
     const threatTemplates = [
@@ -67,7 +86,9 @@ document.addEventListener('DOMContentLoaded', function() {
         "{COMPANY} DATABASE BREACHED - {RECORDS} RECORDS LEAKED",
         "ZERO-DAY VULNERABILITY FOUND IN {SOFTWARE}",
         "DDoS ATTACK TARGETING {ORGANIZATION}",
-        "{COUNTRY} CYBER COMMAND ISSUES ALERT"
+        "{COUNTRY} CYBER COMMAND ISSUES ALERT",
+        "NEW MALWARE VARIANT: {MALWARE}",
+        "{HACKER_GROUP} CLAIMS RESPONSIBILITY FOR {TARGET} ATTACK"
     ];
     
     const threatPlaceholders = {
@@ -76,7 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
         RECORDS: ['THOUSANDS', 'MILLIONS', 'HUNDREDS', 'TENS OF THOUSANDS'],
         SOFTWARE: ['WEB BROWSERS', 'EMAIL CLIENTS', 'VPN SOFTWARE', 'PASSWORD MANAGERS'],
         ORGANIZATION: ['BANKS', 'GOVERNMENT', 'HOSPITALS', 'UNIVERSITIES'],
-        COUNTRY: ['USA', 'CHINA', 'RUSSIA', 'UK', 'GERMANY']
+        COUNTRY: ['USA', 'CHINA', 'RUSSIA', 'UK', 'GERMANY'],
+        MALWARE: ['TROJAN', 'RANSOMWARE', 'SPYWARE', 'ROOTKIT'],
+        HACKER_GROUP: ['ANONYMOUS', 'LIZARD SQUAD', 'APT29', 'DARK SIDE'],
+        TARGET: ['GOVERNMENT', 'CORPORATE', 'FINANCIAL', 'HEALTHCARE']
     };
     
     function generateThreatAlert() {
@@ -115,6 +139,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize threat feed
     refreshFeed.click();
+    
+    // Auto-update feed every 30 seconds
+    setInterval(function() {
+        addThreatAlert();
+    }, 30000);
 
     // System Timestamp
     function updateTimestamp() {
@@ -145,4 +174,62 @@ document.addEventListener('DOMContentLoaded', function() {
     for (let i = 0; i < 5; i++) {
         simulateAttack();
     }
+
+    // Matrix Rain Effect
+    function createMatrixRain() {
+        const canvas = document.createElement('canvas');
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';
+        canvas.style.opacity = '0.05';
+        canvas.style.pointerEvents = 'none';
+        document.body.appendChild(canvas);
+        
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+        
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const rainDrops = [];
+        
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+        
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+        
+        setInterval(draw, 30);
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    }
+    
+    createMatrixRain();
 });
