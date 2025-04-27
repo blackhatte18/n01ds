@@ -212,4 +212,79 @@ body {
     transition: all 0.5s;
 }
 
-.cyber-btn
+.cyber-btn:hover::before {
+    left: 100%;
+}
+
+.cyber-btn.small {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+}
+
+.cyber-btn.wide {
+    grid-column: span 1;
+}
+
+/* Footer */
+.cyber-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: var(--card-bg);
+    border: 1px solid var(--neon-green);
+    box-shadow: var(--glow);
+    border-radius: 5px;
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--neon-green);
+    box-shadow: 0 0 5px var(--neon-green);
+}
+
+.status-indicator.active {
+    animation: pulse 1.5s infinite;
+}
+
+.timestamp {
+    font-size: 0.9rem;
+    color: var(--neon-blue);
+}
+
+/* Animations */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Cyber Text Effect */
+.cybertext {
+    text-shadow: 0 0 5px var(--neon-green),
+                 0 0 10px var(--neon-green),
+                 0 0 20px var(--neon-green);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+    
+    .network-monitor {
+        grid-column: span 1;
+    }
+    
+    .cyber-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
