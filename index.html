@@ -12,128 +12,96 @@
     <div class="matrix-rain"></div>
     
     <div class="cyber-container">
+        <!-- Header -->
         <header class="cyber-header">
-            <div class="identity-panel">
+            <div class="profile-section">
                 <img src="assets/images/anonymous.png" alt="Anonymous" class="profile-img">
-                <div class="identity-info">
-                    <h2 class="cybertext" id="username">USER_0x7F3E</h2>
-                    <div class="status-indicators">
-                        <span class="status online">CONNECTION: <span>SECURE</span></span>
-                        <span class="session-timer" id="sessionTimer">[00:00:00]</span>
+                <div>
+                    <h2 id="username">USER_0x7F3E</h2>
+                    <div class="session-info">
+                        <span id="sessionTimer">00:00:00</span>
+                        <span class="status">STATUS: <span class="secure">SECURE</span></span>
                     </div>
                 </div>
             </div>
             <div class="header-controls">
                 <div class="visitor-counter">
-                    <span class="cybertext" id="visitorCount">0000</span> ACTIVE_NODES
+                    <span id="visitorCount">0000</span> USERS
                 </div>
-                <button class="cyber-btn" id="newIdentityBtn">NEW ID</button>
-                <button class="cyber-btn" id="soundToggle">AUDIO: ON</button>
+                <button id="newIdentityBtn" class="cyber-btn">NEW ID</button>
+                <button id="soundToggle" class="cyber-btn">SOUND: ON</button>
             </div>
         </header>
 
-        <main class="dashboard-grid">
-            <!-- Terminal Card -->
-            <section class="cyber-card terminal-card">
-                <div class="card-header">
-                    <h3>TERMINAL</h3>
-                    <div class="card-controls">
-                        <span class="traffic-light">
-                            <span class="light red"></span>
-                            <span class="light yellow"></span>
-                            <span class="light green"></span>
-                        </span>
+        <!-- Main Content -->
+        <main class="dashboard">
+            <!-- Left Column -->
+            <div class="left-column">
+                <section class="cyber-card terminal">
+                    <div class="card-header">
+                        <h3>TERMINAL</h3>
+                        <div class="traffic-lights">
+                            <span class="red"></span>
+                            <span class="yellow"></span>
+                            <span class="green"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="terminal-container">
-                    <div class="terminal-text" id="terminal-text">> INITIALIZING SYSTEM...</div>
-                    <iframe src="https://tlk.io/neon-net" class="chat-iframe"></iframe>
-                </div>
-            </section>
+                    <div class="terminal-content">
+                        <div id="terminal-text">> Welcome to NEON//NET</div>
+                        <iframe src="https://tlk.io/neon-net" class="chat-iframe"></iframe>
+                    </div>
+                </section>
 
-            <!-- Attack Map Card -->
-            <section class="cyber-card map-card">
-                <div class="card-header">
-                    <h3>GLOBAL_ACTIVITY</h3>
-                    <div class="card-controls">
-                        <button class="cyber-btn small" id="mapToggle">MAP: SIMULATED</button>
-                        <span class="cybertext" id="attackCount">0</span> EVENTS
+                <section class="cyber-card map">
+                    <div class="card-header">
+                        <h3>GLOBAL ACTIVITY</h3>
+                        <button id="mapToggle" class="cyber-btn small">REAL DATA</button>
                     </div>
-                </div>
-                <div class="globe-container" id="attackGlobe"></div>
-            </section>
+                    <div id="attackGlobe" class="globe-container"></div>
+                </section>
+            </div>
 
-            <!-- Crypto Tracker -->
-            <section class="cyber-card crypto-card">
-                <div class="card-header">
-                    <h3>CRYPTO_VAULT</h3>
-                    <div class="card-controls">
-                        <span class="pulse-indicator active"></span>
+            <!-- Right Column -->
+            <div class="right-column">
+                <section class="cyber-card crypto">
+                    <div class="card-header">
+                        <h3>CRYPTO TRACKER</h3>
                     </div>
-                </div>
-                <div class="crypto-ticker" id="crypto-ticker">
-                    <span class="crypto-coin">BTC: $<span id="btc-price">--.--</span></span>
-                    <span class="crypto-coin">ETH: $<span id="eth-price">--.--</span></span>
-                </div>
-            </section>
+                    <div class="crypto-prices">
+                        <div>BTC: <span id="btc-price">$--.--</span></div>
+                        <div>ETH: <span id="eth-price">$--.--</span></div>
+                    </div>
+                </section>
 
-            <!-- Network Tools -->
-            <section class="cyber-card network-card">
-                <div class="card-header">
-                    <h3>NETWORK_TOOLS</h3>
-                </div>
-                <div class="network-status">
-                    <span id="wifi-status">WIFI: SCANNING...</span>
-                    <span id="vpn-status">VPN: CHECKING...</span>
-                </div>
-            </section>
+                <section class="cyber-card network">
+                    <div class="card-header">
+                        <h3>NETWORK</h3>
+                    </div>
+                    <div class="network-status">
+                        <div id="wifi-status">WIFI: SCANNING...</div>
+                        <div id="vpn-status">VPN: CHECKING...</div>
+                    </div>
+                </section>
 
-            <!-- Dark Web Simulator -->
-            <section class="cyber-card darkweb-card">
-                <div class="card-header">
-                    <h3>DARKWEB_CRAWLER</h3>
-                    <button class="cyber-btn small" id="darkwebBtn">SCAN</button>
-                </div>
-                <div class="darkweb-output" id="darkweb-output">
-                    > PRESS SCAN TO BEGIN...
-                </div>
-            </section>
-
-            <!-- System Status -->
-            <section class="cyber-card status-card">
-                <div class="card-header">
-                    <h3>SYSTEM_STATUS</h3>
-                    <div class="card-controls">
-                        <span class="pulse-indicator active"></span>
+                <section class="cyber-card darkweb">
+                    <div class="card-header">
+                        <h3>DARK WEB</h3>
+                        <button id="darkwebBtn" class="cyber-btn small">SCAN</button>
                     </div>
-                </div>
-                <div class="status-grid">
-                    <div class="status-item">
-                        <span class="status-label">FIREWALL</span>
-                        <span class="status-value active">ACTIVE</span>
+                    <div id="darkweb-output" class="darkweb-output">
+                        > Ready to scan hidden services
                     </div>
-                    <div class="status-item">
-                        <span class="status-label">ENCRYPTION</span>
-                        <span class="status-value active">AES-256</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">PROXY</span>
-                        <span class="status-value active">TOR</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">ANONYMITY</span>
-                        <span class="status-value active">MAXIMUM</span>
-                    </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </main>
 
+        <!-- Footer -->
         <footer class="cyber-footer">
-            <div class="system-message">
-                <span class="cybertext">SYSTEM_OPERATIONAL</span>
-                <div class="pulse-indicator active"></div>
+            <div class="system-status">
+                <span>SYSTEM STATUS:</span>
+                <span class="pulse-indicator active"></span>
             </div>
-            <div class="timestamp" id="systemTimestamp">[00:00:00]</div>
+            <div id="systemTimestamp" class="timestamp">[00:00:00]</div>
         </footer>
     </div>
 
