@@ -3,94 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEON//GRID</title>
+    <title>CYBER//VAULT</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="assets/images/logo.svg">
+    <link rel="icon" href="assets/images/favicon.ico">
 </head>
 <body>
-    <div class="cyber-grid">
+    <audio loop id="ambientSound" src="assets/sounds/ambient.mp3"></audio>
+    
+    <div class="matrix-rain"></div>
+    
+    <div class="cyber-container">
         <!-- Header Section -->
         <header class="cyber-header">
-            <div class="profile-card">
-                <img src="assets/images/anonymous-mask.png" alt="Anonymous" class="profile-img">
-                <div class="profile-info">
+            <div class="identity-panel">
+                <img src="assets/images/anonymous.png" alt="Anonymous" class="profile-img">
+                <div class="identity-info">
                     <h2 class="cybertext" id="username">USER_0x7F3E</h2>
-                    <p class="status online">STATUS: <span>SECURE_CONNECTION</span></p>
+                    <div class="status-indicators">
+                        <span class="status online">CONNECTION: <span>SECURE</span></span>
+                        <span class="session-timer" id="sessionTimer">[00:00:00]</span>
+                    </div>
                 </div>
             </div>
             <div class="header-controls">
-                <div class="session-timer cybertext" id="sessionTimer">00:00:00</div>
+                <div class="visitor-counter">
+                    <span class="cybertext" id="visitorCount">0000</span> ACTIVE_NODES
+                </div>
                 <button class="cyber-btn" id="newIdentityBtn">NEW ID</button>
+                <button class="cyber-btn" id="soundToggle">AUDIO: ON</button>
             </div>
         </header>
 
         <!-- Main Dashboard -->
-        <main class="dashboard">
-            <!-- Network Monitor -->
-            <section class="card network-monitor">
+        <main class="dashboard-grid">
+            <!-- Cyber Terminal -->
+            <section class="cyber-card terminal-card">
                 <div class="card-header">
-                    <h3>NETWORK_ACTIVITY</h3>
-                    <div class="traffic-counter">
-                        <span class="cybertext" id="connectionCount">0</span> ACTIVE_NODES
+                    <h3>TERMINAL_ACCESS</h3>
+                    <div class="card-controls">
+                        <span class="traffic-light">
+                            <span class="light red"></span>
+                            <span class="light yellow"></span>
+                            <span class="light green"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="terminal-container">
+                    <iframe src="https://tlk.io/cybervault" class="chat-iframe"></iframe>
+                </div>
+            </section>
+
+            <!-- Global Activity Map -->
+            <section class="cyber-card map-card">
+                <div class="card-header">
+                    <h3>GLOBAL_ACTIVITY</h3>
+                    <div class="card-controls">
+                        <span class="cybertext" id="attackCount">0</span> ATTACKS
                     </div>
                 </div>
                 <div class="globe-container" id="attackGlobe"></div>
             </section>
 
-            <!-- Secure Chat -->
-            <section class="card secure-chat">
+            <!-- Security Feed -->
+            <section class="cyber-card feed-card">
                 <div class="card-header">
-                    <h3>SECURE_CHANNEL</h3>
-                    <div class="chat-controls">
-                        <button class="cyber-btn small">ENCRYPT</button>
-                    </div>
-                </div>
-                <iframe src="https://tlk.io/neongrid" class="chat-iframe"></iframe>
-            </section>
-
-            <!-- Threat Feed -->
-            <section class="card threat-feed">
-                <div class="card-header">
-                    <h3>THREAT_FEED</h3>
-                    <div class="refresh-controls">
+                    <h3>SECURITY_FEED</h3>
+                    <div class="card-controls">
                         <button class="cyber-btn small" id="refreshFeed">REFRESH</button>
                     </div>
                 </div>
                 <div class="feed-container" id="threatFeed">
-                    <!-- News items will be added dynamically -->
+                    <!-- Feed items will be added dynamically -->
                 </div>
             </section>
 
-            <!-- System Controls -->
-            <section class="card system-controls">
+            <!-- System Status -->
+            <section class="cyber-card status-card">
                 <div class="card-header">
-                    <h3>SYSTEM_CONTROL</h3>
+                    <h3>SYSTEM_STATUS</h3>
+                    <div class="card-controls">
+                        <span class="pulse-indicator active"></span>
+                    </div>
                 </div>
-                <div class="control-panel">
-                    <button class="cyber-btn wide" id="soundToggle">
-                        <span class="icon">🔊</span> AUDIO_ENGAGE
-                    </button>
-                    <button class="cyber-btn wide">
-                        <span class="icon">🛡️</span> FIREWALL_ACTIVE
-                    </button>
-                    <button class="cyber-btn wide">
-                        <span class="icon">🌐</span> PROXY_CHAIN
-                    </button>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <span class="status-label">FIREWALL</span>
+                        <span class="status-value active">ACTIVE</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">ENCRYPTION</span>
+                        <span class="status-value active">AES-256</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">PROXY</span>
+                        <span class="status-value active">TOR</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">ANONYMITY</span>
+                        <span class="status-value active">MAXIMUM</span>
+                    </div>
                 </div>
             </section>
         </main>
 
         <!-- Footer -->
         <footer class="cyber-footer">
-            <div class="system-status">
-                <span class="cybertext">SYSTEM_READY</span>
-                <div class="status-indicator active"></div>
+            <div class="system-message">
+                <span class="cybertext">SYSTEM_OPERATIONAL</span>
+                <div class="pulse-indicator active"></div>
             </div>
-            <div class="timestamp cybertext" id="systemTimestamp">[00:00:00]</div>
+            <div class="timestamp" id="systemTimestamp">[00:00:00]</div>
         </footer>
     </div>
 
-    <audio loop id="ambientSound" src="assets/sounds/ambient.mp3"></audio>
     <script src="script.js"></script>
 </body>
 </html>
