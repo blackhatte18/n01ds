@@ -1,105 +1,59 @@
-/* MATRIX THEME */
-:root {
-    --matrix-green: #00ff41;
-    --matrix-dark: #0d0208;
-    --matrix-bg: rgba(13, 2, 8, 0.85);
-    --matrix-glow: 0 0 10px var(--matrix-green);
-}
-
 body {
-    background-color: var(--matrix-dark);
-    color: var(--matrix-green);
-    font-family: 'Courier New', monospace;
     margin: 0;
-    overflow-x: hidden;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #000;
+    color: #00ff00;
 }
 
-/* Matrix Rain Background */
-.matrix-rain-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    opacity: 0.15;
-}
-
-/* Header */
-.matrix-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.container {
+    text-align: center;
     padding: 20px;
-    border-bottom: 1px solid var(--matrix-green);
-    margin-bottom: 30px;
-    background: var(--matrix-bg);
-    box-shadow: var(--matrix-glow);
 }
 
-.matrix-avatar {
-    width: 60px;
-    height: 60px;
-    border: 2px solid var(--matrix-green);
-    filter: hue-rotate(90deg) contrast(150%);
+.glitch {
+    font-size: 3em;
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
 }
 
-/* Cards */
-.matrix-card {
-    background: var(--matrix-bg);
-    border: 1px solid var(--matrix-green);
-    border-radius: 0;
+.subtitle {
+    font-size: 1.2em;
     margin-bottom: 20px;
-    box-shadow: var(--matrix-glow);
 }
 
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid var(--matrix-green);
+#typing {
+    font-size: 1.2em;
+    margin: 20px;
 }
 
-/* Terminal */
-.terminal-content {
-    padding: 20px;
+.visitor-counter img {
+    margin: 20px;
 }
 
-.matrix-text {
-    font-family: 'Courier New', monospace;
-    color: var(--matrix-green);
-    text-shadow: 0 0 5px var(--matrix-green);
-    line-height: 1.6;
+.chatroom, .attack-map, .news-section, .about {
+    margin-top: 40px;
 }
 
-/* Animations */
-@keyframes matrixPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+h2 {
+    color: #00ff00;
+    margin-bottom: 10px;
 }
 
-.status-indicator {
-    width: 12px;
-    height: 12px;
-    background: var(--matrix-green);
-    border-radius: 50%;
-    display: inline-block;
-    animation: matrixPulse 2s infinite;
+ul {
+    list-style: none;
+    padding: 0;
 }
 
-/* Buttons */
-.matrix-btn {
-    background: transparent;
-    border: 1px solid var(--matrix-green);
-    color: var(--matrix-green);
-    padding: 8px 15px;
-    font-family: 'Courier New', monospace;
-    cursor: pointer;
-    transition: all 0.3s;
+ul li a {
+    color: #00ff00;
+    text-decoration: none;
 }
 
-.matrix-btn:hover {
-    background: rgba(0, 255, 65, 0.1);
-    box-shadow: var(--matrix-glow);
+ul li a:hover {
+    text-decoration: underline;
+}
+
+iframe {
+    border: 2px solid #00ff00;
+    border-radius: 5px;
 }
