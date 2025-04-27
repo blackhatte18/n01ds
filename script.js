@@ -1,49 +1,51 @@
+// ===== MATRIX INITIALIZATION ===== //
 document.addEventListener('DOMContentLoaded', function() {
-    // Core Systems
-    initSoundSystem();
-    initIdentitySystem();
+    initMatrixRain();
     initSessionTimer();
-    initVisitorCounter();
-    initTerminalTyping();
-    
-    // Map System
+    initTerminal();
     initAttackMap();
-    
-    // New Features
     initCryptoTracker();
-    initNetworkTools();
-    initDarkWebSimulator();
+    initSoundSystem();
 });
 
-// ===== CORE SYSTEMS ===== //
-function initSoundSystem() {
-    const soundToggle = document.getElementById('soundToggle');
-    const ambientSound = document.getElementById('ambientSound');
-    let soundOn = true;
-    
-    soundToggle.addEventListener('click', () => {
-        soundOn = !soundOn;
-        soundToggle.textContent = `SOUND: ${soundOn ? 'ON' : 'OFF'}`;
-        soundOn ? ambientSound.play() : ambientSound.pause();
-    });
-    
-    ambientSound.volume = 0.2;
-    ambientSound.play().catch(() => soundToggle.textContent = 'SOUND: BLOCKED');
+// ===== MATRIX RAIN ===== //
+function initMatrixRain() {
+    const container = document.getElementById('matrixRain');
+    const canvas = document.createElement('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    container.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+    const chars = katakana.split('');
+
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function draw() {
+        ctx.fillStyle = 'rgba(13, 2, 8, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#00ff41';
+        ctx.font = `${fontSize}px monospace`;
+        
+        drops.forEach((y, i) => {
+            const text = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillText(text, i * fontSize, y * fontSize);
+            
+            if (y * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        });
+    }
+
+    setInterval(draw, 33);
 }
 
-function initIdentitySystem() {
-    const generateId = () => {
-        const prefixes = ['GHOST', 'SHADOW', 'STEALTH', 'ZERO'];
-        const suffixes = ['HACK', 'BYTE', 'OVERLORD', 'PROTOCOL'];
-        const hex = Math.random().toString(16).slice(2, 6).toUpperCase();
-        return `${prefixes[Math.floor(Math.random() * prefixes.length)]}_${hex}`;
-    };
-    
-    document.getElementById('newIdentityBtn').addEventListener('click', () => {
-        document.getElementById('username').textContent = generateId();
-    });
-}
-
+// ===== SESSION TIMER ===== //
 function initSessionTimer() {
     let seconds = 0;
     setInterval(() => {
@@ -56,20 +58,15 @@ function initSessionTimer() {
     }, 1000);
 }
 
-function initVisitorCounter() {
-    let count = Math.floor(Math.random() * 9000) + 1000;
-    setInterval(() => {
-        count += Math.floor(Math.random() * 3) - 1;
-        document.getElementById('visitorCount').textContent = count.toString().padStart(4, '0');
-    }, 3000);
-}
-
-function initTerminalTyping() {
+// ===== TERMINAL TYPE EFFECT ===== //
+function initTerminal() {
     const phrases = [
-        "> SYSTEM SECURE",
+        "> SYSTEM INITIALIZED",
         "> ENCRYPTION ACTIVE",
-        "> TOR CONNECTION ESTABLISHED"
+        "> TOR CONNECTION ESTABLISHED",
+        "> FIREWALL SECURE"
     ];
+    
     let i = 0;
     setInterval(() => {
         document.getElementById('terminal-text').textContent = phrases[i];
@@ -77,75 +74,40 @@ function initTerminalTyping() {
     }, 3000);
 }
 
-// ===== MAP SYSTEM ===== //
+// ===== ATTACK MAP ===== //
 function initAttackMap() {
     const globe = document.getElementById('attackGlobe');
-    const toggle = document.getElementById('mapToggle');
-    let mode = 'simulated';
     
-    toggle.addEventListener('click', () => {
-        mode = mode === 'simulated' ? 'real' : 'simulated';
-        toggle.textContent = mode === 'simulated' ? 'REAL DATA' : 'SIMULATED';
-        updateMap();
-    });
-    
-    function updateMap() {
-        if (mode === 'simulated') {
-            globe.innerHTML = '';
-            // Create simulated attacks
-            for (let i = 0; i < 5; i++) {
-                const attack = document.createElement('div');
-                attack.className = 'attack-node';
-                attack.style.left = `${Math.random() * 90 + 5}%`;
-                attack.style.top = `${Math.random() * 90 + 5}%`;
-                globe.appendChild(attack);
-            }
-        } else {
-            globe.innerHTML = `
-                <iframe src="https://digitalattackmap.com/embed#anim=1&color=0&country=ALL&list=0" 
-                        style="width:100%;height:100%;border:none;"></iframe>
-            `;
-        }
+    function createAttack() {
+        const attack = document.createElement('div');
+        attack.className = 'attack-node';
+        attack.style.left = `${Math.random() * 90 + 5}%`;
+        attack.style.top = `${Math.random() * 90 + 5}%`;
+        globe.appendChild(attack);
+        
+        setTimeout(() => attack.remove(), 3000);
     }
     
-    updateMap();
+    setInterval(createAttack, 800);
+    for (let i = 0; i < 5; i++) createAttack();
 }
 
-// ===== NEW FEATURES ===== //
+// ===== CRYPTO TRACKER ===== //
 function initCryptoTracker() {
-    const updatePrices = () => {
-        // Fallback data
-        const btcPrice = (60000 + Math.random() * 5000).toFixed(2);
-        const ethPrice = (3000 + Math.random() * 500).toFixed(2);
-        
-        document.getElementById('btc-price').textContent = `$${btcPrice}`;
-        document.getElementById('eth-price').textContent = `$${ethPrice}`;
-    };
+    function updatePrices() {
+        const btc = (60000 + Math.random() * 5000).toFixed(2);
+        const eth = (3000 + Math.random() * 500).toFixed(2);
+        document.getElementById('btc-price').textContent = `$${btc}`;
+        document.getElementById('eth-price').textContent = `$${eth}`;
+    }
     
     updatePrices();
     setInterval(updatePrices, 60000);
 }
 
-function initNetworkTools() {
-    document.getElementById('wifi-status').textContent = 
-        `WIFI: ${Math.random() > 0.5 ? '🔒 SECURE' : '🔓 PUBLIC'}`;
-    document.getElementById('vpn-status').textContent = 
-        `VPN: ${Math.random() > 0.7 ? '🟢 ACTIVE' : '🔴 INACTIVE'}`;
-}
-
-function initDarkWebSimulator() {
-    const sites = [
-        "HIDDEN WIKI ★★★★★",
-        "QUANTUM MARKET ✦✦✦✧✧",
-        "ONION CHAT ✦✧✧✧✧"
-    ];
-    
-    document.getElementById('darkwebBtn').addEventListener('click', () => {
-        const output = document.getElementById('darkweb-output');
-        output.textContent = "> SCANNING...";
-        
-        setTimeout(() => {
-            output.textContent = `> FOUND: ${sites[Math.floor(Math.random() * sites.length]}`;
-        }, 2000);
-    });
+// ===== SOUND SYSTEM ===== //
+function initSoundSystem() {
+    const sound = document.getElementById('matrixSound');
+    sound.volume = 0.3;
+    sound.play().catch(e => console.log("Audio blocked:", e));
 }
