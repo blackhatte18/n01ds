@@ -3,108 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEON//NET</title>
+    <title>MATRIX//SYSTEM</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="assets/images/favicon.ico">
+    <link rel="icon" href="assets/images/matrix-favicon.ico">
 </head>
 <body>
-    <audio loop id="ambientSound" src="assets/sounds/ambient.mp3"></audio>
-    <div class="matrix-rain"></div>
+    <div class="matrix-rain-container" id="matrixRain"></div>
     
     <div class="cyber-container">
         <!-- Header -->
-        <header class="cyber-header">
+        <header class="matrix-header">
             <div class="profile-section">
-                <img src="assets/images/anonymous.png" alt="Anonymous" class="profile-img">
-                <div>
-                    <h2 id="username">USER_0x7F3E</h2>
-                    <div class="session-info">
-                        <span id="sessionTimer">00:00:00</span>
-                        <span class="status">STATUS: <span class="secure">SECURE</span></span>
-                    </div>
+                <img src="assets/images/matrix-avatar.png" alt="Operator" class="matrix-avatar">
+                <div class="matrix-title">
+                    <h1>MATRIX//ACCESS</h1>
+                    <div class="session-timer" id="sessionTimer">00:00:00</div>
                 </div>
             </div>
             <div class="header-controls">
                 <div class="visitor-counter">
-                    <span id="visitorCount">0000</span> USERS
+                    <span id="visitorCount">0</span> ACTIVE_AGENTS
                 </div>
-                <button id="newIdentityBtn" class="cyber-btn">NEW ID</button>
-                <button id="soundToggle" class="cyber-btn">SOUND: ON</button>
+                <button id="newIdentityBtn" class="matrix-btn">NEW_IDENTITY</button>
             </div>
         </header>
 
-        <!-- Main Content -->
-        <main class="dashboard">
-            <!-- Left Column -->
-            <div class="left-column">
-                <section class="cyber-card terminal">
-                    <div class="card-header">
-                        <h3>TERMINAL</h3>
-                        <div class="traffic-lights">
-                            <span class="red"></span>
-                            <span class="yellow"></span>
-                            <span class="green"></span>
-                        </div>
+        <!-- Main Dashboard -->
+        <main class="dashboard-grid">
+            <!-- Terminal -->
+            <section class="matrix-card terminal-card">
+                <div class="card-header">
+                    <h2>>_SYSTEM_TERMINAL</h2>
+                    <div class="traffic-lights">
+                        <span class="red"></span>
+                        <span class="yellow"></span>
+                        <span class="green"></span>
                     </div>
-                    <div class="terminal-content">
-                        <div id="terminal-text">> Welcome to NEON//NET</div>
-                        <iframe src="https://tlk.io/neon-net" class="chat-iframe"></iframe>
+                </div>
+                <div class="terminal-content">
+                    <div id="terminal-text" class="matrix-text"></div>
+                    <div class="chat-container">
+                        <iframe src="https://tlk.io/matrix-chat" class="matrix-chat"></iframe>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <section class="cyber-card map">
-                    <div class="card-header">
-                        <h3>GLOBAL ACTIVITY</h3>
-                        <button id="mapToggle" class="cyber-btn small">REAL DATA</button>
-                    </div>
-                    <div id="attackGlobe" class="globe-container"></div>
-                </section>
-            </div>
+            <!-- Attack Map -->
+            <section class="matrix-card map-card">
+                <div class="card-header">
+                    <h2>>_GLOBAL_ACTIVITY</h2>
+                    <button id="mapToggle" class="matrix-btn">TOGGLE_VIEW</button>
+                </div>
+                <div class="map-visualization" id="attackGlobe"></div>
+            </section>
 
-            <!-- Right Column -->
-            <div class="right-column">
-                <section class="cyber-card crypto">
-                    <div class="card-header">
-                        <h3>CRYPTO TRACKER</h3>
-                    </div>
-                    <div class="crypto-prices">
-                        <div>BTC: <span id="btc-price">$--.--</span></div>
-                        <div>ETH: <span id="eth-price">$--.--</span></div>
-                    </div>
-                </section>
-
-                <section class="cyber-card network">
-                    <div class="card-header">
-                        <h3>NETWORK</h3>
-                    </div>
-                    <div class="network-status">
-                        <div id="wifi-status">WIFI: SCANNING...</div>
-                        <div id="vpn-status">VPN: CHECKING...</div>
-                    </div>
-                </section>
-
-                <section class="cyber-card darkweb">
-                    <div class="card-header">
-                        <h3>DARK WEB</h3>
-                        <button id="darkwebBtn" class="cyber-btn small">SCAN</button>
-                    </div>
-                    <div id="darkweb-output" class="darkweb-output">
-                        > Ready to scan hidden services
-                    </div>
-                </section>
-            </div>
+            <!-- Crypto Tracker -->
+            <section class="matrix-card crypto-card">
+                <div class="card-header">
+                    <h2>>_CRYPTO_TRACKER</h2>
+                </div>
+                <div class="crypto-prices matrix-text">
+                    <div>BTC: <span id="btc-price">LOADING...</span></div>
+                    <div>ETH: <span id="eth-price">LOADING...</span></div>
+                </div>
+            </section>
         </main>
 
         <!-- Footer -->
-        <footer class="cyber-footer">
+        <footer class="matrix-footer">
             <div class="system-status">
-                <span>SYSTEM STATUS:</span>
-                <span class="pulse-indicator active"></span>
+                <span class="matrix-text">SYSTEM_STATUS:</span>
+                <span class="status-indicator active"></span>
             </div>
-            <div id="systemTimestamp" class="timestamp">[00:00:00]</div>
+            <div id="systemTimestamp" class="matrix-timestamp">[00:00:00]</div>
         </footer>
     </div>
 
+    <audio loop id="matrixSound" src="assets/sounds/matrix-ambient.mp3"></audio>
     <script src="script.js"></script>
 </body>
 </html>
