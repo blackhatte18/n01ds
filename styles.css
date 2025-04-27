@@ -40,6 +40,28 @@ body {
     padding: 20px;
 }
 
+/* Profile Header Styles */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+    object-fit: cover;
+    filter: grayscale(100%) brightness(0.8) contrast(1.2);
+    transition: all 0.3s;
+}
+
+.profile-pic:hover {
+    filter: grayscale(50%) brightness(1.1) contrast(1.2);
+    transform: rotate(5deg);
+}
+
 /* Header Styles */
 header {
     display: flex;
@@ -48,6 +70,8 @@ header {
     padding: 15px 0;
     border-bottom: 1px solid var(--secondary-color);
     margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .logo {
@@ -144,50 +168,6 @@ header {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-}
-
-.chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    margin-bottom: 10px;
-}
-
-.system-msg {
-    color: var(--secondary-color);
-    margin-bottom: 10px;
-}
-
-.user-msg {
-    color: var(--primary-color);
-    margin-bottom: 10px;
-}
-
-.other-msg {
-    color: #55ffff;
-    margin-bottom: 10px;
-}
-
-.chat-input {
-    display: flex;
-    align-items: center;
-    border-top: 1px solid var(--secondary-color);
-    padding-top: 10px;
-}
-
-.prompt {
-    margin-right: 10px;
-    color: var(--primary-color);
-}
-
-#chatInput {
-    background: transparent;
-    border: none;
-    color: var(--primary-color);
-    font-family: 'Courier New', monospace;
-    font-size: 1em;
-    width: 100%;
-    outline: none;
-    flex: 1;
 }
 
 /* Attack Map Styles */
@@ -330,33 +310,25 @@ header {
     background: var(--secondary-color);
 }
 
-/* Typing Animation */
-.typing {
-    position: relative;
-}
-
-.typing::after {
-    content: "|";
-    animation: blink 1s infinite;
-    position: absolute;
-    right: -5px;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-}
-
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-    .main-content {
-        flex-direction: column;
-    }
-    
     header {
         flex-direction: column;
         gap: 10px;
         text-align: center;
+    }
+    
+    .profile-header {
+        justify-content: center;
+    }
+    
+    .profile-pic {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .main-content {
+        flex-direction: column;
     }
     
     .terminal-body, .map-container {
