@@ -1,75 +1,260 @@
-// Matrix Rain Background Effect (using matrix.js)
-window.onload = function() {
-    var canvas = document.getElementById("matrix");
-    var ctx = canvas.getContext("2d");
-    var columns = canvas.width = window.innerWidth;
-    var rows = canvas.height = window.innerHeight;
-    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    var fontSize = 10;
-    var drops = [];
-
-    for (var x = 0; x < columns; x++) {
-        drops[x] = 0;
-    }
-
-    function drawMatrix() {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-        ctx.fillRect(0, 0, columns, rows);
-        ctx.fillStyle = "#0f0";
-        ctx.font = fontSize + "px monospace";
-
-        for (var i = 0; i < drops.length; i++) {
-            var text = characters[Math.floor(Math.random() * characters.length)];
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-            if (drops[i] * fontSize > rows && Math.random() > 0.975) {
-                drops[i] = 0;
-            }
-
-            drops[i]++;
-        }
-    }
-
-    setInterval(drawMatrix, 35);
-};
-
-// Tech News Section - Fetching News
-const newsList = document.getElementById("news-list");
-
-// Fetch latest tech news from an API (example from NewsAPI)
-async function fetchTechNews() {
-    const apiKey = 'f080820976234fff8a68579ae6c741f1';  // Ensure your API key is correct
-    const url = `https://newsapi.org/v2/top-headlines?category=technology&apiKey=${apiKey}`;
+document.addEventListener('DOMContentLoaded', function() {
+    // Sound control
+    const soundToggle = document.getElementById('soundToggle');
+    const hackerSound = document.getElementById('hackerSound');
+    let soundOn = true;
     
-    try {
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-            throw new Error("Failed to fetch news");
-        }
-        
-        const data = await response.json();
-        
-        // Check if articles are available
-        if (data.articles && data.articles.length > 0) {
-            const articles = data.articles;
-            newsList.innerHTML = ''; // Clear previous news
-            articles.forEach(article => {
-                const li = document.createElement("li");
-                li.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
-                newsList.appendChild(li);
-            });
-        } else {
-            newsList.innerHTML = '<li>No news available at the moment.</li>';
-        }
-    } catch (error) {
-        console.error(error);
-        newsList.innerHTML = '<li>Error fetching news. Please try again later.</li>';
+    // Try to play sound (many browsers block autoplay)
+    hackerSound.volume = 0.3;
+    const playPromise = hackerSound.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            soundOn = false;
+            soundToggle.textContent = 'SOUND: OFF (click to enable)';
+        });
     }
-}
-
-// Call the function to load news
-fetchTechNews();
-
-// Automatically refresh the news every 10 minutes
-setInterval(fetchTechNews, 600000);
+    
+    soundToggle.addEventListener('click', function() {
+        soundOn = !soundOn;
+        if (soundOn) {
+            hackerSound.play();
+            soundToggle.textContent = 'SOUND: ON';
+        } else {
+            hackerSound.pause();
+            soundToggle.textContent = 'SOUND: OFF';
+        }
+    });
+    
+    // Visitor counter (simulated)
+    let visitorCount = Math.floor(Math.random() * 500) + 1500;
+    const visitorCountElement = document.getElementById('visitorCount');
+    
+    function updateVisitorCount() {
+        visitorCount += Math.floor(Math.random() * 3) - 1;
+        visitorCount = Math.max(1000, visitorCount);
+        visitorCountElement.textContent = visitorCount.toString().padStart(4, '0');
+    }
+    
+    setInterval(updateVisitorCount, 3000);
+    updateVisitorCount();
+    
+    // User ID generation
+    let userId = generateRandomId();
+    const userIDElement = document.getElementById('userID');
+    const displayUserIDElement = document.getElementById('displayUserID');
+    
+    function generateRandomId() {
+        const adjectives = ['Stealth', 'Phantom', 'Shadow', 'Crypto', 'Byte', 'Null', 'Zero', 'Ghost', 'Cyber', 'Dark'];
+        const nouns = ['Hunter', 'Walker', 'Byte', 'Hacker', 'Overlord', 'Agent', 'Protocol', 'Vector', 'Node', 'Root'];
+        const num = Math.floor(Math.random() * 1000);
+        const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+        const noun = nouns[Math.floor(Math.random() * nouns.length)];
+        return `${adj}_${noun}_${num}`;
+    }
+    
+    function updateUserId() {
+        userId = generateRandomId();
+        userIDElement.textContent = userId;
+        displayUserIDElement.textContent = userId;
+    }
+    
+    document.getElementById('newIdBtn').addEventListener('click', updateUserId);
+    updateUserId();
+    
+    // Session timer
+    let seconds = 0;
+    const sessionTimeElement = document.getElementById('sessionTime');
+    
+    function updateSessionTime() {
+        seconds++;
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        sessionTimeElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    
+    setInterval(updateSessionTime, 1000);
+    
+    // Chat functionality
+    const chatInput = document.getElementById('chatInput');
+    const chatMessages = document.querySelector('.chat-messages');
+    
+    function addMessage(message, type = 'user') {
+        const msgElement = document.createElement('p');
+        msgElement.classList.add(`${type}-msg`);
+        
+        if (type === 'user') {
+            msgElement.textContent = `YOU: ${message}`;
+        } else if (type === 'system') {
+            msgElement.textContent = `SYSTEM: ${message}`;
+        } else {
+            msgElement.textContent = `ANON_${Math.floor(Math.random() * 1000)}: ${message}`;
+        }
+        
+        chatMessages.appendChild(msgElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    chatInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && chatInput.value.trim() !== '') {
+            addMessage(chatInput.value.trim());
+            
+            // Simulate response
+            setTimeout(() => {
+                const responses = [
+                    "Interesting point. Have you considered the security implications?",
+                    "That's against our ethical guidelines. Please refrain from discussing illegal activities.",
+                    "I've analyzed your input. No vulnerabilities detected.",
+                    "Be careful with that approach. It might trigger security systems.",
+                    "Have you tried the legal alternatives?"
+                ];
+                addMessage(responses[Math.floor(Math.random() * responses.length)], 'other');
+            }, 1000);
+            
+            chatInput.value = '';
+        }
+    });
+    
+    // Simulate initial chat messages
+    setTimeout(() => {
+        addMessage("Type 'help' for available commands", 'system');
+    }, 500);
+    
+    setTimeout(() => {
+        addMessage("Remember: All activities are logged for security purposes", 'system');
+    }, 1500);
+    
+    // Attack map simulation
+    const globe = document.getElementById('globe');
+    
+    function simulateAttack() {
+        const attack = document.createElement('div');
+        attack.classList.add('attack');
+        attack.style.top = `${Math.random() * 90 + 5}%`;
+        attack.style.left = `${Math.random() * 90 + 5}%`;
+        globe.appendChild(attack);
+        
+        setTimeout(() => {
+            attack.remove();
+        }, 2000);
+    }
+    
+    setInterval(simulateAttack, 1000);
+    
+    // News feed updates
+    const newsItems = document.querySelector('.news-items');
+    const newsTemplates = [
+        "New security patch released for {system}",
+        "Increased {type} activity detected in {region}",
+        "{company} reports data breach affecting {number} users",
+        "Security researchers discover vulnerability in {software}",
+        "{country} passes new cybersecurity legislation"
+    ];
+    
+    const placeholders = {
+        system: ['Windows', 'Linux', 'macOS', 'iOS', 'Android'],
+        type: ['phishing', 'DDoS', 'brute force', 'malware', 'ransomware'],
+        region: ['North America', 'Europe', 'Asia', 'South America', 'Africa'],
+        company: ['Google', 'Microsoft', 'Facebook', 'Twitter', 'Amazon'],
+        number: ['thousands', 'millions', 'hundreds', 'tens of thousands'],
+        software: ['web browsers', 'email clients', 'VPN software', 'password managers'],
+        country: ['USA', 'UK', 'Germany', 'China', 'Russia', 'Japan']
+    };
+    
+    function generateNewsItem() {
+        const template = newsTemplates[Math.floor(Math.random() * newsTemplates.length)];
+        let newsText = template;
+        
+        for (const [key, values] of Object.entries(placeholders)) {
+            newsText = newsText.replace(new RegExp(`{${key}}`, 'g'), values[Math.floor(Math.random() * values.length)]);
+        }
+        
+        return newsText;
+    }
+    
+    function addNewsItem() {
+        const now = new Date();
+        const timeString = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
+        
+        const newsItem = document.createElement('div');
+        newsItem.classList.add('news-item');
+        
+        const newsTime = document.createElement('div');
+        newsTime.classList.add('news-time');
+        newsTime.textContent = timeString;
+        
+        const newsText = document.createElement('div');
+        newsText.classList.add('news-text');
+        newsText.textContent = generateNewsItem();
+        
+        newsItem.appendChild(newsTime);
+        newsItem.appendChild(newsText);
+        
+        newsItems.insertBefore(newsItem, newsItems.firstChild);
+        
+        if (newsItems.children.length > 10) {
+            newsItems.removeChild(newsItems.lastChild);
+        }
+    }
+    
+    setInterval(addNewsItem, 5000);
+    
+    // Matrix rain effect
+    function createMatrixRain() {
+        const canvas = document.createElement('canvas');
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';
+        canvas.style.opacity = '0.1';
+        canvas.style.pointerEvents = 'none';
+        document.body.appendChild(canvas);
+        
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+        
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const rainDrops = [];
+        
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+        
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+        
+        setInterval(draw, 30);
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    }
+    
+    createMatrixRain();
+});
