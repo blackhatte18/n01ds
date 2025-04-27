@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CYBER//VAULT</title>
+    <title>NEON//NET</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="assets/images/favicon.ico">
 </head>
 <body>
     <audio loop id="ambientSound" src="assets/sounds/ambient.mp3"></audio>
-    
     <div class="matrix-rain"></div>
     
     <div class="cyber-container">
-        <!-- Header Section -->
         <header class="cyber-header">
             <div class="identity-panel">
                 <img src="assets/images/anonymous.png" alt="Anonymous" class="profile-img">
@@ -34,12 +32,11 @@
             </div>
         </header>
 
-        <!-- Main Dashboard -->
         <main class="dashboard-grid">
             <!-- Terminal Card -->
             <section class="cyber-card terminal-card">
                 <div class="card-header">
-                    <h3>TERMINAL_ACCESS</h3>
+                    <h3>TERMINAL</h3>
                     <div class="card-controls">
                         <span class="traffic-light">
                             <span class="light red"></span>
@@ -49,11 +46,12 @@
                     </div>
                 </div>
                 <div class="terminal-container">
-                    <iframe src="https://tlk.io/cybervault" class="chat-iframe"></iframe>
+                    <div class="terminal-text" id="terminal-text">> INITIALIZING SYSTEM...</div>
+                    <iframe src="https://tlk.io/neon-net" class="chat-iframe"></iframe>
                 </div>
             </section>
 
-            <!-- Global Activity Map Card -->
+            <!-- Attack Map Card -->
             <section class="cyber-card map-card">
                 <div class="card-header">
                     <h3>GLOBAL_ACTIVITY</h3>
@@ -62,29 +60,46 @@
                         <span class="cybertext" id="attackCount">0</span> EVENTS
                     </div>
                 </div>
-                <div class="globe-container" id="attackGlobe">
-                    <!-- Initial simulated attacks -->
-                    <div class="attack-node" style="top:20%;left:30%"></div>
-                    <div class="attack-node" style="top:40%;left:70%"></div>
-                </div>
+                <div class="globe-container" id="attackGlobe"></div>
             </section>
 
-            <!-- Security Feed Card -->
-            <section class="cyber-card feed-card">
+            <!-- Crypto Tracker -->
+            <section class="cyber-card crypto-card">
                 <div class="card-header">
-                    <h3>SECURITY_FEED</h3>
+                    <h3>CRYPTO_VAULT</h3>
                     <div class="card-controls">
-                        <button class="cyber-btn small" id="refreshFeed">REFRESH</button>
+                        <span class="pulse-indicator active"></span>
                     </div>
                 </div>
-                <div class="feed-container" id="threatFeed">
-                    <div class="feed-item">
-                        <span class="timestamp">[00:00:00]</span> SYSTEM_INITIALIZED
-                    </div>
+                <div class="crypto-ticker" id="crypto-ticker">
+                    <span class="crypto-coin">BTC: $<span id="btc-price">--.--</span></span>
+                    <span class="crypto-coin">ETH: $<span id="eth-price">--.--</span></span>
                 </div>
             </section>
 
-            <!-- System Status Card -->
+            <!-- Network Tools -->
+            <section class="cyber-card network-card">
+                <div class="card-header">
+                    <h3>NETWORK_TOOLS</h3>
+                </div>
+                <div class="network-status">
+                    <span id="wifi-status">WIFI: SCANNING...</span>
+                    <span id="vpn-status">VPN: CHECKING...</span>
+                </div>
+            </section>
+
+            <!-- Dark Web Simulator -->
+            <section class="cyber-card darkweb-card">
+                <div class="card-header">
+                    <h3>DARKWEB_CRAWLER</h3>
+                    <button class="cyber-btn small" id="darkwebBtn">SCAN</button>
+                </div>
+                <div class="darkweb-output" id="darkweb-output">
+                    > PRESS SCAN TO BEGIN...
+                </div>
+            </section>
+
+            <!-- System Status -->
             <section class="cyber-card status-card">
                 <div class="card-header">
                     <h3>SYSTEM_STATUS</h3>
@@ -113,7 +128,6 @@
             </section>
         </main>
 
-        <!-- Footer -->
         <footer class="cyber-footer">
             <div class="system-message">
                 <span class="cybertext">SYSTEM_OPERATIONAL</span>
