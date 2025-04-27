@@ -1,215 +1,148 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Sound control
+    // System Initialization
+    const ambientSound = document.getElementById('ambientSound');
     const soundToggle = document.getElementById('soundToggle');
-    const hackerSound = document.getElementById('hackerSound');
-    let soundOn = true;
+    const newIdentityBtn = document.getElementById('newIdentityBtn');
+    const usernameDisplay = document.getElementById('username');
+    const sessionTimer = document.getElementById('sessionTimer');
+    const connectionCount = document.getElementById('connectionCount');
+    const threatFeed = document.getElementById('threatFeed');
+    const refreshFeed = document.getElementById('refreshFeed');
+    const systemTimestamp = document.getElementById('systemTimestamp');
+    const attackGlobe = document.getElementById('attackGlobe');
+
+    // Sound System
+    let soundEnabled = false;
     
-    // Try to play sound
-    hackerSound.volume = 0.3;
-    const playPromise = hackerSound.play();
-    
-    if (playPromise !== undefined) {
-        playPromise.catch(error => {
-            soundOn = false;
-            soundToggle.textContent = 'SOUND: OFF (click to enable)';
-        });
+    function toggleSound() {
+        soundEnabled = !soundEnabled;
+        if (soundEnabled) {
+            ambientSound.volume = 0.3;
+            ambientSound.play();
+            soundToggle.innerHTML = '<span class="icon">🔊</span> AUDIO_ACTIVE';
+        } else {
+            ambientSound.pause();
+            soundToggle.innerHTML = '<span class="icon">🔇</span> AUDIO_MUTED';
+        }
     }
     
-    soundToggle.addEventListener('click', function() {
-        soundOn = !soundOn;
-        if (soundOn) {
-            hackerSound.play();
-            soundToggle.textContent = 'SOUND: ON';
-        } else {
-            hackerSound.pause();
-            soundToggle.textContent = 'SOUND: OFF';
-        }
+    soundToggle.addEventListener('click', toggleSound);
+
+    // Identity System
+    function generateUsername() {
+        const prefixes = ['CYPHER', 'NEO', 'TRINITY', 'MORPHEUS', 'ZION', 'ORACLE'];
+        const suffixes = ['KILLER', 'HACK', 'BYTE', 'CRASH', 'OVERLORD', 'GHOST'];
+        const hex = Math.floor(Math.random() * 0xFFFF).toString(16).toUpperCase();
+        return `${prefixes[Math.floor(Math.random() * prefixes.length)]}_${suffixes[Math.floor(Math.random() * suffixes.length)]}_0x${hex}`;
+    }
+    
+    newIdentityBtn.addEventListener('click', function() {
+        usernameDisplay.textContent = generateUsername();
     });
     
-    // Visitor counter (simulated)
-    let visitorCount = Math.floor(Math.random() * 500) + 1500;
-    const visitorCountElement = document.getElementById('visitorCount');
-    
-    function updateVisitorCount() {
-        visitorCount += Math.floor(Math.random() * 3) - 1;
-        visitorCount = Math.max(1000, visitorCount);
-        visitorCountElement.textContent = visitorCount.toString().padStart(4, '0');
-    }
-    
-    setInterval(updateVisitorCount, 3000);
-    updateVisitorCount();
-    
-    // User ID generation
-    function generateRandomId() {
-        const adjectives = ['Stealth', 'Phantom', 'Shadow', 'Crypto', 'Byte', 'Null'];
-        const nouns = ['Hunter', 'Walker', 'Hacker', 'Agent', 'Node', 'Root'];
-        const num = Math.floor(Math.random() * 1000);
-        const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
-        const noun = nouns[Math.floor(Math.random() * nouns.length)];
-        return `${adj}_${noun}_${num}`;
-    }
-    
-    function updateUserId() {
-        const newId = generateRandomId();
-        document.getElementById('displayUserID').textContent = newId;
-        
-        // Try to set the tlk.io nickname
-        const tlkFrame = document.getElementById('tlkio-frame');
-        if (tlkFrame && tlkFrame.contentWindow) {
-            tlkFrame.contentWindow.postMessage({
-                type: 'setnick',
-                nick: newId
-            }, 'https://tlk.io');
-        }
-    }
-    
-    document.getElementById('newIdBtn').addEventListener('click', updateUserId);
-    updateUserId();
-    
-    // Session timer
+    // Initialize username
+    usernameDisplay.textContent = generateUsername();
+
+    // Session Timer
     let seconds = 0;
-    const sessionTimeElement = document.getElementById('sessionTime');
-    
-    function updateSessionTime() {
+    setInterval(function() {
         seconds++;
         const hours = Math.floor(seconds / 3600);
         const minutes = Math.floor((seconds % 3600) / 60);
         const secs = seconds % 60;
-        sessionTimeElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    }
-    
-    setInterval(updateSessionTime, 1000);
-    
-    // Attack map simulation
-    const globe = document.getElementById('globe');
-    
-    function simulateAttack() {
-        const attack = document.createElement('div');
-        attack.classList.add('attack');
-        attack.style.top = `${Math.random() * 90 + 5}%`;
-        attack.style.left = `${Math.random() * 90 + 5}%`;
-        globe.appendChild(attack);
-        
-        setTimeout(() => {
-            attack.remove();
-        }, 2000);
-    }
-    
-    setInterval(simulateAttack, 1000);
-    
-    // News feed updates
-    const newsItems = document.getElementById('newsItems');
-    const newsTemplates = [
-        "New security patch released for {system}",
-        "Increased {type} activity detected in {region}",
-        "{company} reports data breach affecting {number} users",
-        "Security researchers discover vulnerability in {software}",
-        "{country} passes new cybersecurity legislation"
+        sessionTimer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }, 1000);
+
+    // Connection Counter
+    let connections = Math.floor(Math.random() * 500) + 250;
+    setInterval(function() {
+        connections += Math.floor(Math.random() * 5) - 2;
+        connections = Math.max(100, connections);
+        connectionCount.textContent = connections;
+    }, 3000);
+
+    // Threat Feed
+    const threatTemplates = [
+        "NEW EXPLOIT DETECTED IN {SYSTEM}",
+        "{COMPANY} DATABASE BREACHED - {RECORDS} RECORDS LEAKED",
+        "ZERO-DAY VULNERABILITY FOUND IN {SOFTWARE}",
+        "DDoS ATTACK TARGETING {ORGANIZATION}",
+        "{COUNTRY} CYBER COMMAND ISSUES ALERT"
     ];
     
-    const placeholders = {
-        system: ['Windows', 'Linux', 'macOS', 'iOS', 'Android'],
-        type: ['phishing', 'DDoS', 'brute force', 'malware', 'ransomware'],
-        region: ['North America', 'Europe', 'Asia', 'South America', 'Africa'],
-        company: ['Google', 'Microsoft', 'Facebook', 'Twitter', 'Amazon'],
-        number: ['thousands', 'millions', 'hundreds', 'tens of thousands'],
-        software: ['web browsers', 'email clients', 'VPN software', 'password managers'],
-        country: ['USA', 'UK', 'Germany', 'China', 'Russia', 'Nigeria']
+    const threatPlaceholders = {
+        SYSTEM: ['WINDOWS', 'LINUX', 'MACOS', 'IOS', 'ANDROID'],
+        COMPANY: ['GOOGLE', 'MICROSOFT', 'FACEBOOK', 'TWITTER', 'AMAZON'],
+        RECORDS: ['THOUSANDS', 'MILLIONS', 'HUNDREDS', 'TENS OF THOUSANDS'],
+        SOFTWARE: ['WEB BROWSERS', 'EMAIL CLIENTS', 'VPN SOFTWARE', 'PASSWORD MANAGERS'],
+        ORGANIZATION: ['BANKS', 'GOVERNMENT', 'HOSPITALS', 'UNIVERSITIES'],
+        COUNTRY: ['USA', 'CHINA', 'RUSSIA', 'UK', 'GERMANY']
     };
     
-    function generateNewsItem() {
-        const template = newsTemplates[Math.floor(Math.random() * newsTemplates.length)];
-        let newsText = template;
+    function generateThreatAlert() {
+        const template = threatTemplates[Math.floor(Math.random() * threatTemplates.length)];
+        let alert = template;
         
-        for (const [key, values] of Object.entries(placeholders)) {
-            newsText = newsText.replace(new RegExp(`{${key}}`, 'g'), values[Math.floor(Math.random() * values.length)]);
+        for (const [key, values] of Object.entries(threatPlaceholders)) {
+            const regex = new RegExp(`{${key}}`, 'g');
+            alert = alert.replace(regex, values[Math.floor(Math.random() * values.length)]);
         }
         
-        return newsText;
+        return alert;
     }
     
-    function addNewsItem() {
+    function addThreatAlert() {
         const now = new Date();
         const timeString = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
         
-        const newsItem = document.createElement('div');
-        newsItem.classList.add('news-item');
+        const alertItem = document.createElement('div');
+        alertItem.className = 'feed-item';
+        alertItem.innerHTML = `<span class="timestamp">${timeString}</span> ${generateThreatAlert()}`;
         
-        const newsTime = document.createElement('div');
-        newsTime.classList.add('news-time');
-        newsTime.textContent = timeString;
+        threatFeed.insertBefore(alertItem, threatFeed.firstChild);
         
-        const newsText = document.createElement('div');
-        newsText.classList.add('news-text');
-        newsText.textContent = generateNewsItem();
-        
-        newsItem.appendChild(newsTime);
-        newsItem.appendChild(newsText);
-        
-        newsItems.insertBefore(newsItem, newsItems.firstChild);
-        
-        if (newsItems.children.length > 10) {
-            newsItems.removeChild(newsItems.lastChild);
+        if (threatFeed.children.length > 10) {
+            threatFeed.removeChild(threatFeed.lastChild);
         }
     }
     
-    setInterval(addNewsItem, 5000);
-    
-    // Matrix rain effect
-    function createMatrixRain() {
-        const canvas = document.createElement('canvas');
-        canvas.style.position = 'fixed';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        canvas.style.zIndex = '-1';
-        canvas.style.opacity = '0.1';
-        canvas.style.pointerEvents = 'none';
-        document.body.appendChild(canvas);
-        
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const nums = '0123456789';
-        const alphabet = katakana + latin + nums;
-        
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const rainDrops = [];
-        
-        for (let x = 0; x < columns; x++) {
-            rainDrops[x] = 1;
+    refreshFeed.addEventListener('click', function() {
+        threatFeed.innerHTML = '';
+        for (let i = 0; i < 5; i++) {
+            addThreatAlert();
         }
-        
-        const draw = () => {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = '#0F0';
-            ctx.font = fontSize + 'px monospace';
-            
-            for (let i = 0; i < rainDrops.length; i++) {
-                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-                
-                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    rainDrops[i] = 0;
-                }
-                rainDrops[i]++;
-            }
-        };
-        
-        setInterval(draw, 30);
-        
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+    });
+    
+    // Initialize threat feed
+    refreshFeed.click();
+
+    // System Timestamp
+    function updateTimestamp() {
+        const now = new Date();
+        systemTimestamp.textContent = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
     }
     
-    createMatrixRain();
+    setInterval(updateTimestamp, 1000);
+    updateTimestamp();
+
+    // Attack Globe Simulation
+    function simulateAttack() {
+        const attack = document.createElement('div');
+        attack.className = 'attack-node';
+        attack.style.left = `${Math.random() * 90 + 5}%`;
+        attack.style.top = `${Math.random() * 90 + 5}%`;
+        attack.style.animationDelay = `${Math.random() * 2}s`;
+        attackGlobe.appendChild(attack);
+        
+        setTimeout(() => {
+            attack.remove();
+        }, 3000);
+    }
+    
+    setInterval(simulateAttack, 500);
+    
+    // Add initial attacks
+    for (let i = 0; i < 5; i++) {
+        simulateAttack();
+    }
 });
