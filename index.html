@@ -3,71 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ ADMIN CYBER TERMINAL ⚡</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+    <title>⚡ CYBER NEXUS ⚡</title>
+    <style>
+        /* === MATRIX TERMINAL THEME === */
+        :root {
+            --matrix-green: #0f0;
+            --dark-matter: #000;
+            --terminal-bg: rgba(0, 15, 0, 0.2);
+        }
+        
+        body {
+            background: var(--dark-matter);
+            color: var(--matrix-green);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            animation: matrix 100s linear infinite;
+        }
+        
+        @keyframes matrix {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 100%; }
+        }
+        
+        .terminal {
+            background: var(--terminal-bg);
+            border: 1px solid var(--matrix-green);
+            border-radius: 5px;
+            max-width: 1200px;
+            margin: 20px auto;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .terminal-header {
+            background: #111;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--matrix-green);
+        }
+        
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .terminal-title {
+            margin-left: 15px;
+            text-shadow: 0 0 5px var(--matrix-green);
+            letter-spacing: 1px;
+        }
+        
+        .terminal-body {
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        /* === WIDGET STYLES === */
+        .widget {
+            background: rgba(0, 30, 0, 0.3);
+            border: 1px dashed var(--matrix-green);
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .widget::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--matrix-green);
+            animation: scanline 3s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        
+        /* === ADMIN SPECIFIC === */
+        .admin-widget {
+            border-color: #f00 !important;
+            display: none; /* Hidden by default */
+        }
+        
+        .admin-widget h3 {
+            color: #f00 !important;
+        }
+        
+        #admin-login {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        #admin-login h2 {
+            color: #f00;
+            text-shadow: 0 0 10px #f00;
+            margin-bottom: 20px;
+        }
+        
+        #admin-key {
+            background: #000;
+            color: #0f0;
+            border: 1px solid #f00;
+            padding: 10px;
+            width: 300px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        #admin-login-btn {
+            background: #f00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        /* === CHAT STYLES === */
+        .chat-container {
+            height: 350px;
+            border: 1px solid var(--matrix-green);
+        }
+        
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .terminal {
+                margin: 10px;
+                width: calc(100% - 20px);
+            }
+            
+            .chat-container {
+                height: 300px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="matrix-bg"></div>
     <audio id="hacker-sound" loop>
-        <source src="sounds/hacker.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-hacker-typing-540.mp3" type="audio/mpeg">
     </audio>
-    <button id="sound-toggle">🔊</button>
+    <button id="sound-toggle" style="position:fixed;bottom:20px;right:20px;background:#111;border:1px solid #0f0;color:#0f0;padding:8px;border-radius:3px;">🔊</button>
     
-    <!-- Admin Login (Hidden by default) -->
+    <!-- Admin Login -->
     <div id="admin-login">
-        <div class="login-box">
-            <h3>ADMIN ACCESS</h3>
-            <input type="password" id="admin-password" placeholder="Enter master key">
-            <button id="login-btn">>_ AUTHENTICATE</button>
-        </div>
+        <h2>⚡ ADMIN ACCESS REQUIRED ⚡</h2>
+        <input type="password" id="admin-key" placeholder="Enter master key">
+        <button id="admin-login-btn">AUTHENTICATE</button>
     </div>
 
     <div class="terminal">
         <div class="terminal-header">
-            <span class="red-btn"></span>
-            <span class="yellow-btn"></span>
-            <span class="green-btn"></span>
-            <span class="title">root@cyber-terminal:~</span>
+            <div class="terminal-btn" style="background:#ff5f56;"></div>
+            <div class="terminal-btn" style="background:#ffbd2e;"></div>
+            <div class="terminal-btn" style="background:#27c93f;"></div>
+            <div class="terminal-title">root@cyber-nexus:~</div>
         </div>
         
         <div class="terminal-body">
-            <!-- System Boot -->
-            <div id="boot-sequence">
-                <p>> Booting system...</p>
-                <p>> Checking admin privileges...</p>
-                <p id="admin-status">> Guest mode activated</p>
-            </div>
-            
-            <!-- Main Dashboard -->
-            <div class="dashboard-grid">
-                <!-- Public Widgets -->
-                <div class="widget">
-                    <h3>💻 PUBLIC CHAT</h3>
-                    <iframe src="https://tlk.io/cyber-public" class="chat-iframe"></iframe>
-                </div>
-                
-                <!-- Admin-Only Widgets (Hidden by default) -->
-                <div class="widget admin-only" style="display:none;">
-                    <h3>🔐 ADMIN CHAT</h3>
-                    <iframe src="https://tlk.io/cyber-admin-secret" class="chat-iframe"></iframe>
-                    <p>> Password: <span class="glow">${generateRandomPassword()}</span></p>
-                </div>
-                
-                <div class="widget admin-only" style="display:none;">
-                    <h3>🚨 TARGET SCANNER</h3>
-                    <div class="admin-tool">
-                        <input type="text" id="target-ip" placeholder="Enter IP">
-                        <button id="scan-btn">>_ SCAN</button>
-                        <div id="scan-results"></div>
-                    </div>
+            <!-- Public Widgets -->
+            <div class="widget">
+                <h3>🌐 PUBLIC CHAT</h3>
+                <div class="chat-container">
+                    <iframe src="https://tlk.io/cyber-nexus-public" style="width:100%;height:100%;border:none;"></iframe>
                 </div>
             </div>
             
-            <!-- Other widgets... -->
+            <div class="widget">
+                <h3>📡 LIVE STATS</h3>
+                <div>
+                    <p>> Visitors: <span id="visitors">0</span></p>
+                    <p>> Threats: <span id="threats">0</span></p>
+                </div>
+            </div>
+            
+            <!-- Admin-Only Widgets -->
+            <div class="widget admin-widget">
+                <h3>🚨 ADMIN CHANNEL</h3>
+                <div class="chat-container">
+                    <iframe src="https://tlk.io/cyber-nexus-admin" style="width:100%;height:100%;border:none;"></iframe>
+                </div>
+                <p>> Access key: <span id="admin-pass">[HIDDEN]</span></p>
+            </div>
+            
+            <div class="widget admin-widget">
+                <h3>💣 TARGET SCANNER</h3>
+                <div>
+                    <input type="text" id="target-ip" placeholder="Enter IP" style="background:#000;color:#0f0;border:1px solid #f00;padding:8px;width:200px;">
+                    <button id="scan-btn" style="background:#f00;color:#000;border:none;padding:8px 15px;margin-left:10px;">SCAN</button>
+                    <div id="scan-results" style="margin-top:10px;"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // ===== CONFIG =====
+        const ADMIN_KEY = "n01dswasneverhere"; // CHANGE THIS!
+        const ADMIN_COOKIE = "cyber_auth";
+        
+        // ===== SYSTEM INIT =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sound control
+            const audio = document.getElementById('hacker-sound');
+            audio.volume = 0.3;
+            document.getElementById('sound-toggle').addEventListener('click', function() {
+                audio.muted = !audio.muted;
+                this.textContent = audio.muted ? '🔇' : '🔊';
+            });
+            
+            // Check for existing admin auth
+            if (checkAdminAuth()) {
+                enableAdminMode();
+            } else {
+                document.getElementById('admin-login').style.display = 'flex';
+            }
+            
+            // Set up public features
+            initPublicFeatures();
+        });
+        
+        // ===== ADMIN FUNCTIONS =====
+        function checkAdminAuth() {
+            const cookies = document.cookie.split('; ');
+            const authCookie = cookies.find(row => row.startsWith(ADMIN_COOKIE));
+            return authCookie && authCookie.split('=')[1] === "true";
+        }
+        
+        function enableAdminMode() {
+            document.getElementById('admin-login').style.display = 'none';
+            document.querySelectorAll('.admin-widget').forEach(el => {
+                el.style.display = 'block';
+            });
+            
+            // Generate dynamic admin password
+            document.getElementById('admin-pass').textContent = generateAdminPass();
+            
+            // Set up admin tools
+            document.getElementById('scan-btn').addEventListener('click', function() {
+                const ip = document.getElementById('target-ip').value;
+                if (ip) {
+                    const results = document.getElementById('scan-results');
+                    results.innerHTML = `
+                        <p>> Scanning ${ip}...</p>
+                        <p>> Port 22: SSH (Open)</p>
+                        <p>> Port 80: HTTP (Apache 2.4.41)</p>
+                        <p>> Vulnerabilities found!</p>
+                    `;
+                }
+            });
+        }
+        
+        function generateAdminPass() {
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            let pass = "";
+            for (let i = 0; i < 12; i++) {
+                pass += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return pass;
+        }
+        
+        // Admin login
+        document.getElementById('admin-login-btn').addEventListener('click', function() {
+            const key = document.getElementById('admin-key').value;
+            if (key === ADMIN_KEY) {
+                document.cookie = `${ADMIN_COOKIE}=true; max-age=${60*60*24}; path=/;`;
+                enableAdminMode();
+            } else {
+                alert("ACCESS DENIED");
+            }
+        });
+        
+        // ===== PUBLIC FEATURES =====
+        function initPublicFeatures() {
+            // Visitor counter
+            let visitors = localStorage.getItem('visitors') || 0;
+            visitors++;
+            localStorage.setItem('visitors', visitors);
+            document.getElementById('visitors').textContent = visitors;
+            
+            // Threat counter
+            setInterval(() => {
+                document.getElementById('threats').textContent = 
+                    Math.floor(Math.random() * 15);
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
