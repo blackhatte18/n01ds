@@ -3,34 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NO1DS - Hacker Terminal</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>⚡ ADMIN CYBER TERMINAL ⚡</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>NO1DS</h1>
-            <p class="subtitle">"In a world of locked doors, the hacker holds the master key."</p>
-            <p class="access">> Access Granted</p>
-            <img src="https://hitwebcounter.com/counter/counter.php?page=1234567&style=0006&nbdigits=5&type=page&initCount=0" alt="visitor counter" class="counter">
-        </header>
+    <div class="matrix-bg"></div>
+    <audio id="hacker-sound" loop>
+        <source src="sounds/hacker.mp3" type="audio/mpeg">
+    </audio>
+    <button id="sound-toggle">🔊</button>
+    
+    <!-- Admin Login (Hidden by default) -->
+    <div id="admin-login">
+        <div class="login-box">
+            <h3>ADMIN ACCESS</h3>
+            <input type="password" id="admin-password" placeholder="Enter master key">
+            <button id="login-btn">>_ AUTHENTICATE</button>
+        </div>
+    </div>
 
-        <section class="chat-section">
-            <h2>Anonymous Hacker Chat</h2>
-            <iframe src="https://tlk.io/no1dschat" frameborder="0" class="chat-frame"></iframe>
-            <p class="note">Chat anonymously. Respect others. Stay sharp.</p>
-        </section>
-
-        <section class="news-section">
-            <h2>Latest Hacker News</h2>
-            <ul id="news-list">
-                <!-- Latest news will auto-load here -->
-            </ul>
-        </section>
-
-        <footer>
-            <p>Contact: admin@no1ds.com</p>
-        </footer>
+    <div class="terminal">
+        <div class="terminal-header">
+            <span class="red-btn"></span>
+            <span class="yellow-btn"></span>
+            <span class="green-btn"></span>
+            <span class="title">root@cyber-terminal:~</span>
+        </div>
+        
+        <div class="terminal-body">
+            <!-- System Boot -->
+            <div id="boot-sequence">
+                <p>> Booting system...</p>
+                <p>> Checking admin privileges...</p>
+                <p id="admin-status">> Guest mode activated</p>
+            </div>
+            
+            <!-- Main Dashboard -->
+            <div class="dashboard-grid">
+                <!-- Public Widgets -->
+                <div class="widget">
+                    <h3>💻 PUBLIC CHAT</h3>
+                    <iframe src="https://tlk.io/cyber-public" class="chat-iframe"></iframe>
+                </div>
+                
+                <!-- Admin-Only Widgets (Hidden by default) -->
+                <div class="widget admin-only" style="display:none;">
+                    <h3>🔐 ADMIN CHAT</h3>
+                    <iframe src="https://tlk.io/cyber-admin-secret" class="chat-iframe"></iframe>
+                    <p>> Password: <span class="glow">${generateRandomPassword()}</span></p>
+                </div>
+                
+                <div class="widget admin-only" style="display:none;">
+                    <h3>🚨 TARGET SCANNER</h3>
+                    <div class="admin-tool">
+                        <input type="text" id="target-ip" placeholder="Enter IP">
+                        <button id="scan-btn">>_ SCAN</button>
+                        <div id="scan-results"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Other widgets... -->
+        </div>
     </div>
 
     <script src="script.js"></script>
