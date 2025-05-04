@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ CYBER OVERLORD ⚡</title>
+    <title>⚡ DARK MATRIX HACKER TOOLS ⚡</title>
     <style>
         /* === MATRIX TERMINAL THEME === */
         :root {
             --matrix-green: #0f0;
             --dark-matter: #000;
-            --terminal-bg: rgba(0, 20, 0, 0.2);
+            --terminal-bg: rgba(0, 15, 0, 0.2);
             --admin-red: #f00;
         }
         
@@ -47,7 +47,7 @@
             border: 1px solid var(--matrix-green);
             border-radius: 5px;
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 20px auto;
             box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
             overflow: hidden;
         }
@@ -79,36 +79,58 @@
             overflow-y: auto;
         }
         
-        /* === WIDGET STYLES === */
+        /* === TOOL STYLES === */
         .widget {
             background: rgba(0, 30, 0, 0.3);
             border: 1px dashed var(--matrix-green);
             border-radius: 5px;
             padding: 15px;
             margin-bottom: 20px;
-            position: relative;
         }
         
-        .widget::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: var(--matrix-green);
-            animation: scanline 3s linear infinite;
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
         }
         
-        @keyframes scanline {
-            0% { top: 0; }
-            100% { top: 100%; }
+        .tool-card {
+            background: rgba(0, 20, 0, 0.5);
+            border: 1px solid var(--matrix-green);
+            border-radius: 5px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
-        /* === ADMIN TOOLS === */
+        .tool-card:hover {
+            background: rgba(0, 255, 0, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+        
+        .tool-card h4 {
+            margin-top: 0;
+            color: var(--matrix-green);
+            border-bottom: 1px solid var(--matrix-green);
+            padding-bottom: 5px;
+        }
+        
+        #output-content {
+            background: #000;
+            border: 1px solid var(--matrix-green);
+            padding: 15px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        /* === ADMIN STYLES === */
         .admin-tool {
-            display: none;
             border-color: var(--admin-red) !important;
+            display: none;
         }
         
         .admin-tool h3 {
@@ -119,31 +141,12 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: rgba(255,0,0,0.2);
+            background: rgba(255, 0, 0, 0.2);
             border: 1px solid var(--admin-red);
             color: var(--admin-red);
             padding: 8px 15px;
             cursor: pointer;
             z-index: 100;
-            font-weight: bold;
-        }
-        
-        /* === ANIMATIONS === */
-        .typing {
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 2px solid var(--matrix-green);
-            animation: typing 3s steps(40), blink-caret 0.75s step-end infinite;
-        }
-        
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-        
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--matrix-green); }
         }
         
         /* === RESPONSIVE === */
@@ -152,15 +155,15 @@
                 margin: 10px;
                 width: calc(100% - 20px);
             }
+            
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="matrix-bg"></div>
-    <audio id="hacker-sound" loop>
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-hacker-typing-540.mp3" type="audio/mpeg">
-    </audio>
-    <button id="sound-toggle">🔊</button>
     <button id="admin-activator">⚡ ADMIN MODE</button>
 
     <div class="terminal">
@@ -168,284 +171,123 @@
             <div class="terminal-btn" style="background:#ff5f56;"></div>
             <div class="terminal-btn" style="background:#ffbd2e;"></div>
             <div class="terminal-btn" style="background:#27c93f;"></div>
-            <div class="terminal-title">root@cyber-overlord:~</div>
+            <div class="terminal-title">root@dark-matrix-tools:~</div>
         </div>
         
         <div class="terminal-body">
-            <!-- System Boot -->
-            <div id="boot-sequence">
-                <p class="typing">> Booting CYBER OVERLORD v5.0...</p>
-                <p class="typing" style="animation-delay:1s">> Loading neural network [OK]</p>
-                <p class="typing" style="animation-delay:2s">> Activating quantum encryption [OK]</p>
-                <p class="typing" style="animation-delay:3s">> Welcome to <span style="text-shadow:0 0 10px var(--matrix-green)">DARK MODE</span></p>
-            </div>
-            
-            <!-- Public Widgets -->
+            <!-- Public Tools -->
             <div class="widget">
-                <h3>💻 PUBLIC CHAT</h3>
-                <iframe src="https://tlk.io/cyber-overlord" style="width:100%;height:300px;border:1px solid var(--matrix-green);"></iframe>
-                <p>> Your ID: <span id="anon-username">Anonymous_</span></p>
-            </div>
-            
-            <div class="widget">
-                <h3>📡 LIVE STATS</h3>
-                <p>> Visitors: <span id="visitors">0</span></p>
-                <p>> Threats: <span id="threats">0</span></p>
-                <p>> Uptime: <span id="uptime">00:00:00</span></p>
-            </div>
-            
-            <div class="widget">
-                <h3>🌐 ATTACK MAP</h3>
-                <div id="attack-map" style="height:200px;background:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 400%22><path fill=%22%23003300%22 d=%22M... [world map] ...%22/></svg>') center/contain no-repeat;position:relative;">
-                    <div class="attack-marker" style="top:30%;left:25%;"></div>
-                    <div class="attack-marker" style="top:45%;left:50%;"></div>
-                    <div class="attack-marker" style="top:60%;left:75%;"></div>
+                <h3>🌐 PUBLIC TOOLS</h3>
+                <div class="tool-grid">
+                    <div class="tool-card" data-tool="ip">
+                        <h4>IP Lookup</h4>
+                        <p>Get geolocation data for any IP</p>
+                    </div>
+                    <div class="tool-card" data-tool="whois">
+                        <h4>WHOIS Lookup</h4>
+                        <p>Domain registration information</p>
+                    </div>
+                    <div class="tool-card" data-tool="headers">
+                        <h4>HTTP Headers</h4>
+                        <p>Analyze website headers</p>
+                    </div>
+                    <div class="tool-card" data-tool="dns">
+                        <h4>DNS Lookup</h4>
+                        <p>Check DNS records</p>
+                    </div>
                 </div>
-                <p>> <span id="attack-count">3</span> active cyber attacks</p>
-            </div>
-            
-            <div class="widget">
-                <h3>📰 HACKER NEWS</h3>
-                <ul id="news-feed">
-                    <li>> Loading latest threats...</li>
-                </ul>
             </div>
             
             <!-- Admin Tools (Hidden) -->
             <div class="widget admin-tool">
-                <h3>🚨 ADMIN CONTROL PANEL</h3>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:15px;">
-                    <button class="admin-btn" data-cmd="scan">🔍 PORT SCANNER</button>
-                    <button class="admin-btn" data-cmd="ddos">💣 DDoS SIMULATOR</button>
-                    <button class="admin-btn" data-cmd="crack">🔑 PASSWORD CRACKER</button>
-                    <button class="admin-btn" data-cmd="spoof">👤 IDENTITY SPOOFER</button>
+                <h3>🔐 ADMIN TOOLS</h3>
+                <div class="tool-grid">
+                    <div class="tool-card" data-tool="portscan">
+                        <h4>Port Scanner</h4>
+                        <p>Scan open ports (your domains only)</p>
+                    </div>
+                    <div class="tool-card" data-tool="ping">
+                        <h4>Network Ping</h4>
+                        <p>Check server response times</p>
+                    </div>
+                    <div class="tool-card" data-tool="traceroute">
+                        <h4>Traceroute</h4>
+                        <p>Trace network path</p>
+                    </div>
+                    <div class="tool-card" data-tool="subdomains">
+                        <h4>Subdomain Finder</h4>
+                        <p>Discover subdomains</p>
+                    </div>
                 </div>
-                <div id="admin-output" style="margin-top:15px;background:#000;padding:10px;border:1px solid var(--admin-red);min-height:100px;"></div>
             </div>
             
-            <div class="widget admin-tool">
-                <h3>💻 ADMIN CHAT</h3>
-                <iframe src="https://tlk.io/cyber-overlord-admin" style="width:100%;height:300px;border:1px solid var(--admin-red);"></iframe>
-                <p>> Session Key: <span id="session-key">[REDACTED]</span></p>
-            </div>
-            
-            <div class="widget admin-tool">
-                <h3>🛡️ TARGET INTERCEPT</h3>
-                <input type="text" id="target-input" placeholder="Enter IP/Domain" style="background:#000;color:#0f0;border:1px solid var(--admin-red);padding:8px;width:70%;">
-                <button id="execute-btn" style="background:var(--admin-red);color:#000;border:none;padding:8px 15px;">EXECUTE</button>
-                <div id="intercept-results" style="margin-top:10px;font-family:monospace;white-space:pre;background:#000;padding:10px;border:1px solid var(--admin-red);"></div>
+            <!-- Tool Output -->
+            <div class="widget">
+                <h3>⚡ OUTPUT</h3>
+                <pre id="output-content">Select a tool to begin...</pre>
             </div>
         </div>
     </div>
 
     <script>
-        // ===== CONFIG =====
-        const ADMIN_PASSWORD = "weloveourmumanddad"; // CHANGE THIS!
-        const ANON_NAMES = ["Phantom", "ZeroCool", "Neo", "Cryptic", "Virus"];
-        const ANON_TAGS = ["_", "x", "0x", "["];
-        
-        // ===== CORE SYSTEM =====
-        document.addEventListener('DOMContentLoaded', function() {
-            // Sound control
-            const audio = document.getElementById('hacker-sound');
-            audio.volume = 0.3;
-            document.getElementById('sound-toggle').addEventListener('click', function() {
-                audio.muted = !audio.muted;
-                this.textContent = audio.muted ? '🔇' : '🔊';
-            });
-            
-            // Initialize public features
-            initPublicFeatures();
-            
-            // Admin activation
-            document.getElementById('admin-activator').addEventListener('click', function() {
-                const password = prompt("ENTER MASTER KEY:");
-                if (password === ADMIN_PASSWORD) {
-                    activateAdminMode();
-                } else {
-                    alert("⛔ ACCESS DENIED");
-                }
-            });
-            
-            // Hide typing animations after they complete
-            setTimeout(() => {
-                document.querySelectorAll('.typing').forEach(el => {
-                    el.style.borderRight = 'none';
-                });
-            }, 4000);
-        });
-        
-        // ===== PUBLIC FEATURES =====
-        function initPublicFeatures() {
-            // Anonymous username
-            document.getElementById('anon-username').textContent = 
-                ANON_NAMES[Math.floor(Math.random() * ANON_NAMES.length)] + 
-                ANON_TAGS[Math.floor(Math.random() * ANON_TAGS.length)] + 
-                Math.floor(Math.random() * 999);
-            
-            // Visitor counter
-            let visitors = localStorage.getItem('visitors') || 0;
-            visitors++;
-            localStorage.setItem('visitors', visitors);
-            document.getElementById('visitors').textContent = visitors;
-            
-            // Threat counter
-            setInterval(() => {
-                document.getElementById('threats').textContent = Math.floor(Math.random() * 15);
-            }, 3000);
-            
-            // Uptime counter
-            const startTime = Date.now();
-            setInterval(() => {
-                const seconds = Math.floor((Date.now() - startTime) / 1000);
-                const hrs = Math.floor(seconds / 3600);
-                const mins = Math.floor((seconds % 3600) / 60);
-                const secs = seconds % 60;
-                document.getElementById('uptime').textContent = 
-                    `${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
-            }, 1000);
-            
-            // Attack map animation
-            setInterval(() => {
-                document.getElementById('attack-count').textContent = 
-                    3 + Math.floor(Math.random() * 5);
-                document.querySelectorAll('.attack-marker').forEach(marker => {
-                    marker.style.left = `${Math.random() * 70 + 15}%`;
-                    marker.style.top = `${Math.random() * 70 + 15}%`;
-                });
-            }, 5000);
-            
-            // News feed
-            const newsItems = [
-                "New zero-day in Apache Log4j (CVE-2024-1234)",
-                "Lazarus Group targets crypto exchanges",
-                "FBI shuts down darknet marketplace",
-                "Critical RCE in Cisco IOS XE",
-                "Ransomware attacks up 300% in Q2"
-            ];
-            document.getElementById('news-feed').innerHTML = 
-                newsItems.map(item => `<li>> ${item}</li>`).join('');
-            
-            // Simulate live news updates
-            setInterval(() => {
-                if (Math.random() > 0.7) {
-                    const newItem = document.createElement('li');
-                    newItem.textContent = `> LIVE: ${newsItems[Math.floor(Math.random() * newsItems.length)]}`;
-                    document.getElementById('news-feed').prepend(newItem);
-                    if (document.getElementById('news-feed').children.length > 5) {
-                        document.getElementById('news-feed').removeChild(document.getElementById('news-feed').lastChild);
-                    }
-                }
-            }, 15000);
-        }
-        
-        // ===== ADMIN FEATURES =====
-        function activateAdminMode() {
-            // Show admin tools
-            document.querySelectorAll('.admin-tool').forEach(el => {
-                el.style.display = 'block';
-            });
-            
-            // Generate session key
-            document.getElementById('session-key').textContent = 
-                Math.random().toString(36).slice(2, 10).toUpperCase() + "-" + 
-                Math.random().toString(36).slice(2, 6).toUpperCase();
-            
-            // Style activator button
-            const activator = document.getElementById('admin-activator');
-            activator.textContent = "⚡ ADMIN ACTIVE";
-            activator.style.background = "rgba(255,0,0,0.5)";
-            activator.style.color = "#fff";
-            
-            // Setup admin commands
-            document.querySelectorAll('.admin-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    executeAdminCommand(this.dataset.cmd);
-                });
-            });
-            
-            // Target interceptor
-            document.getElementById('execute-btn').addEventListener('click', function() {
-                const target = document.getElementById('target-input').value;
-                if (target) {
-                    interceptTarget(target);
-                }
-            });
-        }
-        
-        function executeAdminCommand(cmd) {
-            const output = document.getElementById('admin-output');
-            output.innerHTML = `> Executing ${cmd.toUpperCase()} sequence...<br>`;
-            
-            switch(cmd) {
-                case 'scan':
-                    simulatePortScan(output);
-                    break;
-                case 'ddos':
-                    simulateDDoSAttack(output);
-                    break;
-                case 'crack':
-                    simulatePasswordCrack(output);
-                    break;
-                case 'spoof':
-                    simulateIdentitySpoof(output);
-                    break;
-            }
-        }
-        
-        function simulatePortScan(output) {
-            const ports = [
-                {port: 22, service: "SSH", status: "OPEN"},
-                {port: 80, service: "HTTP", status: "OPEN"},
-                {port: 443, service: "HTTPS", status: "FILTERED"},
-                {port: 3389, service: "RDP", status: "CLOSED"}
-            ];
-            
-            output.innerHTML += "> Scanning ports...<br>";
-            
-            ports.forEach((p, i) => {
-                setTimeout(() => {
-                    output.innerHTML += `> ${p.port}/tcp ${p.service.padEnd(10)} ${p.status}<br>`;
-                    output.scrollTop = output.scrollHeight;
+        // ===== REAL HACKING TOOLS =====
+        const API_ENDPOINTS = {
+            ip: 'https://api.ipgeolocation.io/ipgeo',
+            whois: 'https://www.whoisxmlapi.com/whoisserver/WhoisService',
+            headers: 'https://api.hackertarget.com/httpheaders',
+            dns: 'https://api.hackertarget.com/dnslookup',
+            portscan: 'https://api.hackertarget.com/nmap',
+            ping: 'https://api.hackertarget.com/nping',
+            traceroute: 'https://api.hackertarget.com/mtr',
+            subdomains: 'https://api.hackertarget.com/hostsearch'
+        };
+
+        // Tool execution
+        document.querySelectorAll('.tool-card').forEach(card => {
+            card.addEventListener('click', async function() {
+                const tool = this.dataset.tool;
+                const output = document.getElementById('output-content');
+                output.textContent = `[${new Date().toLocaleTimeString()}] Running ${tool}...\n`;
+                
+                try {
+                    let url;
+                    const target = prompt(`Enter target for ${tool}:`, tool === 'ip' ? '8.8.8.8' : 'example.com');
                     
-                    if (i === ports.length - 1) {
-                        output.innerHTML += "> Scan complete. Vulnerabilities detected!<br>";
+                    if (!target) return;
+                    
+                    switch(tool) {
+                        case 'ip':
+                            url = `${API_ENDPOINTS.ip}?apiKey=YOUR_API_KEY&ip=${target}`;
+                            break;
+                        case 'whois':
+                            url = `${API_ENDPOINTS.whois}?domainName=${target}&outputFormat=JSON`;
+                            break;
+                        default:
+                            url = `${API_ENDPOINTS[tool]}/?q=${target}`;
                     }
-                }, 800 * (i + 1));
+                    
+                    const response = await fetch(url);
+                    const data = await response.text();
+                    output.textContent += `Results for ${target}:\n\n${data}`;
+                } catch (e) {
+                    output.textContent += `Error: ${e.message}\n\nNote: Some tools require API keys`;
+                }
             });
-        }
-        
-        function simulateDDoSAttack(output) {
-            const steps = [
-                "> Initializing botnet...",
-                "> Bypassing firewall...",
-                "> Amplifying attack (500k req/sec)...",
-                "> TARGET OFFLINE!",
-                "> Covering tracks..."
-            ];
-            
-            steps.forEach((step, i) => {
-                setTimeout(() => {
-                    output.innerHTML += `${step}<br>`;
-                    output.scrollTop = output.scrollHeight;
-                }, 1000 * (i + 1));
-            });
-        }
-        
-        function interceptTarget(target) {
-            const results = document.getElementById('intercept-results');
-            results.textContent = `> Targeting ${target}...\n`;
-            
-            setTimeout(() => {
-                results.textContent += `> Spoofing MAC: ${Array(6).fill().map(() => Math.floor(Math.random()*256).toString(16).padStart(2,'0')).join(':')}\n`;
-                setTimeout(() => {
-                    results.textContent += `> ARP poisoning successful\n> MITM attack in progress...\n`;
-                    setTimeout(() => {
-                        results.textContent += `> Captured credentials:\n> admin:${Math.random().toString(36).slice(2)}\n> root:${Math.random().toString(36).slice(2)}\n`;
-                    }, 1500);
-                }, 1200);
-            }, 1000);
-        }
+        });
+
+        // ===== ADMIN SYSTEM =====
+        document.getElementById('admin-activator').addEventListener('click', function() {
+            const password = prompt("Enter admin password:");
+            if (password === "ilovemymumanddad") { // Change this!
+                document.querySelectorAll('.admin-tool').forEach(el => {
+                    el.style.display = 'block';
+                });
+                this.textContent = "ADMIN ACTIVE";
+                this.style.background = "rgba(255,0,0,0.5)";
+            } else {
+                alert("ACCESS DENIED");
+            }
+        });
     </script>
 </body>
 </html>
