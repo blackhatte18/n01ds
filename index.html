@@ -12,6 +12,7 @@
             --terminal-bg: rgba(0, 15, 0, 0.2);
             --admin-red: #f00;
             --crypto-gold: #FFD700;
+            --image-border: #0f0;
         }
         
         body {
@@ -35,6 +36,18 @@
             background-size: 40px 40px;
             z-index: -2;
             animation: matrix 100s linear infinite;
+        }
+        
+        /* Falling code rain effect */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+            pointer-events: none;
         }
         
         @keyframes matrix {
@@ -97,7 +110,7 @@
             max-width: 1200px;
             margin: 20px auto;
             box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
-            display: none; /* Hidden until login */
+            display: none;
         }
         
         .terminal-header {
@@ -188,10 +201,63 @@
             margin: 10px 0;
             color: var(--matrix-green);
         }
+        
+        /* Image upload */
+        .image-upload {
+            border: 2px dashed var(--image-border);
+            padding: 15px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .uploaded-image {
+            max-width: 100%;
+            max-height: 200px;
+            border: 1px solid var(--matrix-green);
+            margin-top: 10px;
+            display: none;
+        }
+        
+        /* Admin chat login */
+        .admin-chat-login {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid var(--admin-red);
+        }
+        
+        .admin-chat-login input {
+            width: calc(100% - 20px);
+            padding: 5px;
+            margin: 5px 0;
+            background: #000;
+            color: var(--matrix-green);
+            border: 1px solid var(--admin-red);
+        }
+        
+        .admin-chat-login button {
+            width: 100%;
+            padding: 5px;
+            background: var(--admin-red);
+            color: #000;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        pre {
+            background: #000;
+            padding: 10px;
+            border: 1px solid var(--matrix-green);
+            overflow-x: auto;
+            max-height: 300px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
     <div class="matrix-bg"></div>
+    <canvas id="matrix-rain" class="matrix-rain"></canvas>
     
     <!-- Login Screen -->
     <div id="login-screen">
@@ -203,7 +269,7 @@
         </div>
     </div>
 
-    <!-- Main Terminal (Hidden until login) -->
+    <!-- Main Terminal -->
     <div class="terminal">
         <div class="terminal-header">
             <div class="terminal-btn" style="background:#ff5f56;"></div>
@@ -220,12 +286,25 @@
                     <iframe src="https://tlk.io/cyber-overlord-public" style="width:100%;height:300px;border:1px solid var(--matrix-green);"></iframe>
                 </div>
                 <p>> Your ID: <span id="anon-username">Anonymous_</span></p>
+                
+                <!-- Image Upload -->
+                <div class="image-upload">
+                    <h4>🖼️ UPLOAD IMAGE</h4>
+                    <input type="file" id="image-uploader" accept="image/*">
+                    <img id="uploaded-image" class="uploaded-image" alt="Uploaded preview">
+                </div>
             </div>
             
-            <!-- Admin Chat (Hidden) -->
+            <!-- Admin Chat -->
             <div class="widget admin-tool">
                 <h3>🔐 ADMIN CHAT</h3>
-                <div class="chat-container">
+                <div class="admin-chat-login" id="admin-chat-login">
+                    <p>ADMIN ACCESS REQUIRED</p>
+                    <input type="password" id="admin-chat-password" placeholder="Admin Password">
+                    <button id="admin-chat-btn">UNLOCK CHAT</button>
+                    <p id="admin-chat-status"></p>
+                </div>
+                <div class="chat-container" id="admin-chat-container" style="display:none;">
                     <iframe src="https://tlk.io/cyber-overlord-admin" style="width:100%;height:300px;border:1px solid var(--admin-red);"></iframe>
                 </div>
             </div>
@@ -253,53 +332,105 @@
                 <div id="visitor-stats" style="margin-top: 10px; font-size: 12px;"></div>
             </div>
             
-            <!-- Real Tools -->
+            <!-- Network Tools -->
             <div class="widget">
                 <h3>🛠️ NETWORK TOOLS</h3>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px;">
                     <button onclick="runRealTool('ip')">IP Lookup</button>
                     <button onclick="runRealTool('whois')">WHOIS</button>
                     <button onclick="runRealTool('headers')">HTTP Headers</button>
+                    <button onclick="runRealTool('ping')">Ping Test</button>
+                    <button onclick="runRealTool('dns')">DNS Lookup</button>
                 </div>
-                <pre id="tool-output" style="background:#000;padding:10px;margin-top:10px;"></pre>
+                <pre id="tool-output">Select a tool to begin</pre>
             </div>
         </div>
     </div>
 
     <script>
-        // ===== REAL ADMIN SYSTEM =====
-        const ADMIN_PASSWORD = "psalm91"; // Change this!
-        const API_KEYS = {
-            ipgeo: "230fe244c4f04bd8a17a36c0e7ebac85", // From ipgeolocation.io
-            whois: "at_zatRGB7yO5ZIkEVVunyhNRgEX1uku"          // From whoisxmlapi.com
+        // ===== MATRIX RAIN ANIMATION =====
+        const canvas = document.getElementById('matrix-rain');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        
+        const alphabet = katakana + latin + nums;
+        
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        
+        const rainDrops = [];
+        
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+        
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0f0';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
         };
         
-        // Login Functionality
+        setInterval(draw, 30);
+        
+        // ===== AUTHENTICATION SYSTEM =====
+        const ADMIN_PASSWORD = "ilovemymumanddad"; // Change this!
+        const CHAT_ADMIN_PASSWORD = "psalm91"; // Change this!
+        
         document.getElementById('login-btn').addEventListener('click', function() {
             const password = document.getElementById('login-password').value;
             const statusEl = document.getElementById('login-status');
             
             if (password === ADMIN_PASSWORD) {
-                // Successful login
                 localStorage.setItem('adminAuthed', 'true');
                 document.getElementById('login-screen').style.display = 'none';
                 document.querySelector('.terminal').style.display = 'block';
                 initializeTerminal();
-                incrementVisitorCounter(); // Count this as a visit
+                incrementVisitorCounter();
             } else {
                 statusEl.textContent = "⛔ ACCESS DENIED";
                 setTimeout(() => { statusEl.textContent = ""; }, 2000);
             }
         });
         
-        // Check for existing session
+        document.getElementById('admin-chat-btn').addEventListener('click', function() {
+            const password = document.getElementById('admin-chat-password').value;
+            const statusEl = document.getElementById('admin-chat-status');
+            
+            if (password === CHAT_ADMIN_PASSWORD) {
+                localStorage.setItem('chatAuthed', 'true');
+                document.getElementById('admin-chat-login').style.display = 'none';
+                document.getElementById('admin-chat-container').style.display = 'block';
+                statusEl.textContent = "";
+            } else {
+                statusEl.textContent = "⛔ INVALID PASSWORD";
+                setTimeout(() => { statusEl.textContent = ""; }, 2000);
+            }
+        });
+        
         if (localStorage.getItem('adminAuthed') === 'true') {
             document.getElementById('login-screen').style.display = 'none';
             document.querySelector('.terminal').style.display = 'block';
             initializeTerminal();
-            incrementVisitorCounter(); // Count this as a visit
+            incrementVisitorCounter();
         } else {
-            // Count initial page load for visitors who aren't logged in
             incrementVisitorCounter();
         }
         
@@ -323,44 +454,41 @@
                             ${change24h >= 0 ? '↑' : '↓'} ${Math.abs(change24h).toFixed(2)}% (24h)
                         </span>
                     `;
-                } else {
-                    priceElement.textContent = 'Data unavailable';
                 }
             } catch (error) {
                 priceElement.textContent = 'API Error';
-                console.error('Bitcoin price fetch error:', error);
             }
         }
         
+        // ===== IMAGE UPLOAD =====
+        document.getElementById('image-uploader').addEventListener('change', function(e) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = document.getElementById('uploaded-image');
+                img.src = event.target.result;
+                img.style.display = 'block';
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        });
+        
         // ===== VISITOR COUNTER =====
         function incrementVisitorCounter() {
-            // Get current count from localStorage or initialize
             let count = localStorage.getItem('visitorCount') || 0;
             count = parseInt(count) + 1;
             localStorage.setItem('visitorCount', count);
-            
-            // Update display
             document.getElementById('visitor-counter').textContent = count;
             
-            // Get and store visit timestamp
             const now = new Date();
-            const visitTime = now.toLocaleString();
-            
             let visits = JSON.parse(localStorage.getItem('visitHistory') || '[]');
             visits.push({
-                timestamp: visitTime,
+                timestamp: now.toLocaleString(),
                 userAgent: navigator.userAgent,
                 screenRes: `${window.screen.width}x${window.screen.height}`
             });
             
-            // Keep only last 10 visits
-            if (visits.length > 10) {
-                visits = visits.slice(-10);
-            }
-            
+            if (visits.length > 10) visits = visits.slice(-10);
             localStorage.setItem('visitHistory', JSON.stringify(visits));
             
-            // Display some stats if admin
             if (localStorage.getItem('adminAuthed') === 'true') {
                 displayVisitorStats(visits);
             }
@@ -382,7 +510,7 @@
             statsElement.innerHTML = statsHTML;
         }
         
-        // ===== REAL TOOLS =====
+        // ===== NETWORK TOOLS =====
         async function runRealTool(tool) {
             const output = document.getElementById('tool-output');
             output.textContent = `Running ${tool}...`;
@@ -393,23 +521,41 @@
                 switch(tool) {
                     case 'ip':
                         target = prompt("Enter IP:", "8.8.8.8");
-                        url = `https://api.ipgeolocation.io/ipgeo?apiKey=${API_KEYS.ipgeo}&ip=${target}`;
+                        if (!target) return;
+                        url = `https://ipapi.co/${target}/json/`;
                         break;
+                        
                     case 'whois':
                         target = prompt("Enter Domain:", "example.com");
-                        url = `https://www.whoisxmlapi.com/whoisserver/WhoisService?domainName=${target}&apiKey=${API_KEYS.whois}&outputFormat=JSON`;
+                        if (!target) return;
+                        url = `https://whois.freeaiapi.xyz/?name=${target}`;
                         break;
+                        
                     case 'headers':
                         target = prompt("Enter URL:", "example.com");
+                        if (!target) return;
+                        if (!target.startsWith('http')) target = 'https://' + target;
                         url = `https://api.hackertarget.com/httpheaders/?q=${target}`;
+                        break;
+                        
+                    case 'ping':
+                        target = prompt("Enter Host:", "google.com");
+                        if (!target) return;
+                        url = `https://api.hackertarget.com/nping/?q=${target}`;
+                        break;
+                        
+                    case 'dns':
+                        target = prompt("Enter Domain:", "example.com");
+                        if (!target) return;
+                        url = `https://api.hackertarget.com/dnslookup/?q=${target}`;
                         break;
                 }
                 
                 const response = await fetch(url);
                 const data = await response.text();
-                output.textContent = data;
+                output.textContent = data || "No data returned from API";
             } catch (e) {
-                output.textContent = `Error: ${e.message}\n\nNote: API keys required for full functionality`;
+                output.textContent = `Error: ${e.message}\n\nNote: Some tools may have usage limits`;
             }
         }
         
@@ -430,12 +576,15 @@
                 });
             }
             
-            // Initialize Bitcoin price (default to USD)
-            fetchBitcoinPrice();
+            // Check chat auth
+            if (localStorage.getItem('chatAuthed') === 'true') {
+                document.getElementById('admin-chat-login').style.display = 'none';
+                document.getElementById('admin-chat-container').style.display = 'block';
+            }
             
-            // Initialize visitor counter
-            const count = localStorage.getItem('visitorCount') || 0;
-            document.getElementById('visitor-counter').textContent = count;
+            // Initialize components
+            fetchBitcoinPrice();
+            document.getElementById('visitor-counter').textContent = localStorage.getItem('visitorCount') || 0;
         }
     </script>
 </body>
