@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ CYBER NEXUS ⚡</title>
+    <title>⚡ CYBER OVERLORD ⚡</title>
     <style>
         /* === MATRIX TERMINAL THEME === */
         :root {
             --matrix-green: #0f0;
             --dark-matter: #000;
-            --terminal-bg: rgba(0, 15, 0, 0.2);
+            --terminal-bg: rgba(0, 20, 0, 0.2);
+            --admin-red: #f00;
         }
         
         body {
@@ -19,7 +20,6 @@
             margin: 0;
             padding: 20px;
             overflow-x: hidden;
-            line-height: 1.5;
         }
         
         .matrix-bg {
@@ -41,13 +41,14 @@
             100% { background-position: 100% 100%; }
         }
         
+        /* === TERMINAL STYLES === */
         .terminal {
             background: var(--terminal-bg);
             border: 1px solid var(--matrix-green);
             border-radius: 5px;
             max-width: 1200px;
-            margin: 20px auto;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            margin: 0 auto;
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
             overflow: hidden;
         }
         
@@ -104,60 +105,45 @@
             100% { top: 100%; }
         }
         
-        /* === ADMIN SPECIFIC === */
-        .admin-widget {
-            border-color: #f00 !important;
-            display: none; /* Hidden by default */
+        /* === ADMIN TOOLS === */
+        .admin-tool {
+            display: none;
+            border-color: var(--admin-red) !important;
         }
         
-        .admin-widget h3 {
-            color: #f00 !important;
+        .admin-tool h3 {
+            color: var(--admin-red) !important;
         }
         
-        #admin-login {
+        #admin-activator {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        
-        #admin-login h2 {
-            color: #f00;
-            text-shadow: 0 0 10px #f00;
-            margin-bottom: 20px;
-        }
-        
-        #admin-key {
-            background: #000;
-            color: #0f0;
-            border: 1px solid #f00;
-            padding: 10px;
-            width: 300px;
-            font-family: 'Courier New', monospace;
-        }
-        
-        #admin-login-btn {
-            background: #f00;
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            margin-top: 15px;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255,0,0,0.2);
+            border: 1px solid var(--admin-red);
+            color: var(--admin-red);
+            padding: 8px 15px;
             cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
         }
         
-        /* === CHAT STYLES === */
-        .chat-container {
-            height: 350px;
-            border: 1px solid var(--matrix-green);
+        /* === ANIMATIONS === */
+        .typing {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid var(--matrix-green);
+            animation: typing 3s steps(40), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--matrix-green); }
         }
         
         /* === RESPONSIVE === */
@@ -165,10 +151,6 @@
             .terminal {
                 margin: 10px;
                 width: calc(100% - 20px);
-            }
-            
-            .chat-container {
-                height: 300px;
             }
         }
     </style>
@@ -178,66 +160,91 @@
     <audio id="hacker-sound" loop>
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-hacker-typing-540.mp3" type="audio/mpeg">
     </audio>
-    <button id="sound-toggle" style="position:fixed;bottom:20px;right:20px;background:#111;border:1px solid #0f0;color:#0f0;padding:8px;border-radius:3px;">🔊</button>
-    
-    <!-- Admin Login -->
-    <div id="admin-login">
-        <h2>⚡ ADMIN ACCESS REQUIRED ⚡</h2>
-        <input type="password" id="admin-key" placeholder="Enter master key">
-        <button id="admin-login-btn">AUTHENTICATE</button>
-    </div>
+    <button id="sound-toggle">🔊</button>
+    <button id="admin-activator">⚡ ADMIN MODE</button>
 
     <div class="terminal">
         <div class="terminal-header">
             <div class="terminal-btn" style="background:#ff5f56;"></div>
             <div class="terminal-btn" style="background:#ffbd2e;"></div>
             <div class="terminal-btn" style="background:#27c93f;"></div>
-            <div class="terminal-title">root@cyber-nexus:~</div>
+            <div class="terminal-title">root@cyber-overlord:~</div>
         </div>
         
         <div class="terminal-body">
+            <!-- System Boot -->
+            <div id="boot-sequence">
+                <p class="typing">> Booting CYBER OVERLORD v5.0...</p>
+                <p class="typing" style="animation-delay:1s">> Loading neural network [OK]</p>
+                <p class="typing" style="animation-delay:2s">> Activating quantum encryption [OK]</p>
+                <p class="typing" style="animation-delay:3s">> Welcome to <span style="text-shadow:0 0 10px var(--matrix-green)">DARK MODE</span></p>
+            </div>
+            
             <!-- Public Widgets -->
             <div class="widget">
-                <h3>🌐 PUBLIC CHAT</h3>
-                <div class="chat-container">
-                    <iframe src="https://tlk.io/cyber-nexus-public" style="width:100%;height:100%;border:none;"></iframe>
-                </div>
+                <h3>💻 PUBLIC CHAT</h3>
+                <iframe src="https://tlk.io/cyber-overlord" style="width:100%;height:300px;border:1px solid var(--matrix-green);"></iframe>
+                <p>> Your ID: <span id="anon-username">Anonymous_</span></p>
             </div>
             
             <div class="widget">
                 <h3>📡 LIVE STATS</h3>
-                <div>
-                    <p>> Visitors: <span id="visitors">0</span></p>
-                    <p>> Threats: <span id="threats">0</span></p>
-                </div>
+                <p>> Visitors: <span id="visitors">0</span></p>
+                <p>> Threats: <span id="threats">0</span></p>
+                <p>> Uptime: <span id="uptime">00:00:00</span></p>
             </div>
             
-            <!-- Admin-Only Widgets -->
-            <div class="widget admin-widget">
-                <h3>🚨 ADMIN CHANNEL</h3>
-                <div class="chat-container">
-                    <iframe src="https://tlk.io/cyber-nexus-admin" style="width:100%;height:100%;border:none;"></iframe>
+            <div class="widget">
+                <h3>🌐 ATTACK MAP</h3>
+                <div id="attack-map" style="height:200px;background:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 400%22><path fill=%22%23003300%22 d=%22M... [world map] ...%22/></svg>') center/contain no-repeat;position:relative;">
+                    <div class="attack-marker" style="top:30%;left:25%;"></div>
+                    <div class="attack-marker" style="top:45%;left:50%;"></div>
+                    <div class="attack-marker" style="top:60%;left:75%;"></div>
                 </div>
-                <p>> Access key: <span id="admin-pass">[HIDDEN]</span></p>
+                <p>> <span id="attack-count">3</span> active cyber attacks</p>
             </div>
             
-            <div class="widget admin-widget">
-                <h3>💣 TARGET SCANNER</h3>
-                <div>
-                    <input type="text" id="target-ip" placeholder="Enter IP" style="background:#000;color:#0f0;border:1px solid #f00;padding:8px;width:200px;">
-                    <button id="scan-btn" style="background:#f00;color:#000;border:none;padding:8px 15px;margin-left:10px;">SCAN</button>
-                    <div id="scan-results" style="margin-top:10px;"></div>
+            <div class="widget">
+                <h3>📰 HACKER NEWS</h3>
+                <ul id="news-feed">
+                    <li>> Loading latest threats...</li>
+                </ul>
+            </div>
+            
+            <!-- Admin Tools (Hidden) -->
+            <div class="widget admin-tool">
+                <h3>🚨 ADMIN CONTROL PANEL</h3>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:15px;">
+                    <button class="admin-btn" data-cmd="scan">🔍 PORT SCANNER</button>
+                    <button class="admin-btn" data-cmd="ddos">💣 DDoS SIMULATOR</button>
+                    <button class="admin-btn" data-cmd="crack">🔑 PASSWORD CRACKER</button>
+                    <button class="admin-btn" data-cmd="spoof">👤 IDENTITY SPOOFER</button>
                 </div>
+                <div id="admin-output" style="margin-top:15px;background:#000;padding:10px;border:1px solid var(--admin-red);min-height:100px;"></div>
+            </div>
+            
+            <div class="widget admin-tool">
+                <h3>💻 ADMIN CHAT</h3>
+                <iframe src="https://tlk.io/cyber-overlord-admin" style="width:100%;height:300px;border:1px solid var(--admin-red);"></iframe>
+                <p>> Session Key: <span id="session-key">[REDACTED]</span></p>
+            </div>
+            
+            <div class="widget admin-tool">
+                <h3>🛡️ TARGET INTERCEPT</h3>
+                <input type="text" id="target-input" placeholder="Enter IP/Domain" style="background:#000;color:#0f0;border:1px solid var(--admin-red);padding:8px;width:70%;">
+                <button id="execute-btn" style="background:var(--admin-red);color:#000;border:none;padding:8px 15px;">EXECUTE</button>
+                <div id="intercept-results" style="margin-top:10px;font-family:monospace;white-space:pre;background:#000;padding:10px;border:1px solid var(--admin-red);"></div>
             </div>
         </div>
     </div>
 
     <script>
         // ===== CONFIG =====
-        const ADMIN_KEY = "n01dswasneverhere"; // CHANGE THIS!
-        const ADMIN_COOKIE = "cyber_auth";
+        const ADMIN_PASSWORD = "weloveourmumanddad"; // CHANGE THIS!
+        const ANON_NAMES = ["Phantom", "ZeroCool", "Neo", "Cryptic", "Virus"];
+        const ANON_TAGS = ["_", "x", "0x", "["];
         
-        // ===== SYSTEM INIT =====
+        // ===== CORE SYSTEM =====
         document.addEventListener('DOMContentLoaded', function() {
             // Sound control
             const audio = document.getElementById('hacker-sound');
@@ -247,70 +254,35 @@
                 this.textContent = audio.muted ? '🔇' : '🔊';
             });
             
-            // Check for existing admin auth
-            if (checkAdminAuth()) {
-                enableAdminMode();
-            } else {
-                document.getElementById('admin-login').style.display = 'flex';
-            }
-            
-            // Set up public features
+            // Initialize public features
             initPublicFeatures();
-        });
-        
-        // ===== ADMIN FUNCTIONS =====
-        function checkAdminAuth() {
-            const cookies = document.cookie.split('; ');
-            const authCookie = cookies.find(row => row.startsWith(ADMIN_COOKIE));
-            return authCookie && authCookie.split('=')[1] === "true";
-        }
-        
-        function enableAdminMode() {
-            document.getElementById('admin-login').style.display = 'none';
-            document.querySelectorAll('.admin-widget').forEach(el => {
-                el.style.display = 'block';
-            });
             
-            // Generate dynamic admin password
-            document.getElementById('admin-pass').textContent = generateAdminPass();
-            
-            // Set up admin tools
-            document.getElementById('scan-btn').addEventListener('click', function() {
-                const ip = document.getElementById('target-ip').value;
-                if (ip) {
-                    const results = document.getElementById('scan-results');
-                    results.innerHTML = `
-                        <p>> Scanning ${ip}...</p>
-                        <p>> Port 22: SSH (Open)</p>
-                        <p>> Port 80: HTTP (Apache 2.4.41)</p>
-                        <p>> Vulnerabilities found!</p>
-                    `;
+            // Admin activation
+            document.getElementById('admin-activator').addEventListener('click', function() {
+                const password = prompt("ENTER MASTER KEY:");
+                if (password === ADMIN_PASSWORD) {
+                    activateAdminMode();
+                } else {
+                    alert("⛔ ACCESS DENIED");
                 }
             });
-        }
-        
-        function generateAdminPass() {
-            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-            let pass = "";
-            for (let i = 0; i < 12; i++) {
-                pass += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return pass;
-        }
-        
-        // Admin login
-        document.getElementById('admin-login-btn').addEventListener('click', function() {
-            const key = document.getElementById('admin-key').value;
-            if (key === ADMIN_KEY) {
-                document.cookie = `${ADMIN_COOKIE}=true; max-age=${60*60*24}; path=/;`;
-                enableAdminMode();
-            } else {
-                alert("ACCESS DENIED");
-            }
+            
+            // Hide typing animations after they complete
+            setTimeout(() => {
+                document.querySelectorAll('.typing').forEach(el => {
+                    el.style.borderRight = 'none';
+                });
+            }, 4000);
         });
         
         // ===== PUBLIC FEATURES =====
         function initPublicFeatures() {
+            // Anonymous username
+            document.getElementById('anon-username').textContent = 
+                ANON_NAMES[Math.floor(Math.random() * ANON_NAMES.length)] + 
+                ANON_TAGS[Math.floor(Math.random() * ANON_TAGS.length)] + 
+                Math.floor(Math.random() * 999);
+            
             // Visitor counter
             let visitors = localStorage.getItem('visitors') || 0;
             visitors++;
@@ -319,9 +291,160 @@
             
             // Threat counter
             setInterval(() => {
-                document.getElementById('threats').textContent = 
-                    Math.floor(Math.random() * 15);
+                document.getElementById('threats').textContent = Math.floor(Math.random() * 15);
             }, 3000);
+            
+            // Uptime counter
+            const startTime = Date.now();
+            setInterval(() => {
+                const seconds = Math.floor((Date.now() - startTime) / 1000);
+                const hrs = Math.floor(seconds / 3600);
+                const mins = Math.floor((seconds % 3600) / 60);
+                const secs = seconds % 60;
+                document.getElementById('uptime').textContent = 
+                    `${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            }, 1000);
+            
+            // Attack map animation
+            setInterval(() => {
+                document.getElementById('attack-count').textContent = 
+                    3 + Math.floor(Math.random() * 5);
+                document.querySelectorAll('.attack-marker').forEach(marker => {
+                    marker.style.left = `${Math.random() * 70 + 15}%`;
+                    marker.style.top = `${Math.random() * 70 + 15}%`;
+                });
+            }, 5000);
+            
+            // News feed
+            const newsItems = [
+                "New zero-day in Apache Log4j (CVE-2024-1234)",
+                "Lazarus Group targets crypto exchanges",
+                "FBI shuts down darknet marketplace",
+                "Critical RCE in Cisco IOS XE",
+                "Ransomware attacks up 300% in Q2"
+            ];
+            document.getElementById('news-feed').innerHTML = 
+                newsItems.map(item => `<li>> ${item}</li>`).join('');
+            
+            // Simulate live news updates
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    const newItem = document.createElement('li');
+                    newItem.textContent = `> LIVE: ${newsItems[Math.floor(Math.random() * newsItems.length)]}`;
+                    document.getElementById('news-feed').prepend(newItem);
+                    if (document.getElementById('news-feed').children.length > 5) {
+                        document.getElementById('news-feed').removeChild(document.getElementById('news-feed').lastChild);
+                    }
+                }
+            }, 15000);
+        }
+        
+        // ===== ADMIN FEATURES =====
+        function activateAdminMode() {
+            // Show admin tools
+            document.querySelectorAll('.admin-tool').forEach(el => {
+                el.style.display = 'block';
+            });
+            
+            // Generate session key
+            document.getElementById('session-key').textContent = 
+                Math.random().toString(36).slice(2, 10).toUpperCase() + "-" + 
+                Math.random().toString(36).slice(2, 6).toUpperCase();
+            
+            // Style activator button
+            const activator = document.getElementById('admin-activator');
+            activator.textContent = "⚡ ADMIN ACTIVE";
+            activator.style.background = "rgba(255,0,0,0.5)";
+            activator.style.color = "#fff";
+            
+            // Setup admin commands
+            document.querySelectorAll('.admin-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    executeAdminCommand(this.dataset.cmd);
+                });
+            });
+            
+            // Target interceptor
+            document.getElementById('execute-btn').addEventListener('click', function() {
+                const target = document.getElementById('target-input').value;
+                if (target) {
+                    interceptTarget(target);
+                }
+            });
+        }
+        
+        function executeAdminCommand(cmd) {
+            const output = document.getElementById('admin-output');
+            output.innerHTML = `> Executing ${cmd.toUpperCase()} sequence...<br>`;
+            
+            switch(cmd) {
+                case 'scan':
+                    simulatePortScan(output);
+                    break;
+                case 'ddos':
+                    simulateDDoSAttack(output);
+                    break;
+                case 'crack':
+                    simulatePasswordCrack(output);
+                    break;
+                case 'spoof':
+                    simulateIdentitySpoof(output);
+                    break;
+            }
+        }
+        
+        function simulatePortScan(output) {
+            const ports = [
+                {port: 22, service: "SSH", status: "OPEN"},
+                {port: 80, service: "HTTP", status: "OPEN"},
+                {port: 443, service: "HTTPS", status: "FILTERED"},
+                {port: 3389, service: "RDP", status: "CLOSED"}
+            ];
+            
+            output.innerHTML += "> Scanning ports...<br>";
+            
+            ports.forEach((p, i) => {
+                setTimeout(() => {
+                    output.innerHTML += `> ${p.port}/tcp ${p.service.padEnd(10)} ${p.status}<br>`;
+                    output.scrollTop = output.scrollHeight;
+                    
+                    if (i === ports.length - 1) {
+                        output.innerHTML += "> Scan complete. Vulnerabilities detected!<br>";
+                    }
+                }, 800 * (i + 1));
+            });
+        }
+        
+        function simulateDDoSAttack(output) {
+            const steps = [
+                "> Initializing botnet...",
+                "> Bypassing firewall...",
+                "> Amplifying attack (500k req/sec)...",
+                "> TARGET OFFLINE!",
+                "> Covering tracks..."
+            ];
+            
+            steps.forEach((step, i) => {
+                setTimeout(() => {
+                    output.innerHTML += `${step}<br>`;
+                    output.scrollTop = output.scrollHeight;
+                }, 1000 * (i + 1));
+            });
+        }
+        
+        function interceptTarget(target) {
+            const results = document.getElementById('intercept-results');
+            results.textContent = `> Targeting ${target}...\n`;
+            
+            setTimeout(() => {
+                results.textContent += `> Spoofing MAC: ${Array(6).fill().map(() => Math.floor(Math.random()*256).toString(16).padStart(2,'0')).join(':')}\n`;
+                setTimeout(() => {
+                    results.textContent += `> ARP poisoning successful\n> MITM attack in progress...\n`;
+                    setTimeout(() => {
+                        results.textContent += `> Captured credentials:\n> admin:${Math.random().toString(36).slice(2)}\n> root:${Math.random().toString(36).slice(2)}\n`;
+                    }, 1500);
+                }, 1200);
+            }, 1000);
         }
     </script>
 </body>
