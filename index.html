@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ N01DS ⚡</title>
+    <title>⚡ CYBER OVERLORD ⚡</title>
     <style>
         /* === MATRIX TERMINAL THEME === */
         :root {
@@ -11,7 +11,6 @@
             --matrix-bg: #000;
             --terminal-bg: rgba(0, 20, 0, 0.2);
             --admin-red: #f00;
-            --bitcoin-orange: #f7931a;
         }
         
         body {
@@ -158,13 +157,6 @@
             margin-top: 10px;
         }
         
-        /* === BITCOIN TRACKER === */
-        .bitcoin-price {
-            color: var(--bitcoin-orange);
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-        
         /* === ADMIN TOOLS === */
         .admin-tool {
             border-color: var(--admin-red) !important;
@@ -224,7 +216,7 @@
             <div class="widget">
                 <h3>💻 PUBLIC CHAT</h3>
                 <div class="chat-container">
-                    <iframe src="https://tlk.io/n01ds-public" style="width:100%;height:100%;border:none;"></iframe>
+                    <iframe src="https://tlk.io/cyber-overlord-public" style="width:100%;height:100%;border:none;"></iframe>
                 </div>
                 <p>> Your ID: <span id="anon-username">Anonymous_</span></p>
             </div>
@@ -240,21 +232,9 @@
             
             <!-- Stats Dashboard -->
             <div class="widget">
-                <h3>📡 LIVE STATS</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
-                    <div>
-                        <p>> Visitors:</p>
-                        <p id="visitor-count">0</p>
-                    </div>
-                    <div>
-                        <p>> Threats:</p>
-                        <p id="threat-count">0</p>
-                    </div>
-                    <div>
-                        <p>> Bitcoin:</p>
-                        <p class="bitcoin-price" id="bitcoin-price">$--,--</p>
-                    </div>
-                </div>
+                <h3>📡 SYSTEM STATS</h3>
+                <p>> Visitors: <span id="visitor-count">0</span></p>
+                <p>> Threats: <span id="threat-count">0</span></p>
                 <p>> Uptime: <span id="uptime">00:00:00</span></p>
             </div>
             
@@ -264,7 +244,6 @@
                 <div style="display:flex;gap:10px;margin-bottom:10px;">
                     <button onclick="runTool('ip')" style="background:#000;color:#0f0;border:1px solid #0f0;padding:5px 10px;">IP Lookup</button>
                     <button onclick="runTool('whois')" style="background:#000;color:#0f0;border:1px solid #0f0;padding:5px 10px;">WHOIS</button>
-                    <button onclick="runTool('bitcoin')" style="background:#000;color:var(--bitcoin-orange);border:1px solid var(--bitcoin-orange);padding:5px 10px;">BTC Price</button>
                 </div>
                 <pre id="tool-output" style="background:#000;padding:10px;border:1px solid #0f0;min-height:100px;">> Select a tool...</pre>
             </div>
@@ -273,11 +252,10 @@
 
     <script>
         // ===== CONFIG =====
-        const ADMIN_PASSWORD = "psalm91"; // CHANGE THIS!
+        const ADMIN_PASSWORD = "1"; // CHANGE THIS!
         const API_KEYS = {
-            ipgeo: "230fe244c4f04bd8a17a36c0e7ebac85", // From ipgeolocation.io
-            whois: "at_zatRGB7yO5ZIkEVVunyhNRgEX1uku",         // From whoisxmlapi.com
-            coingecko: "CG-NVLhzXvDHxb4ZWCku4sLXHn5"  // From coingecko.com (optional)
+            ipgeo: "YOUR_IPGEOLOCATION_KEY", // From ipgeolocation.io
+            whois: "YOUR_WHOIS_KEY"          // From whoisxmlapi.com
         };
         
         // ===== SYSTEM INIT =====
@@ -354,27 +332,6 @@
                 document.getElementById('threat-count').textContent = 
                     Math.floor(Math.random() * 15);
             }, 3000);
-            
-            // Bitcoin price tracker
-            updateBitcoinPrice();
-            setInterval(updateBitcoinPrice, 300000); // Update every 5 minutes
-        }
-        
-        // ===== BITCOIN TRACKER =====
-        async function updateBitcoinPrice() {
-            try {
-                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-                const data = await response.json();
-                const price = data.bitcoin.usd.toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD'
-                });
-                document.getElementById('bitcoin-price').textContent = price;
-            } catch (e) {
-                // Fallback if API fails
-                document.getElementById('bitcoin-price').textContent = "$68,420.69";
-                console.error("Bitcoin API error:", e);
-            }
         }
         
         // ===== REAL TOOLS =====
@@ -383,30 +340,24 @@
             output.textContent = `> Running ${tool}...`;
             
             try {
-                let url, target, data;
+                let url, target;
                 
                 switch(tool) {
                     case 'ip':
                         target = prompt("Enter IP:", "8.8.8.8");
                         url = `https://api.ipgeolocation.io/ipgeo?apiKey=${API_KEYS.ipgeo}&ip=${target}`;
-                        data = await (await fetch(url)).text();
                         break;
-                        
                     case 'whois':
                         target = prompt("Enter Domain:", "example.com");
                         url = `https://www.whoisxmlapi.com/whoisserver/WhoisService?domainName=${target}&apiKey=${API_KEYS.whois}&outputFormat=JSON`;
-                        data = await (await fetch(url)).text();
-                        break;
-                        
-                    case 'bitcoin':
-                        await updateBitcoinPrice();
-                        data = `> Bitcoin price updated\n> Current: ${document.getElementById('bitcoin-price').textContent}`;
                         break;
                 }
                 
-                output.textContent = `> Results for ${target || 'Bitcoin'}:\n\n${data}`;
+                const response = await fetch(url);
+                const data = await response.text();
+                output.textContent = `> Results for ${target}:\n\n${data}`;
             } catch (e) {
-                output.textContent = `> Error: ${e.message}\n> Note: API keys required for full functionality`;
+                output.textContent = `> Error: ${e.message}\n> Note: API keys required for real usage`;
             }
         }
     </script>
