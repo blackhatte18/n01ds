@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ CYBER OVERLORD ⚡</title>
+    <title>⚡ N01DS CLAN ⚡</title>
     <style>
         /* === MATRIX TERMINAL THEME === */
         :root {
@@ -24,6 +24,7 @@
             overflow-x: hidden;
         }
         
+        /* Matrix background + falling code rain */
         .matrix-bg {
             position: fixed;
             top: 0;
@@ -38,7 +39,6 @@
             animation: matrix 100s linear infinite;
         }
         
-        /* Falling code rain effect */
         .matrix-rain {
             position: fixed;
             top: 0;
@@ -177,6 +177,33 @@
             background: #0a0;
         }
         
+        /* Admin Chat Login */
+        .admin-chat-login {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid var(--admin-red);
+        }
+        
+        .admin-chat-login input {
+            width: calc(100% - 20px);
+            padding: 5px;
+            margin: 5px 0;
+            background: #000;
+            color: var(--matrix-green);
+            border: 1px solid var(--admin-red);
+        }
+        
+        .admin-chat-login button {
+            width: 100%;
+            padding: 5px;
+            background: var(--admin-red);
+            color: #000;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
         /* Crypto specific styles */
         .crypto-widget {
             border-color: var(--crypto-gold);
@@ -218,33 +245,6 @@
             display: none;
         }
         
-        /* Admin chat login */
-        .admin-chat-login {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid var(--admin-red);
-        }
-        
-        .admin-chat-login input {
-            width: calc(100% - 20px);
-            padding: 5px;
-            margin: 5px 0;
-            background: #000;
-            color: var(--matrix-green);
-            border: 1px solid var(--admin-red);
-        }
-        
-        .admin-chat-login button {
-            width: 100%;
-            padding: 5px;
-            background: var(--admin-red);
-            color: #000;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
         pre {
             background: #000;
             padding: 10px;
@@ -275,19 +275,18 @@
             <div class="terminal-btn" style="background:#ff5f56;"></div>
             <div class="terminal-btn" style="background:#ffbd2e;"></div>
             <div class="terminal-btn" style="background:#27c93f;"></div>
-            <div class="terminal-title">root@cyber-overlord:~</div>
+            <div class="terminal-title">root@n01ds-overlords:~</div>
         </div>
         
         <div class="terminal-body">
-            <!-- Public Chat -->
+            <!-- Public Chat + Image Upload -->
             <div class="widget">
                 <h3>💻 PUBLIC CHAT</h3>
                 <div class="chat-container">
-                    <iframe src="https://tlk.io/cyber-overlord-public" style="width:100%;height:300px;border:1px solid var(--matrix-green);"></iframe>
+                    <iframe src="https://tlk.io/n01ds-overlord-public" style="width:100%;height:300px;border:1px solid var(--matrix-green);"></iframe>
                 </div>
                 <p>> Your ID: <span id="anon-username">Anonymous_</span></p>
                 
-                <!-- Image Upload -->
                 <div class="image-upload">
                     <h4>🖼️ UPLOAD IMAGE</h4>
                     <input type="file" id="image-uploader" accept="image/*">
@@ -300,7 +299,7 @@
                 <h3>🔐 ADMIN CHAT</h3>
                 <div class="admin-chat-login" id="admin-chat-login">
                     <p>ADMIN ACCESS REQUIRED</p>
-                    <input type="password" id="admin-chat-password" placeholder="Admin Password">
+                    <input type="password" id="admin-chat-password" placeholder="Admin Chat Password">
                     <button id="admin-chat-btn">UNLOCK CHAT</button>
                     <p id="admin-chat-status"></p>
                 </div>
@@ -348,6 +347,17 @@
     </div>
 
     <script>
+        // ===== CONFIGURATION =====
+        const PASSWORDS = {
+            main: "psalm91",         // Main system password
+            chat: "n01dwereneverhere"       // Admin chat password
+        };
+        
+        const API_KEYS = {
+            ipgeo: "230fe244c4f04bd8a17a36c0e7ebac85",  // Your IPGeolocation key
+            whois: "at_zatRGB7yO5ZIkEVVunyhNRgEX1uku"   // Your WhoisXMLAPI key
+        };
+
         // ===== MATRIX RAIN ANIMATION =====
         const canvas = document.getElementById('matrix-rain');
         const ctx = canvas.getContext('2d');
@@ -389,32 +399,30 @@
         };
         
         setInterval(draw, 30);
-        
-        // ===== AUTHENTICATION SYSTEM =====
-        const ADMIN_PASSWORD = "ilovemymumanddad"; // Change this!
-        const CHAT_ADMIN_PASSWORD = "psalm91"; // Change this!
-        
-        document.getElementById('login-btn').addEventListener('click', function() {
+
+        // ===== AUTHENTICATION =====
+        document.getElementById('login-btn').addEventListener('click', () => {
             const password = document.getElementById('login-password').value;
             const statusEl = document.getElementById('login-status');
             
-            if (password === ADMIN_PASSWORD) {
+            if (password === PASSWORDS.main) {
                 localStorage.setItem('adminAuthed', 'true');
                 document.getElementById('login-screen').style.display = 'none';
                 document.querySelector('.terminal').style.display = 'block';
                 initializeTerminal();
                 incrementVisitorCounter();
+                statusEl.textContent = "";
             } else {
                 statusEl.textContent = "⛔ ACCESS DENIED";
                 setTimeout(() => { statusEl.textContent = ""; }, 2000);
             }
         });
         
-        document.getElementById('admin-chat-btn').addEventListener('click', function() {
+        document.getElementById('admin-chat-btn').addEventListener('click', () => {
             const password = document.getElementById('admin-chat-password').value;
             const statusEl = document.getElementById('admin-chat-status');
             
-            if (password === CHAT_ADMIN_PASSWORD) {
+            if (password === PASSWORDS.chat) {
                 localStorage.setItem('chatAuthed', 'true');
                 document.getElementById('admin-chat-login').style.display = 'none';
                 document.getElementById('admin-chat-container').style.display = 'block';
@@ -424,16 +432,7 @@
                 setTimeout(() => { statusEl.textContent = ""; }, 2000);
             }
         });
-        
-        if (localStorage.getItem('adminAuthed') === 'true') {
-            document.getElementById('login-screen').style.display = 'none';
-            document.querySelector('.terminal').style.display = 'block';
-            initializeTerminal();
-            incrementVisitorCounter();
-        } else {
-            incrementVisitorCounter();
-        }
-        
+
         // ===== BITCOIN PRICE TRACKER =====
         async function fetchBitcoinPrice(currency = 'USD') {
             const priceElement = document.getElementById('btc-price');
@@ -459,18 +458,18 @@
                 priceElement.textContent = 'API Error';
             }
         }
-        
+
         // ===== IMAGE UPLOAD =====
-        document.getElementById('image-uploader').addEventListener('change', function(e) {
+        document.getElementById('image-uploader').addEventListener('change', (e) => {
             const reader = new FileReader();
             reader.onload = function(event) {
                 const img = document.getElementById('uploaded-image');
                 img.src = event.target.result;
                 img.style.display = 'block';
-            }
+            };
             reader.readAsDataURL(e.target.files[0]);
         });
-        
+
         // ===== VISITOR COUNTER =====
         function incrementVisitorCounter() {
             let count = localStorage.getItem('visitorCount') || 0;
@@ -509,7 +508,7 @@
             
             statsElement.innerHTML = statsHTML;
         }
-        
+
         // ===== NETWORK TOOLS =====
         async function runRealTool(tool) {
             const output = document.getElementById('tool-output');
@@ -522,13 +521,13 @@
                     case 'ip':
                         target = prompt("Enter IP:", "8.8.8.8");
                         if (!target) return;
-                        url = `https://ipapi.co/${target}/json/`;
+                        url = `https://api.ipgeolocation.io/ipgeo?apiKey=${API_KEYS.ipgeo}&ip=${target}`;
                         break;
                         
                     case 'whois':
                         target = prompt("Enter Domain:", "example.com");
                         if (!target) return;
-                        url = `https://whois.freeaiapi.xyz/?name=${target}`;
+                        url = `https://www.whoisxmlapi.com/whoisserver/WhoisService?domainName=${target}&apiKey=${API_KEYS.whois}&outputFormat=JSON`;
                         break;
                         
                     case 'headers':
@@ -555,10 +554,10 @@
                 const data = await response.text();
                 output.textContent = data || "No data returned from API";
             } catch (e) {
-                output.textContent = `Error: ${e.message}\n\nNote: Some tools may have usage limits`;
+                output.textContent = `Error: ${e.message}\n\nNote: API keys required for full functionality`;
             }
         }
-        
+
         // ===== TERMINAL INIT =====
         function initializeTerminal() {
             // Set random username
@@ -586,6 +585,14 @@
             fetchBitcoinPrice();
             document.getElementById('visitor-counter').textContent = localStorage.getItem('visitorCount') || 0;
         }
+
+        // Check for existing session on load
+        if (localStorage.getItem('adminAuthed') === 'true') {
+            document.getElementById('login-screen').style.display = 'none';
+            document.querySelector('.terminal').style.display = 'block';
+            initializeTerminal();
+        }
+        incrementVisitorCounter();
     </script>
 </body>
 </html>
