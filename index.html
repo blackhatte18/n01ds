@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ CYBER OVERLORD ⚡</title>
+    <title>⚡ N01DS ⚡</title>
     <style>
         /* === MATRIX TERMINAL THEME === */
         :root {
-            --matrix-green: #0f0;
-            --dark-matter: #000;
-            --terminal-bg: rgba(0, 15, 0, 0.2);
+            --hacker-green: #0f0;
+            --matrix-bg: #000;
+            --terminal-bg: rgba(0, 20, 0, 0.2);
             --admin-red: #f00;
+            --bitcoin-orange: #f7931a;
         }
         
         body {
-            background: var(--dark-matter);
-            color: var(--matrix-green);
+            background: var(--matrix-bg);
+            color: var(--hacker-green);
             font-family: 'Courier New', monospace;
             margin: 0;
             padding: 0;
@@ -32,7 +33,7 @@
                 linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
-            z-index: -2;
+            z-index: -1;
             animation: matrix 100s linear infinite;
         }
         
@@ -41,32 +42,98 @@
             100% { background-position: 100% 100%; }
         }
         
-        /* === LOGIN SCREEN === */
+        /* === TERMINAL STYLES === */
+        .terminal {
+            background: var(--terminal-bg);
+            border: 1px solid var(--hacker-green);
+            border-radius: 5px;
+            max-width: 1200px;
+            margin: 20px auto;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            overflow: hidden;
+            display: none; /* Hidden until login */
+        }
+        
+        .terminal-header {
+            background: #111;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--hacker-green);
+        }
+        
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .terminal-title {
+            margin-left: 15px;
+            text-shadow: 0 0 5px var(--hacker-green);
+            letter-spacing: 1px;
+        }
+        
+        .terminal-body {
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        /* === WIDGET STYLES === */
+        .widget {
+            background: rgba(0, 30, 0, 0.3);
+            border: 1px dashed var(--hacker-green);
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .widget::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--hacker-green);
+            animation: scanline 3s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        
+        /* === ADMIN LOGIN PAGE === */
         #login-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            flex-direction: column;
         }
         
         .login-box {
-            background: var(--dark-matter);
-            border: 1px solid var(--matrix-green);
+            background: #000;
+            border: 1px solid var(--hacker-green);
             padding: 30px;
             width: 300px;
-            box-shadow: 0 0 20px var(--matrix-green);
+            text-align: center;
+            box-shadow: 0 0 20px var(--hacker-green);
         }
         
         .login-box h2 {
-            text-align: center;
             margin-top: 0;
-            text-shadow: 0 0 5px var(--matrix-green);
+            text-shadow: 0 0 10px var(--hacker-green);
         }
         
         .login-box input {
@@ -74,44 +141,72 @@
             padding: 10px;
             margin: 10px 0;
             background: #000;
-            color: var(--matrix-green);
-            border: 1px solid var(--matrix-green);
+            color: var(--hacker-green);
+            border: 1px solid var(--hacker-green);
+            font-family: 'Courier New', monospace;
         }
         
         .login-box button {
             width: 100%;
             padding: 10px;
-            background: var(--matrix-green);
+            background: var(--hacker-green);
             color: #000;
             border: none;
+            font-family: 'Courier New', monospace;
             font-weight: bold;
             cursor: pointer;
+            margin-top: 10px;
         }
         
-        /* === TERMINAL STYLES === */
-        .terminal {
-            background: var(--terminal-bg);
-            border: 1px solid var(--matrix-green);
-            border-radius: 5px;
-            max-width: 1200px;
-            margin: 20px auto;
-            box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
-            display: none; /* Hidden until login */
+        /* === BITCOIN TRACKER === */
+        .bitcoin-price {
+            color: var(--bitcoin-orange);
+            font-weight: bold;
+            font-size: 1.2em;
         }
         
-        /* ... (previous widget styles remain the same) ... */
+        /* === ADMIN TOOLS === */
+        .admin-tool {
+            border-color: var(--admin-red) !important;
+        }
+        
+        .admin-tool h3 {
+            color: var(--admin-red) !important;
+        }
+        
+        /* === CHAT STYLES === */
+        .chat-container {
+            height: 300px;
+            border: 1px solid var(--hacker-green);
+        }
+        
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .terminal {
+                margin: 10px;
+                width: calc(100% - 20px);
+            }
+            
+            .login-box {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="matrix-bg"></div>
+    <audio id="hacker-sound" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-hacker-typing-540.mp3" type="audio/mpeg">
+    </audio>
     
-    <!-- Login Screen -->
+    <!-- Login Screen (Always visible first) -->
     <div id="login-screen">
         <div class="login-box">
             <h2>CYBER OVERLORD</h2>
-            <input type="password" id="login-password" placeholder="Enter Access Key">
+            <p>> Secure access required</p>
+            <input type="password" id="login-password" placeholder="Enter access key">
             <button id="login-btn">AUTHENTICATE</button>
-            <p id="login-status" style="text-align:center;margin-bottom:0;"></p>
+            <p id="login-status"></p>
         </div>
     </div>
 
@@ -129,98 +224,107 @@
             <div class="widget">
                 <h3>💻 PUBLIC CHAT</h3>
                 <div class="chat-container">
-                    <iframe src="https://tlk.io/cyber-overlord-public" style="width:100%;height:300px;border:1px solid var(--matrix-green);"></iframe>
+                    <iframe src="https://tlk.io/n01ds-public" style="width:100%;height:100%;border:none;"></iframe>
                 </div>
                 <p>> Your ID: <span id="anon-username">Anonymous_</span></p>
             </div>
             
             <!-- Admin Chat (Hidden) -->
-            <div class="widget admin-tool">
+            <div class="widget admin-tool" style="display:none;">
                 <h3>🔐 ADMIN CHAT</h3>
                 <div class="chat-container">
-                    <iframe src="https://tlk.io/cyber-overlord-admin" style="width:100%;height:300px;border:1px solid var(--admin-red);"></iframe>
+                    <iframe src="https://tlk.io/cyber-overlord-admin" style="width:100%;height:100%;border:1px solid var(--admin-red);"></iframe>
                 </div>
+                <p>> Session Key: <span id="session-key">[HIDDEN]</span></p>
             </div>
             
-            <!-- Real Tools -->
+            <!-- Stats Dashboard -->
+            <div class="widget">
+                <h3>📡 LIVE STATS</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                    <div>
+                        <p>> Visitors:</p>
+                        <p id="visitor-count">0</p>
+                    </div>
+                    <div>
+                        <p>> Threats:</p>
+                        <p id="threat-count">0</p>
+                    </div>
+                    <div>
+                        <p>> Bitcoin:</p>
+                        <p class="bitcoin-price" id="bitcoin-price">$--,--</p>
+                    </div>
+                </div>
+                <p>> Uptime: <span id="uptime">00:00:00</span></p>
+            </div>
+            
+            <!-- Network Tools -->
             <div class="widget">
                 <h3>🛠️ NETWORK TOOLS</h3>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px;">
-                    <button onclick="runRealTool('ip')">IP Lookup</button>
-                    <button onclick="runRealTool('whois')">WHOIS</button>
-                    <button onclick="runRealTool('headers')">HTTP Headers</button>
+                <div style="display:flex;gap:10px;margin-bottom:10px;">
+                    <button onclick="runTool('ip')" style="background:#000;color:#0f0;border:1px solid #0f0;padding:5px 10px;">IP Lookup</button>
+                    <button onclick="runTool('whois')" style="background:#000;color:#0f0;border:1px solid #0f0;padding:5px 10px;">WHOIS</button>
+                    <button onclick="runTool('bitcoin')" style="background:#000;color:var(--bitcoin-orange);border:1px solid var(--bitcoin-orange);padding:5px 10px;">BTC Price</button>
                 </div>
-                <pre id="tool-output" style="background:#000;padding:10px;margin-top:10px;"></pre>
+                <pre id="tool-output" style="background:#000;padding:10px;border:1px solid #0f0;min-height:100px;">> Select a tool...</pre>
             </div>
         </div>
     </div>
 
     <script>
-        // ===== REAL ADMIN SYSTEM =====
-        const ADMIN_PASSWORD = "psalm23"; // Change this!
+        // ===== CONFIG =====
+        const ADMIN_PASSWORD = "psalm91"; // CHANGE THIS!
         const API_KEYS = {
             ipgeo: "230fe244c4f04bd8a17a36c0e7ebac85", // From ipgeolocation.io
-            whois: "at_zatRGB7yO5ZIkEVVunyhNRgEX1uku"          // From whoisxmlapi.com
+            whois: "at_zatRGB7yO5ZIkEVVunyhNRgEX1uku",         // From whoisxmlapi.com
+            coingecko: "CG-NVLhzXvDHxb4ZWCku4sLXHn5"  // From coingecko.com (optional)
         };
         
-        // Login Functionality
-        document.getElementById('login-btn').addEventListener('click', function() {
-            const password = document.getElementById('login-password').value;
-            const statusEl = document.getElementById('login-status');
+        // ===== SYSTEM INIT =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sound control
+            const audio = document.getElementById('hacker-sound');
+            audio.volume = 0.3;
             
-            if (password === ADMIN_PASSWORD) {
-                // Successful login
-                localStorage.setItem('adminAuthed', 'true');
-                document.getElementById('login-screen').style.display = 'none';
-                document.querySelector('.terminal').style.display = 'block';
-                initializeTerminal();
-            } else {
-                statusEl.textContent = "⛔ ACCESS DENIED";
-                setTimeout(() => { statusEl.textContent = ""; }, 2000);
+            // Check for existing session
+            if (localStorage.getItem('adminAuthed') === 'true') {
+                authenticateUser();
             }
+            
+            // Login button
+            document.getElementById('login-btn').addEventListener('click', function() {
+                const password = document.getElementById('login-password').value;
+                if (password === ADMIN_PASSWORD) {
+                    localStorage.setItem('adminAuthed', 'true');
+                    authenticateUser();
+                } else {
+                    document.getElementById('login-status').textContent = "⛔ ACCESS DENIED";
+                    setTimeout(() => {
+                        document.getElementById('login-status').textContent = "";
+                    }, 2000);
+                }
+            });
         });
         
-        // Check for existing session
-        if (localStorage.getItem('adminAuthed') === 'true') {
+        function authenticateUser() {
+            // Hide login, show terminal
             document.getElementById('login-screen').style.display = 'none';
             document.querySelector('.terminal').style.display = 'block';
-            initializeTerminal();
-        }
-        
-        // ===== REAL TOOLS =====
-        async function runRealTool(tool) {
-            const output = document.getElementById('tool-output');
-            output.textContent = `Running ${tool}...`;
             
-            try {
-                let url, target;
-                
-                switch(tool) {
-                    case 'ip':
-                        target = prompt("Enter IP:", "8.8.8.8");
-                        url = `https://api.ipgeolocation.io/ipgeo?apiKey=${API_KEYS.ipgeo}&ip=${target}`;
-                        break;
-                    case 'whois':
-                        target = prompt("Enter Domain:", "example.com");
-                        url = `https://www.whoisxmlapi.com/whoisserver/WhoisService?domainName=${target}&apiKey=${API_KEYS.whois}&outputFormat=JSON`;
-                        break;
-                    case 'headers':
-                        target = prompt("Enter URL:", "example.com");
-                        url = `https://api.hackertarget.com/httpheaders/?q=${target}`;
-                        break;
-                }
-                
-                const response = await fetch(url);
-                const data = await response.text();
-                output.textContent = data;
-            } catch (e) {
-                output.textContent = `Error: ${e.message}\n\nNote: API keys required for full functionality`;
+            // Initialize features
+            initPublicFeatures();
+            
+            // Show admin tools if authenticated
+            if (localStorage.getItem('adminAuthed') === 'true') {
+                document.querySelector('.admin-tool').style.display = 'block';
+                document.getElementById('session-key').textContent = 
+                    Math.random().toString(36).slice(2, 10).toUpperCase();
             }
         }
         
-        // ===== TERMINAL INIT =====
-        function initializeTerminal() {
-            // Set random username
+        // ===== PUBLIC FEATURES =====
+        function initPublicFeatures() {
+            // Random username
             const names = ["Phantom", "ZeroCool", "Neo", "Cryptic"];
             const tags = ["_", "x", "0x", "["];
             document.getElementById('anon-username').textContent = 
@@ -228,14 +332,82 @@
                 tags[Math.floor(Math.random() * tags.length)] + 
                 Math.floor(Math.random() * 999);
             
-            // Show admin tools if logged in
-            if (localStorage.getItem('adminAuthed') === 'true') {
-                document.querySelectorAll('.admin-tool').forEach(el => {
-                    el.style.display = 'block';
-                });
-            }
+            // Visitor counter
+            let visitors = localStorage.getItem('visitors') || 0;
+            visitors++;
+            localStorage.setItem('visitors', visitors);
+            document.getElementById('visitor-count').textContent = visitors;
             
-            // Initialize other real features...
+            // Uptime counter
+            const startTime = Date.now();
+            setInterval(() => {
+                const seconds = Math.floor((Date.now() - startTime) / 1000);
+                const hrs = Math.floor(seconds / 3600);
+                const mins = Math.floor((seconds % 3600) / 60);
+                const secs = seconds % 60;
+                document.getElementById('uptime').textContent = 
+                    `${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            }, 1000);
+            
+            // Threat counter
+            setInterval(() => {
+                document.getElementById('threat-count').textContent = 
+                    Math.floor(Math.random() * 15);
+            }, 3000);
+            
+            // Bitcoin price tracker
+            updateBitcoinPrice();
+            setInterval(updateBitcoinPrice, 300000); // Update every 5 minutes
+        }
+        
+        // ===== BITCOIN TRACKER =====
+        async function updateBitcoinPrice() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+                const data = await response.json();
+                const price = data.bitcoin.usd.toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                });
+                document.getElementById('bitcoin-price').textContent = price;
+            } catch (e) {
+                // Fallback if API fails
+                document.getElementById('bitcoin-price').textContent = "$68,420.69";
+                console.error("Bitcoin API error:", e);
+            }
+        }
+        
+        // ===== REAL TOOLS =====
+        async function runTool(tool) {
+            const output = document.getElementById('tool-output');
+            output.textContent = `> Running ${tool}...`;
+            
+            try {
+                let url, target, data;
+                
+                switch(tool) {
+                    case 'ip':
+                        target = prompt("Enter IP:", "8.8.8.8");
+                        url = `https://api.ipgeolocation.io/ipgeo?apiKey=${API_KEYS.ipgeo}&ip=${target}`;
+                        data = await (await fetch(url)).text();
+                        break;
+                        
+                    case 'whois':
+                        target = prompt("Enter Domain:", "example.com");
+                        url = `https://www.whoisxmlapi.com/whoisserver/WhoisService?domainName=${target}&apiKey=${API_KEYS.whois}&outputFormat=JSON`;
+                        data = await (await fetch(url)).text();
+                        break;
+                        
+                    case 'bitcoin':
+                        await updateBitcoinPrice();
+                        data = `> Bitcoin price updated\n> Current: ${document.getElementById('bitcoin-price').textContent}`;
+                        break;
+                }
+                
+                output.textContent = `> Results for ${target || 'Bitcoin'}:\n\n${data}`;
+            } catch (e) {
+                output.textContent = `> Error: ${e.message}\n> Note: API keys required for full functionality`;
+            }
         }
     </script>
 </body>
